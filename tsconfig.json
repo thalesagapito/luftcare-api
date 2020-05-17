@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "lib": ["es2016", "esnext.asynciterable"],
+        "target": "es2018",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "strictNullChecks": true,
+        "baseUrl": ".",
+        "types": ["@types/node", "./src/modules"],
+        "paths": {
+            "@/*": ["src/*"]
+        }
+    }
+}

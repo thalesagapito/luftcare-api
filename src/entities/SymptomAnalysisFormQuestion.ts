@@ -5,6 +5,7 @@ import {
 } from 'type-graphql';
 import {
   OneToMany,
+  ManyToOne,
   BaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
@@ -16,6 +17,7 @@ import {
 import { SymptomAnalysisFormQuestionKind } from '@/enums';
 import SymptomAnalysisFormQuestionChoice from '@/entities/SymptomAnalysisFormQuestionChoice';
 import SymptomAnalysisFormQuestionFields from '@/interfaces/SymptomAnalysisFormQuestionFields';
+import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 
 @GraphqlType()
 @DatabaseTable()
@@ -47,6 +49,9 @@ export default class SymptomAnalysisFormQuestion extends BaseEntity implements S
   @GraphqlField(() => SymptomAnalysisFormQuestionKind)
   @DatabaseColumn({ type: 'enum', enum: SymptomAnalysisFormQuestionKind })
   kind: SymptomAnalysisFormQuestionKind;
+
+  @ManyToOne('SymptomAnalysisForm', 'questions')
+  question: SymptomAnalysisFormFields;
 
   @GraphqlField(() => [SymptomAnalysisFormQuestionChoice], { nullable: true })
   @OneToMany('SymptomAnalysisFormQuestionChoice', 'question')

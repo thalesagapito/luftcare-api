@@ -5,16 +5,18 @@ import {
   ObjectType as GraphqlType,
 } from 'type-graphql';
 import {
+  OneToMany,
   BaseEntity,
+  VersionColumn,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
   Entity as DatabaseTable,
   Column as DatabaseColumn,
-  VersionColumn,
 } from 'typeorm';
 import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
+import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
 
 @GraphqlType()
 @DatabaseTable()
@@ -56,7 +58,9 @@ export default class SymptomAnalysisForm extends BaseEntity implements SymptomAn
   @DatabaseColumn({ type: 'boolean' })
   isPublished: boolean;
 
-  // questions: SymptomAnalysisFormQuestion;
+  @GraphqlField(() => [SymptomAnalysisFormQuestion], { nullable: true })
+  @OneToMany('SymptomAnalysisFormQuestion', 'form')
+  questions: SymptomAnalysisFormQuestion[];
   /*
   how to version
   1. create form with auto id, idOfCurrentVersion = null, version = 1

@@ -38,4 +38,8 @@ export default class SymptomAnalysisFormQuestionChoice extends BaseEntity implem
 
   @ManyToOne('SymptomAnalysisFormQuestion', 'choices')
   question: SymptomAnalysisFormQuestionFields;
+
+  @GraphqlField(() => Int)
+  @DatabaseColumn('int')
+  presentationOrder: number;
 }

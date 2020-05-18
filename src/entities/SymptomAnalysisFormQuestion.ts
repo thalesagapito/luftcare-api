@@ -1,5 +1,6 @@
 import {
   ID,
+  Int,
   Field as GraphqlField,
   ObjectType as GraphqlType,
 } from 'type-graphql';
@@ -56,4 +57,8 @@ export default class SymptomAnalysisFormQuestion extends BaseEntity implements S
   @GraphqlField(() => [SymptomAnalysisFormQuestionChoice], { nullable: true })
   @OneToMany('SymptomAnalysisFormQuestionChoice', 'question', { cascade: true, nullable: false })
   possibleChoices?: SymptomAnalysisFormQuestionChoice[];
+
+  @GraphqlField(() => Int)
+  @DatabaseColumn('int')
+  presentationOrder: number;
 }

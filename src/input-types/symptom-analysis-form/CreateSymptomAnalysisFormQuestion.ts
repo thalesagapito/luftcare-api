@@ -1,5 +1,5 @@
-import { Field, InputType } from 'type-graphql';
-import { IsNotEmpty, MaxLength } from 'class-validator';
+import { Field, InputType, Int } from 'type-graphql';
+import { IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
 import { OmitFrom } from '@/types/Helpers';
 import { SymptomAnalysisFormQuestionKind } from '@/enums';
 import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
@@ -26,5 +26,11 @@ export default class CreateSymptomAnalysisFormQuestionInput implements Partial<A
   kind: SymptomAnalysisFormQuestionKind;
 
   @Field(() => [CreateSymptomAnalysisFormQuestionChoiceInput], { nullable: true })
+  // TODO conditional validation here
   possibleChoices?: CreateSymptomAnalysisFormQuestionChoiceInput[];
+
+  @Field(() => Int)
+  @IsNotEmpty()
+  @IsNumber()
+  presentationOrder: number;
 }

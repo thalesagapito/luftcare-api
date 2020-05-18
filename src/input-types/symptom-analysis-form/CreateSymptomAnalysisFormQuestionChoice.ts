@@ -18,4 +18,9 @@ export default class CreateSymptomAnalysisFormQuestionChoiceInput implements Par
   @IsNotEmpty()
   @IsNumber()
   value: number;
+
+  @Field(() => Int)
+  @IsNotEmpty()
+  @IsNumber()
+  presentationOrder: number;
 }

@@ -8,4 +8,5 @@ export default interface SymptomAnalysisFormQuestionFields {
   name: string;
   text: string;
   kind: SymptomAnalysisFormQuestionKind;
+  presentationOrder: number;
 }

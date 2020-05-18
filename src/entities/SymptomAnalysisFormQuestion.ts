@@ -51,9 +51,9 @@ export default class SymptomAnalysisFormQuestion extends BaseEntity implements S
   kind: SymptomAnalysisFormQuestionKind;
 
   @ManyToOne('SymptomAnalysisForm', 'questions')
-  question: SymptomAnalysisFormFields;
+  form: SymptomAnalysisFormFields;
 
   @GraphqlField(() => [SymptomAnalysisFormQuestionChoice], { nullable: true })
-  @OneToMany('SymptomAnalysisFormQuestionChoice', 'question')
+  @OneToMany('SymptomAnalysisFormQuestionChoice', 'question', { cascade: true, nullable: false })
   possibleChoices?: SymptomAnalysisFormQuestionChoice[];
 }

@@ -40,7 +40,7 @@ export default class User extends BaseEntity implements UserFields {
   @DatabaseColumn({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @GraphqlField({ description: 'Unique phone number used for logging in. Only numbers, no special characters' })
+  @GraphqlField({ description: 'Has to contain special characters: +55 (41) 98765-4321' })
   @DatabaseColumn({ type: 'varchar', length: 20, unique: true })
   phoneNumber: string;
 

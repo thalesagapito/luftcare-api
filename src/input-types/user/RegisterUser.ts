@@ -1,7 +1,7 @@
 import User from '@/entities/User';
-import { Field, InputType, Int } from 'type-graphql';
+import { Field, InputType } from 'type-graphql';
 import {
-  IsEmail, IsNotEmpty, MaxLength, MinLength,
+  IsEmail, IsNotEmpty, MaxLength, MinLength, IsPhoneNumber,
 } from 'class-validator';
 
 @InputType({ description: 'Required data to register an application user from the register form' })
@@ -22,6 +22,7 @@ export default class RegisterUserInput implements Partial<User> {
   @MinLength(6)
   password: string;
 
-  @Field(() => [Int], { nullable: true })
-  preferredShoeSizesBR?: number[];
+  @Field()
+  @IsPhoneNumber('BR')
+  phoneNumber: string;
 }

@@ -1,38 +1,19 @@
 import {
   Arg,
-  // Ctx,
-  // Query,
   Mutation,
   Resolver,
   Authorized,
-  // Authorized,
 } from 'type-graphql';
-// import { GraphqlContext } from '@/server';
 import { UserRole } from '@/enums';
 import SymptomAnalysisForm from '@/entities/SymptomAnalysisForm';
-import CreateSymptomAnalysisFormInput from '@/input-types/symptom-analysis-form/CreateSymptomAnalysisFormInput';
-// import RegisterSymptomAnalysisFormInput from '@/inputs/user/RegisterSymptomAnalysisFormInput';
-// import { getSymptomAnalysisFormById, getSymptomAnalysisFormByEmail } from '@/services/SymptomAnalysisFormService';
+import CreateSymptomAnalysisFormInput from '@/input-types/symptom-analysis-form/CreateSymptomAnalysisForm';
 
 @Resolver()
 export default class SymptomAnalysisFormResolver {
   @Authorized(UserRole.ADMIN)
   @Mutation(() => SymptomAnalysisForm)
-  async createSymptomAnalysisForm(
-    @Arg('form') data: CreateSymptomAnalysisFormInput,
-  ): Promise<SymptomAnalysisForm> {
-    console.log(data);
-    const newSymptomAnalysisForm = SymptomAnalysisForm.create({
-      name: 'Teste',
-    });
-
-    console.log(newSymptomAnalysisForm);
-
-    await newSymptomAnalysisForm.save();
-
-    console.log(newSymptomAnalysisForm);
-
-    return newSymptomAnalysisForm;
-    // return createSymptomAnalysisFormFromRegisterInput(userData);
+  async createSymptomAnalysisForm(@Arg('form') form: CreateSymptomAnalysisFormInput): Promise<SymptomAnalysisForm> {
+    const newSymptomAnalysisForm = SymptomAnalysisForm.create(form);
+    return newSymptomAnalysisForm.save();
   }
 }

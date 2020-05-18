@@ -1,4 +1,4 @@
-import RegisterUserInput from '@/input-types/user/RegisterUserInput';
+import RegisterUserInput from '@/input-types/user/RegisterUser';
 import { hashPassword } from '@/services/AuthService';
 import User from '@/entities/User';
 

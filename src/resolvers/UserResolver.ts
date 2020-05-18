@@ -9,7 +9,7 @@ import {
 import User from '@/entities/User';
 import { GraphqlContext } from '@/server';
 import { NullablePromise } from '@/types/Helpers';
-import RegisterUserInput from '@/input-types/user/RegisterUserInput';
+import RegisterUserInput from '@/input-types/user/RegisterUser';
 import { getUserById, getUserByEmail } from '@/services/UserService';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
 

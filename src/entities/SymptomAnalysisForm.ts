@@ -59,7 +59,7 @@ export default class SymptomAnalysisForm extends BaseEntity implements SymptomAn
   isPublished: boolean;
 
   @GraphqlField(() => [SymptomAnalysisFormQuestion], { nullable: true })
-  @OneToMany('SymptomAnalysisFormQuestion', 'form')
+  @OneToMany('SymptomAnalysisFormQuestion', 'form', { cascade: true, nullable: false })
   questions: SymptomAnalysisFormQuestion[];
   /*
   how to version

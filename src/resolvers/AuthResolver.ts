@@ -8,7 +8,7 @@ import {
   signAuthorizationToken,
 } from '@/services/AuthService';
 import TokenSet from '@/entities/TokenSet';
-import LoginInput from '@/input-types/auth/LoginInput';
+import LoginInput from '@/input-types/auth/Login';
 import getUserFromTokenIfValid from '@/use-cases/auth/getUserFromTokenIfValid';
 import getTokenSetFromLoginData from '@/use-cases/auth/getTokenSetFromLoginData';
 

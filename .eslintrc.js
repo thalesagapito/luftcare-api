@@ -27,7 +27,7 @@ module.exports = {
       },
     ],
     'max-len': ['error', 120, 2, {
-      'ignorePattern': '(^export\\sdefault\\sclass.+)|(^import\\s.+\\sfrom\\s.+;)|(^\\s+@apply\\s.*;)$',
+      'ignorePattern': '(^export\\sdefault\\sclass.+)|(^import\\s.+\\sfrom\\s.+;)|(^\\s+@apply\\s.*;)|(^.*async.*)$',
       'ignoreUrls': true
     }],
   }

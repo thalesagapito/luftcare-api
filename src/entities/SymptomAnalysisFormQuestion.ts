@@ -35,9 +35,9 @@ export default class SymptomAnalysisFormQuestion extends BaseEntity implements S
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @GraphqlField()
+  @GraphqlField({ nullable: true })
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @GraphqlField({ description: 'Question name, only for internal use. Only form-creator admins will see this.' })
   @DatabaseColumn({ type: 'varchar', length: 255 })
@@ -55,7 +55,7 @@ export default class SymptomAnalysisFormQuestion extends BaseEntity implements S
   form: SymptomAnalysisFormFields;
 
   @GraphqlField(() => [SymptomAnalysisFormQuestionChoice], { nullable: true })
-  @OneToMany('SymptomAnalysisFormQuestionChoice', 'question', { cascade: true, nullable: false })
+  @OneToMany('SymptomAnalysisFormQuestionChoice', 'question', { cascade: true, nullable: false, eager: true })
   possibleChoices?: SymptomAnalysisFormQuestionChoice[];
 
   @GraphqlField(() => Int)

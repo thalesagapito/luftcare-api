@@ -28,9 +28,9 @@ export default class User extends BaseEntity implements UserFields {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @GraphqlField()
+  @GraphqlField({ nullable: true })
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 255 })

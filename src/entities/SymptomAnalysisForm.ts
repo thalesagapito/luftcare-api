@@ -19,7 +19,9 @@ import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
 
 @GraphqlType()
-@DatabaseTable()
+@DatabaseTable({
+  orderBy: { updatedAt: { order: 'DESC', nulls: 'NULLS LAST' } },
+})
 export default class SymptomAnalysisForm extends BaseEntity implements SymptomAnalysisFormFields {
   @GraphqlField(() => ID)
   @PrimaryGeneratedColumn('uuid')
@@ -33,9 +35,9 @@ export default class SymptomAnalysisForm extends BaseEntity implements SymptomAn
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @GraphqlField()
+  @GraphqlField({ nullable: true })
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 255 })
@@ -59,7 +61,7 @@ export default class SymptomAnalysisForm extends BaseEntity implements SymptomAn
   isPublished: boolean;
 
   @GraphqlField(() => [SymptomAnalysisFormQuestion], { nullable: true })
-  @OneToMany('SymptomAnalysisFormQuestion', 'form', { cascade: true, nullable: false })
+  @OneToMany('SymptomAnalysisFormQuestion', 'form', { cascade: true, nullable: false, eager: true })
   questions: SymptomAnalysisFormQuestion[];
   /*
   how to version

@@ -5,7 +5,6 @@ import { SymptomAnalysisFormQuestionKind } from '@/enums';
 import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
 import CreateSymptomAnalysisFormQuestionChoiceInput from './CreateSymptomAnalysisFormQuestionChoice';
 
-
 interface AnalysisFormQuestionInput extends OmitFrom<SymptomAnalysisFormQuestion, 'possibleChoices'> {
   possibleChoices: CreateSymptomAnalysisFormQuestionChoiceInput[];
 }

@@ -1,17 +1,17 @@
 import {
   Arg,
+  Args,
+  Query,
   Mutation,
   Resolver,
   Authorized,
-  Query,
-  Args,
 } from 'type-graphql';
 import { UserRole } from '@/enums';
 import SymptomAnalysisForm from '@/entities/SymptomAnalysisForm';
+import getSymptomAnalysisForms from '@/use-cases/symptom-analysis-form/getSymptomAnalysisForms';
 import SymptomAnalysisFormsArgs from '@/graphql/types/args/query/symptom-analysis-form/SymptomAnalysisFormsArgs';
 import CreateSymptomAnalysisFormInput from '@/graphql/types/args/mutation/symptom-analysis-form/CreateSymptomAnalysisForm';
-// import SymptomAnalysisFormsArgs from '@/query-args/symptom-analysis-form/SymptomAnalysisFormsArgs';
-// import { NullablePromise, Nullable } from '@/types/Helpers';
+import PaginatedSymptomAnalysisFormResponse from '@/graphql/types/responses/symptom-analysis-form/PaginatedSymptomAnalysisFormResponse';
 
 @Resolver(() => SymptomAnalysisForm)
 export default class SymptomAnalysisFormResolver {
@@ -23,14 +23,12 @@ export default class SymptomAnalysisFormResolver {
   }
 
   @Authorized(UserRole.ADMIN)
-  @Query(() => [SymptomAnalysisForm])
-  async symptomAnalysisForms(@Args() { orderBy, pageNumber, resultsPerPage }: SymptomAnalysisFormsArgs): Promise<SymptomAnalysisForm[]> {
-    // const symptomAnalysisForms = SymptomAnalysisForm.find({ relations: ['questions'] });
-    console.log({ orderBy, pageNumber, resultsPerPage });
-    // return newSymptomAnalysisForm.save();
-    // console.log(JSON.stringify(info.fieldNodes, undefined, 2));
-    // console.log(JSON.stringify({ orderBy, pageNumber, resultsPerPage }, undefined, 2));
-    return [];
-    // return symptomAnalysisForms;
+  @Query(() => PaginatedSymptomAnalysisFormResponse)
+  async symptomAnalysisForms(@Args() args: SymptomAnalysisFormsArgs): Promise<PaginatedSymptomAnalysisFormResponse> {
+    const { pageNumber, resultsPerPage, orderBy } = args;
+    const pagination = { pageNumber, resultsPerPage, orderBy };
+    // TODO text search
+
+    return getSymptomAnalysisForms({ pagination });
   }
 }

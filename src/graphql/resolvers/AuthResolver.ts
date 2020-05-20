@@ -1,5 +1,6 @@
 import {
   Arg,
+  Args,
   Query,
   Mutation,
   Resolver,
@@ -8,7 +9,7 @@ import {
   signAuthorizationToken,
 } from '@/services/AuthService';
 import TokenSet from '@/entities/TokenSet';
-import LoginInput from '@/input-types/auth/Login';
+import LoginInput from '@/graphql/types/args/mutation/auth/Login';
 import getUserFromTokenIfValid from '@/use-cases/auth/getUserFromTokenIfValid';
 import getTokenSetFromLoginData from '@/use-cases/auth/getTokenSetFromLoginData';
 
@@ -24,9 +25,7 @@ export default class AuthResolver {
   }
 
   @Mutation(() => TokenSet)
-  async login(@Arg('loginData') loginData: LoginInput): Promise<TokenSet> {
-    const { email, password } = loginData;
-
+  async login(@Args() { email, password }: LoginInput): Promise<TokenSet> {
     return getTokenSetFromLoginData(email, password);
   }
 }

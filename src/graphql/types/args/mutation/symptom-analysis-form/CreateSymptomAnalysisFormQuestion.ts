@@ -1,6 +1,6 @@
 import { Field, InputType, Int } from 'type-graphql';
 import { IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
-import { OmitFrom } from '@/types/Helpers';
+import { OmitFrom } from '@/helper-types';
 import { SymptomAnalysisFormQuestionKind } from '@/enums';
 import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
 import CreateSymptomAnalysisFormQuestionChoiceInput from './CreateSymptomAnalysisFormQuestionChoice';

@@ -1,7 +1,7 @@
 import User from '@/entities/User';
 import { sign, verify } from 'jsonwebtoken';
 import TokenSet from '@/entities/TokenSet';
-import { Nullable } from '@/types/Helpers';
+import { Nullable } from '@/helper-types';
 import { hash } from 'bcryptjs';
 
 type AuthToken = {

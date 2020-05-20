@@ -39,7 +39,7 @@ const dbConnectionOptions: ConnectionOptions = {
 
 const graphqlSchemaOptions: BuildSchemaOptions = {
   emitSchemaFile: true,
-  resolvers: ['src/resolvers/*'],
+  resolvers: ['src/graphql/resolvers/*'],
   authChecker,
 };
 

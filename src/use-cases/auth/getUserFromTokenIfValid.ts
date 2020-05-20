@@ -1,6 +1,6 @@
 import { extractTokenWithoutBearerPrefix, decodeIdFromToken } from '@/services/AuthService';
 import { getUserById } from '@/services/UserService';
-import { NullablePromise } from '@/types/Helpers';
+import { NullablePromise } from '@/helper-types';
 import User from '@/entities/User';
 
 export default async function (token: string): NullablePromise<User> {

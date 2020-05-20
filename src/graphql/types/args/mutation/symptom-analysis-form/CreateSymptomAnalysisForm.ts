@@ -2,7 +2,7 @@ import { Field, InputType } from 'type-graphql';
 import {
   IsNotEmpty, MaxLength, IsBoolean, ArrayNotEmpty,
 } from 'class-validator';
-import { Override } from '@/types/Helpers';
+import { Override } from '@/helper-types';
 import SymptomAnalysisForm from '@/entities/SymptomAnalysisForm';
 import CreateSymptomAnalysisFormQuestionInput from './CreateSymptomAnalysisFormQuestion';
 

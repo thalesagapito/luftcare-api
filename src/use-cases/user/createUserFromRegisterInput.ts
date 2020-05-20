@@ -1,4 +1,4 @@
-import RegisterUserInput from '@/input-types/user/RegisterUser';
+import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
 import { hashPassword } from '@/services/AuthService';
 import User from '@/entities/User';
 

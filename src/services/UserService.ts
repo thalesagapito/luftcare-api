@@ -1,4 +1,4 @@
-import { NullablePromise } from '@/types/Helpers';
+import { NullablePromise } from '@/helper-types';
 import User, { uniqueFieldFromUser } from '@/entities/User';
 
 async function getByUniqueFieldValue(field: uniqueFieldFromUser, value: string): NullablePromise<User> {

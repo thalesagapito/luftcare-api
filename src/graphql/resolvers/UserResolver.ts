@@ -8,9 +8,9 @@ import {
 } from 'type-graphql';
 import User from '@/entities/User';
 import { GraphqlContext } from '@/server';
-import { NullablePromise } from '@/types/Helpers';
-import RegisterUserInput from '@/input-types/user/RegisterUser';
+import { NullablePromise } from '@/helper-types';
 import { getUserById, getUserByEmail } from '@/services/UserService';
+import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
 
 @Resolver()

@@ -1,10 +1,10 @@
 import User from '@/entities/User';
-import { Field, InputType } from 'type-graphql';
+import { Field, ArgsType } from 'type-graphql';
 import {
   IsEmail, IsNotEmpty, MaxLength, MinLength,
 } from 'class-validator';
 
-@InputType()
+@ArgsType()
 export default class LoginInput implements Partial<User> {
   @Field()
   @IsNotEmpty()

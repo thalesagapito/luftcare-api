@@ -1,20 +1,10 @@
 import {
-  ID,
-  Int,
-  Field as GraphqlField,
-  ObjectType as GraphqlType,
+  ID, Int, Field as GraphqlField, ObjectType as GraphqlType,
 } from 'type-graphql';
 import {
-  OneToMany,
-  BaseEntity,
-  VersionColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  PrimaryGeneratedColumn,
-  Entity as DatabaseTable,
-  Column as DatabaseColumn,
+  OneToMany, VersionColumn, Entity as DatabaseTable, Column as DatabaseColumn,
 } from 'typeorm';
+import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
 import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
 
@@ -22,23 +12,7 @@ import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion'
 @DatabaseTable({
   orderBy: { updatedAt: { order: 'DESC', nulls: 'NULLS LAST' } },
 })
-export default class SymptomAnalysisForm extends BaseEntity implements SymptomAnalysisFormFields {
-  @GraphqlField(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @GraphqlField()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @GraphqlField()
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @GraphqlField({ nullable: true })
-  @DeleteDateColumn()
-  deletedAt?: Date;
-
+export default class SymptomAnalysisForm extends TimestampedEntity implements SymptomAnalysisFormFields {
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 255 })
   name: string;

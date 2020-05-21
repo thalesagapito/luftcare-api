@@ -3,7 +3,7 @@ import { IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
 import { OmitFrom } from '@/helper-types';
 import { SymptomAnalysisFormQuestionKind } from '@/enums';
 import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
-import CreateSymptomAnalysisFormQuestionChoiceInput from './CreateSymptomAnalysisFormQuestionChoice';
+import CreateSymptomAnalysisFormQuestionChoiceInput from '@/graphql/types/args/mutation/symptom-analysis-form/CreateSymptomAnalysisFormQuestionChoice';
 
 interface AnalysisFormQuestionInput extends OmitFrom<SymptomAnalysisFormQuestion, 'possibleChoices'> {
   possibleChoices: CreateSymptomAnalysisFormQuestionChoiceInput[];

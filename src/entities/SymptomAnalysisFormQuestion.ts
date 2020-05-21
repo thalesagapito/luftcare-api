@@ -1,44 +1,16 @@
+import { Int, Field as GraphqlField, ObjectType as GraphqlType } from 'type-graphql';
 import {
-  ID,
-  Int,
-  Field as GraphqlField,
-  ObjectType as GraphqlType,
-} from 'type-graphql';
-import {
-  OneToMany,
-  ManyToOne,
-  BaseEntity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  PrimaryGeneratedColumn,
-  Entity as DatabaseTable,
-  Column as DatabaseColumn,
+  OneToMany, ManyToOne, Entity as DatabaseTable, Column as DatabaseColumn,
 } from 'typeorm';
 import { SymptomAnalysisFormQuestionKind } from '@/enums';
+import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
+import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 import SymptomAnalysisFormQuestionChoice from '@/entities/SymptomAnalysisFormQuestionChoice';
 import SymptomAnalysisFormQuestionFields from '@/interfaces/SymptomAnalysisFormQuestionFields';
-import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomAnalysisFormQuestion extends BaseEntity implements SymptomAnalysisFormQuestionFields {
-  @GraphqlField(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @GraphqlField()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @GraphqlField()
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @GraphqlField({ nullable: true })
-  @DeleteDateColumn()
-  deletedAt?: Date;
-
+export default class SymptomAnalysisFormQuestion extends TimestampedEntity implements SymptomAnalysisFormQuestionFields {
   @GraphqlField({ description: 'Question name, only for internal use. Only form-creator admins will see this.' })
   @DatabaseColumn({ type: 'varchar', length: 255 })
   name: string;

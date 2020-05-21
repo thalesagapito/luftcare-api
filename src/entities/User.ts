@@ -1,37 +1,14 @@
-import { ID, Field as GraphqlField, ObjectType as GraphqlType } from 'type-graphql';
-import {
-  BaseEntity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  PrimaryGeneratedColumn,
-  Entity as DatabaseTable,
-  Column as DatabaseColumn,
-} from 'typeorm';
-import UserFields from '@/interfaces/UserFields';
+import { Field as GraphqlField, ObjectType as GraphqlType } from 'type-graphql';
+import { Entity as DatabaseTable, Column as DatabaseColumn } from 'typeorm';
 import { UserRole } from '@/enums';
+import UserFields from '@/interfaces/UserFields';
+import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
 
 export type uniqueFieldFromUser = keyof Pick<User, 'id' | 'email' | 'phoneNumber'>;
 
 @GraphqlType()
 @DatabaseTable()
-export default class User extends BaseEntity implements UserFields {
-  @GraphqlField(() => ID)
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @GraphqlField()
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @GraphqlField()
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @GraphqlField({ nullable: true })
-  @DeleteDateColumn()
-  deletedAt?: Date;
-
+export default class User extends TimestampedEntity implements UserFields {
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 255 })
   name: string;

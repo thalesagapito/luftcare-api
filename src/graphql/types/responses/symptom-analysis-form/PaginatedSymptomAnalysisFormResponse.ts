@@ -5,5 +5,5 @@ import PaginatedResponse from '@/graphql/types/responses/reusable/PaginatedRespo
 @ObjectType()
 export default class PaginatedSymptomAnalysisFormResponse extends PaginatedResponse<SymptomAnalysisForm> {
   @Field(() => [SymptomAnalysisForm])
-  records: SymptomAnalysisForm[];
+  results: SymptomAnalysisForm[];
 }

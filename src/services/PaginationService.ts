@@ -1,15 +1,19 @@
 /* eslint-disable import/prefer-default-export */
+import { FindManyOptions } from 'typeorm';
 import PaginationArgs from '@/graphql/types/args/query/reusable/Pagination';
-import { OrderByCondition } from 'typeorm';
 import OrderByClause from '@/graphql/types/args/query/reusable/OrderByClause';
+import PaginatedResponse from '@/graphql/types/responses/reusable/PaginatedResponse';
 
-type ORMPagination = {
-  skip: number;
-  take: number;
-  order: OrderByCondition;
+export type ORMPagination = Pick<FindManyOptions, 'skip' | 'take' | 'order'>;
+
+type ConvertToPaginatedResponseArgs<T> = {
+  totalResultsCount: number;
+  resultsPerPage: number;
+  pageNumber: number;
+  results: T[];
 };
 
-function mapOrderByClauseArrayToObject(orderByClauses: OrderByClause[]): OrderByCondition {
+function mapOrderByClauseArrayToObject(orderByClauses: OrderByClause[]): ORMPagination['order'] {
   return orderByClauses.reduce((acc, { columnName, direction }) => ({ ...acc, [columnName]: direction }), {});
 }
 
@@ -17,11 +21,15 @@ export function convertGqlPaginationToORM(paginationArgs: PaginationArgs): ORMPa
   const { pageNumber, resultsPerPage, orderBy = [] } = paginationArgs;
 
   const skip = (pageNumber - 1) * resultsPerPage;
-  const order: OrderByCondition = mapOrderByClauseArrayToObject(orderBy);
+  const order = mapOrderByClauseArrayToObject(orderBy);
 
-  return {
-    skip,
-    order,
-    take: resultsPerPage,
-  };
+  return { skip, order, take: resultsPerPage };
+}
+
+export function convertToPaginatedResponse<T>(args: ConvertToPaginatedResponseArgs<T>): PaginatedResponse<T> {
+  const { results, totalResultsCount, resultsPerPage, pageNumber } = args;
+  const totalPagesCount = Math.ceil(totalResultsCount / resultsPerPage);
+  const hasMorePages = pageNumber < totalPagesCount;
+
+  return { results, totalResultsCount, hasMorePages };
 }

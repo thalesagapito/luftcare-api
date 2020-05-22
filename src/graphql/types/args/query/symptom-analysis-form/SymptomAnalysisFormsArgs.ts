@@ -9,9 +9,12 @@ export default class SymptomAnalysisFormsArgs extends PaginationArgs implements 
   @Max(255)
   name?: string;
 
-  @Field({ defaultValue: true })
-  isPublished: boolean;
+  @Field({ nullable: true })
+  isPublished?: boolean;
 
-  @Field({ defaultValue: true })
-  currentVersionsOnly: boolean;
+  @Field({ nullable: true })
+  currentVersionsOnly?: boolean;
+
+  @Field({ defaultValue: false })
+  withDeleted?: boolean;
 }

@@ -19,6 +19,7 @@ module.exports = {
   },
   rules: {
     'class-methods-use-this': 'off',
+    'object-curly-newline': ['error', { 'minProperties': 5 }],
     'no-restricted-syntax': [
       'warn',
       {

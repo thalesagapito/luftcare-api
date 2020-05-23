@@ -2,12 +2,12 @@ import PaginatedSymptomAnalysisFormResponse from '@/graphql/types/responses/symp
 import SymptomAnalysisFormsArgs from '@/graphql/types/args/query/symptom-analysis-form/SymptomAnalysisFormsArgs';
 import { GetSymptomAnalysisFormsArgs, findAndCountSymptomAnalysisForms } from '@/services/SymptomAnalysisFormService';
 import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/services/PaginationService';
-
+import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 import PaginationArgs from '@/graphql/types/args/query/reusable/Pagination';
 import { Like, IsNull } from 'typeorm';
 
 type Args = {
-  pagination: PaginationArgs;
+  pagination: PaginationArgs<SymptomAnalysisFormFields>;
   where: Pick<SymptomAnalysisFormsArgs, 'name' | 'isPublished' | 'currentVersionsOnly' | 'withDeleted'>;
 };
 
@@ -25,7 +25,9 @@ export default async function getPaginatedSymptomAnalysisForms(args: Args): Prom
   const [results, totalResultsCount] = await findAndCountSymptomAnalysisForms({ pagination, where, withDeleted });
 
   const { pageNumber, resultsPerPage } = args.pagination;
-  const response = convertToPaginatedResponse({ pageNumber, resultsPerPage, totalResultsCount, results });
+  const response = convertToPaginatedResponse({
+    pageNumber, resultsPerPage, totalResultsCount, results,
+  });
 
   return response;
 }

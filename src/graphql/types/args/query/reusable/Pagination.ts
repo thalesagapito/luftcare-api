@@ -3,7 +3,7 @@ import { Min, Max } from 'class-validator';
 import OrderByClause from './OrderByClause';
 
 @ArgsType()
-export default class PaginationArgs {
+export default class PaginationArgs<Entity> {
   @Field(() => Int, { defaultValue: 1 })
   @Min(1)
   pageNumber: number;
@@ -14,5 +14,5 @@ export default class PaginationArgs {
   resultsPerPage: number;
 
   @Field(() => [OrderByClause], { nullable: true })
-  orderBy?: OrderByClause[];
+  orderBy?: OrderByClause<Entity>[];
 }

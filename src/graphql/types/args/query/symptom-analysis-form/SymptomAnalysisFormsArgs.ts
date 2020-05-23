@@ -4,7 +4,7 @@ import PaginationArgs from '@/graphql/types/args/query/reusable/Pagination';
 import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 
 @ArgsType()
-export default class SymptomAnalysisFormsArgs extends PaginationArgs implements Partial<SymptomAnalysisFormFields> {
+export default class SymptomAnalysisFormsArgs extends PaginationArgs<SymptomAnalysisFormFields> implements Partial<SymptomAnalysisFormFields> {
   @Field({ nullable: true })
   @Max(255)
   name?: string;

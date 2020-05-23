@@ -13,11 +13,11 @@ type ConvertToPaginatedResponseArgs<T> = {
   results: T[];
 };
 
-function mapOrderByClauseArrayToObject(orderByClauses: OrderByClause[]): ORMPagination['order'] {
+function mapOrderByClauseArrayToObject<T>(orderByClauses: OrderByClause<T>[]): ORMPagination['order'] {
   return orderByClauses.reduce((acc, { columnName, direction }) => ({ ...acc, [columnName]: direction }), {});
 }
 
-export function convertGqlPaginationToORM(paginationArgs: PaginationArgs): ORMPagination {
+export function convertGqlPaginationToORM<T>(paginationArgs: PaginationArgs<T>): ORMPagination {
   const { pageNumber, resultsPerPage, orderBy = [] } = paginationArgs;
 
   const skip = (pageNumber - 1) * resultsPerPage;
@@ -27,7 +27,9 @@ export function convertGqlPaginationToORM(paginationArgs: PaginationArgs): ORMPa
 }
 
 export function convertToPaginatedResponse<T>(args: ConvertToPaginatedResponseArgs<T>): PaginatedResponse<T> {
-  const { results, totalResultsCount, resultsPerPage, pageNumber } = args;
+  const {
+    results, totalResultsCount, resultsPerPage, pageNumber,
+  } = args;
   const totalPagesCount = Math.ceil(totalResultsCount / resultsPerPage);
   const hasMorePages = pageNumber < totalPagesCount;
 

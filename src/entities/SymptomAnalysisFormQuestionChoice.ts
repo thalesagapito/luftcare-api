@@ -30,9 +30,7 @@ export default class SymptomAnalysisFormQuestionChoice extends BaseEntity implem
   text: string;
 
   @GraphqlField(() => Int,
-    {
-      description: 'When the form is answered, this field is used to calculate the result.',
-    })
+    { description: 'When the form is answered, this field is used to calculate the result.' })
   @DatabaseColumn({ type: 'int' })
   value: number;
 

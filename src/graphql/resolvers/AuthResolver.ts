@@ -5,9 +5,7 @@ import {
   Mutation,
   Resolver,
 } from 'type-graphql';
-import {
-  signAuthorizationToken,
-} from '@/services/AuthService';
+import { signAuthorizationToken } from '@/services/AuthService';
 import TokenSet from '@/entities/TokenSet';
 import LoginInput from '@/graphql/types/args/mutation/auth/Login';
 import getUserFromTokenIfValid from '@/use-cases/auth/getUserFromTokenIfValid';

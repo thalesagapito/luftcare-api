@@ -37,6 +37,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./",
+    "lintfix": "eslint --ext .js,.jsx,.ts,.tsx ./ --fix",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts"
   }
 }

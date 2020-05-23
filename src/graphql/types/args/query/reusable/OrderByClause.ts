@@ -2,9 +2,9 @@ import { Field, InputType } from 'type-graphql';
 import { OrderByClauseDirection, OrderByClauseNullsPosition } from '@/enums';
 
 @InputType()
-export default class OrderByClause {
-  @Field()
-  columnName: string;
+export default class OrderByClause<Entity> {
+  @Field(() => String)
+  columnName: keyof Entity;
 
   @Field(() => OrderByClauseDirection, { defaultValue: OrderByClauseDirection.DESC })
   direction: OrderByClauseDirection;

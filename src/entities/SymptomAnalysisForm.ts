@@ -9,9 +9,18 @@ import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
 
 @GraphqlType()
-@DatabaseTable({
-  orderBy: { updatedAt: { order: 'DESC', nulls: 'NULLS LAST' } },
-})
+@DatabaseTable(
+  {
+    orderBy:
+      {
+        updatedAt:
+         {
+           order: 'DESC',
+           nulls: 'NULLS LAST',
+         },
+      },
+  },
+)
 export default class SymptomAnalysisForm extends TimestampedEntity implements SymptomAnalysisFormFields {
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 255 })

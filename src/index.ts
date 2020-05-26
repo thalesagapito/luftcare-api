@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
-import { getNewApolloServer, getTypeORMConnection } from '@/server';
+import {
+  getNewApolloServer, getTypeORMConnection, port, host,
+} from '@/server';
 
 async function bootstrap(): Promise<void> {
   try {
@@ -9,7 +11,7 @@ async function bootstrap(): Promise<void> {
     // Create GraphQL server
     const server = await getNewApolloServer();
     // Start the server
-    await server.listen(5000).then(({ url }) => {
+    await server.listen(port, host).then(({ url }) => {
       console.log(`Server running at ${url}`);
     });
   } catch (err) {

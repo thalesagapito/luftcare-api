@@ -65,3 +65,6 @@ export const getNewApolloServer = async (): Promise<ApolloServer> => new ApolloS
     return { user: userFromToken };
   },
 });
+
+export const port = process.env.SERVER_PORT;
+export const host = process.env.SERVER_HOST;

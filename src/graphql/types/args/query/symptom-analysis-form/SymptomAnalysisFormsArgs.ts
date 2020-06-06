@@ -7,7 +7,7 @@ import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
 export default class SymptomAnalysisFormsArgs extends PaginationArgs<SymptomAnalysisFormFields> implements Partial<SymptomAnalysisFormFields> {
   @Field({ nullable: true })
   @Max(255)
-  name?: string;
+  nameForManagement?: string;
 
   @Field({ nullable: true })
   isPublished?: boolean;

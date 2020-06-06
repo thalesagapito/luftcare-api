@@ -5,7 +5,7 @@ export default interface SymptomAnalysisFormQuestionFields {
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
-  name: string;
+  nameForManagement: string;
   text: string;
   kind: SymptomAnalysisFormQuestionKind;
   presentationOrder: number;

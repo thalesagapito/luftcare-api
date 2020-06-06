@@ -8,14 +8,14 @@ import { Like, IsNull } from 'typeorm';
 
 type Args = {
   pagination: PaginationArgs<SymptomAnalysisFormFields>;
-  where: Pick<SymptomAnalysisFormsArgs, 'name' | 'isPublished' | 'currentVersionsOnly' | 'withDeleted'>;
+  where: Pick<SymptomAnalysisFormsArgs, 'nameForManagement' | 'isPublished' | 'currentVersionsOnly' | 'withDeleted'>;
 };
 
 function convertGqlArgsToORM(where: Args['where']): GetSymptomAnalysisFormsArgs['where'] {
   const { currentVersionsOnly, isPublished } = where;
   const idOfCurrentVersion = currentVersionsOnly ? IsNull() : undefined;
-  const name = where.name ? Like(`%${where.name}%`) : undefined;
-  return { idOfCurrentVersion, isPublished, name };
+  const nameForManagement = where.nameForManagement ? Like(`%${where.nameForManagement}%`) : undefined;
+  return { idOfCurrentVersion, isPublished, nameForManagement };
 }
 
 export default async function getPaginatedSymptomAnalysisForms(args: Args): Promise<PaginatedSymptomAnalysisFormResponse> {

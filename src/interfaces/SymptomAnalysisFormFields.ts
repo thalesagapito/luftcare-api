@@ -3,7 +3,8 @@ export default interface SymptomAnalysisFormFields {
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
-  name: string;
+  nameForManagement: string;
+  nameForPresentation: string;
   version: number;
   idOfCurrentVersion?: string;
   isPublished: boolean;

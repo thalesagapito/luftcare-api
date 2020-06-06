@@ -23,8 +23,12 @@ import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion'
 )
 export default class SymptomAnalysisForm extends TimestampedEntity implements SymptomAnalysisFormFields {
   @GraphqlField()
-  @DatabaseColumn({ type: 'varchar', length: 255 })
-  name: string;
+  @DatabaseColumn({ type: 'varchar', length: 500 })
+  nameForManagement: string;
+
+  @GraphqlField()
+  @DatabaseColumn({ type: 'varchar', length: 500 })
+  nameForPresentation: string;
 
   @GraphqlField(() => Int)
   @VersionColumn()

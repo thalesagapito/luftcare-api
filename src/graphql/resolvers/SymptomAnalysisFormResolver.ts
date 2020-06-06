@@ -29,10 +29,10 @@ export default class SymptomAnalysisFormResolver {
     const pagination = { pageNumber, resultsPerPage, orderBy };
 
     const {
-      currentVersionsOnly, isPublished, withDeleted, name,
+      currentVersionsOnly, isPublished, withDeleted, nameForManagement,
     } = args;
     const where = {
-      currentVersionsOnly, isPublished, withDeleted, name,
+      currentVersionsOnly, isPublished, withDeleted, nameForManagement,
     };
 
     return getPaginatedSymptomAnalysisForms({ pagination, where });

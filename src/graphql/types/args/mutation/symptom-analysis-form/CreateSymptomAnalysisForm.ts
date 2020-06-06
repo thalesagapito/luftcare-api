@@ -12,8 +12,13 @@ type FormInputType = Partial<Override<SymptomAnalysisForm, { questions: CreateSy
 export default class CreateSymptomAnalysisFormInput implements FormInputType {
   @Field()
   @IsNotEmpty()
-  @MaxLength(255)
-  name: string;
+  @MaxLength(500)
+  nameForManagement: string;
+
+  @Field()
+  @IsNotEmpty()
+  @MaxLength(500)
+  nameForPresentation: string;
 
   @Field({ defaultValue: false })
   @IsBoolean()

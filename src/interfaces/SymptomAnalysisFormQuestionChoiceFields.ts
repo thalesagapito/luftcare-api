@@ -1,6 +1,6 @@
 export default interface SymptomAnalysisFormQuestionChoiceFields {
   id: string;
-  name: string;
+  nameForManagement: string;
   text: string;
   value: number;
   presentationOrder: number;

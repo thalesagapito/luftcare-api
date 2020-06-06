@@ -14,7 +14,7 @@ export default class CreateSymptomAnalysisFormQuestionInput implements Partial<A
   @Field()
   @IsNotEmpty()
   @MaxLength(255)
-  name: string;
+  nameForManagement: string;
 
   @Field()
   @IsNotEmpty()

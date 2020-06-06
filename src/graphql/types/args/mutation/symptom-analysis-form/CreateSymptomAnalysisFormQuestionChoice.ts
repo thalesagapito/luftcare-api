@@ -7,7 +7,8 @@ export default class CreateSymptomAnalysisFormQuestionChoiceInput implements Par
   @Field()
   @IsNotEmpty()
   @MaxLength(255)
-  name: string;
+  nameForManagement: string;
+
 
   @Field()
   @IsNotEmpty()

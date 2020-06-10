@@ -22,7 +22,7 @@ export default class SymptomAnalysisFormQuestionChoice extends BaseEntity implem
   id: string;
 
   @GraphqlField({ description: 'Choice name only for internal use. Only form-creator admins will see this.' })
-  @DatabaseColumn({ type: 'varchar', length: 255 })
+  @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForManagement: string;
 
   @GraphqlField({ description: 'Choice text, what will be shown to the user. Localization is not a concern.' })

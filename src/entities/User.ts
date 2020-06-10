@@ -10,11 +10,11 @@ export type uniqueFieldFromUser = keyof Pick<User, 'id' | 'email' | 'phoneNumber
 @DatabaseTable()
 export default class User extends TimestampedEntity implements UserFields {
   @GraphqlField()
-  @DatabaseColumn({ type: 'varchar', length: 255 })
+  @DatabaseColumn({ type: 'varchar', length: 500 })
   name: string;
 
   @GraphqlField({ description: 'Unique email address used for logging in' })
-  @DatabaseColumn({ type: 'varchar', length: 255, unique: true })
+  @DatabaseColumn({ type: 'varchar', length: 500, unique: true })
   email: string;
 
   @GraphqlField({ description: 'Has to contain special characters: +55 (41) 98765-4321' })

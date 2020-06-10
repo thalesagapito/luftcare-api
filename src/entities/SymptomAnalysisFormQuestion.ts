@@ -12,7 +12,7 @@ import SymptomAnalysisFormQuestionFields from '@/interfaces/SymptomAnalysisFormQ
 @DatabaseTable()
 export default class SymptomAnalysisFormQuestion extends TimestampedEntity implements SymptomAnalysisFormQuestionFields {
   @GraphqlField({ description: 'Question name only for internal use. Only form-creator admins will see this.' })
-  @DatabaseColumn({ type: 'varchar', length: 255 })
+  @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForManagement: string;
 
   @GraphqlField({ description: 'Question text, what will be shown to the user. Localization is not a concern.' })

@@ -1,12 +1,12 @@
-import { SymptomAnalysisFormQuestionKind } from '@/enums';
+import { SymptomAnalysisQuestionnaireQuestionKind } from '@/enums';
 
-export default interface SymptomAnalysisFormQuestionFields {
+export default interface SymptomAnalysisQuestionnaireQuestionFields {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
   nameForManagement: string;
   text: string;
-  kind: SymptomAnalysisFormQuestionKind;
+  kind: SymptomAnalysisQuestionnaireQuestionKind;
   presentationOrder: number;
 }

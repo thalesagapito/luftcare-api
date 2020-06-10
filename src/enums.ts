@@ -5,7 +5,7 @@ export enum UserRole {
   NON_ADMIN = 'NON_ADMIN'
 }
 
-export enum SymptomAnalysisFormQuestionKind {
+export enum SymptomAnalysisQuestionnaireQuestionKind {
   MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
   FREE_RESPONSE = 'FREE_RESPONSE'
 }
@@ -21,6 +21,6 @@ export enum OrderByClauseNullsPosition {
 }
 
 registerEnumType(UserRole, { name: 'UserRole' });
-registerEnumType(SymptomAnalysisFormQuestionKind, { name: 'SymptomAnalysisFormQuestionKind' });
+registerEnumType(SymptomAnalysisQuestionnaireQuestionKind, { name: 'SymptomAnalysisQuestionnaireQuestionKind' });
 registerEnumType(OrderByClauseDirection, { name: 'OrderByClauseDirection' });
 registerEnumType(OrderByClauseNullsPosition, { name: 'OrderByClauseNullsPosition' });

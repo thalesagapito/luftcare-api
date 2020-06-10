@@ -5,8 +5,8 @@ import {
   OneToMany, VersionColumn, Entity as DatabaseTable, Column as DatabaseColumn,
 } from 'typeorm';
 import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
-import SymptomAnalysisFormFields from '@/interfaces/SymptomAnalysisFormFields';
-import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion';
+import SymptomAnalysisQuestionnaireFields from '@/interfaces/SymptomAnalysisQuestionnaireFields';
+import SymptomAnalysisQuestionnaireQuestion from '@/entities/SymptomAnalysisQuestionnaireQuestion';
 
 @GraphqlType()
 @DatabaseTable(
@@ -21,7 +21,7 @@ import SymptomAnalysisFormQuestion from '@/entities/SymptomAnalysisFormQuestion'
       },
   },
 )
-export default class SymptomAnalysisForm extends TimestampedEntity implements SymptomAnalysisFormFields {
+export default class SymptomAnalysisQuestionnaire extends TimestampedEntity implements SymptomAnalysisQuestionnaireFields {
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForManagement: string;
@@ -37,8 +37,8 @@ export default class SymptomAnalysisForm extends TimestampedEntity implements Sy
   @GraphqlField(() => ID,
     {
       nullable: true,
-      description: 'If the form is an older version kept only to prevent integrity problems'
-      + ' this field will contain the id of the current form with the highest version',
+      description: 'If the questionnaire is an older version kept only to prevent integrity problems'
+      + ' this field will contain the id of the current questionnaire with the highest version',
     })
   @DatabaseColumn({ type: 'uuid', nullable: true })
   idOfCurrentVersion?: string;
@@ -47,16 +47,16 @@ export default class SymptomAnalysisForm extends TimestampedEntity implements Sy
   @DatabaseColumn({ type: 'boolean' })
   isPublished: boolean;
 
-  @GraphqlField(() => [SymptomAnalysisFormQuestion], { nullable: true })
-  @OneToMany('SymptomAnalysisFormQuestion', 'form', { cascade: true, nullable: false, eager: true })
-  questions: SymptomAnalysisFormQuestion[];
+  @GraphqlField(() => [SymptomAnalysisQuestionnaireQuestion], { nullable: true })
+  @OneToMany('SymptomAnalysisQuestionnaireQuestion', 'questionnaire', { cascade: true, nullable: false, eager: true })
+  questions: SymptomAnalysisQuestionnaireQuestion[];
   /*
   how to version
-  1. create form with auto id, idOfCurrentVersion = null, version = 1
-  2. on update form, get currentForm and save it with a new autoId and idOfCurrentVersion = original form id, \
-  everything else is the same as the current form (should also update the form id on all questions)
-  3. update the current form, which will increase its version but keep the id, then create new questions \
-  referencing this new form
+  1. create questionnaire with auto id, idOfCurrentVersion = null, version = 1
+  2. on update questionnaire, get currentQuestionnaire and save it with a new autoId and idOfCurrentVersion = original questionnaire id, \
+  everything else is the same as the current questionnaire (should also update the questionnaire id on all questions)
+  3. update the current questionnaire, which will increase its version but keep the id, then create new questions \
+  referencing this new questionnaire
   WARNING: PREVENT ANY UPDATE ON FORMS WITH ID_OF_CURRENT_VERSION != NULL
   */
 }

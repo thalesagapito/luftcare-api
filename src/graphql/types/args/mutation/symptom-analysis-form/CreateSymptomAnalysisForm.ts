@@ -3,13 +3,13 @@ import {
   IsNotEmpty, MaxLength, IsBoolean, ArrayNotEmpty,
 } from 'class-validator';
 import { Override } from '@/helper-types';
-import SymptomAnalysisForm from '@/entities/SymptomAnalysisForm';
-import CreateSymptomAnalysisFormQuestionInput from './CreateSymptomAnalysisFormQuestion';
+import SymptomAnalysisQuestionnaire from '@/entities/SymptomAnalysisQuestionnaire';
+import CreateSymptomAnalysisQuestionnaireQuestionInput from './CreateSymptomAnalysisQuestionnaireQuestion';
 
-type FormInputType = Partial<Override<SymptomAnalysisForm, { questions: CreateSymptomAnalysisFormQuestionInput[] }>>;
+type QuestionnaireInputType = Partial<Override<SymptomAnalysisQuestionnaire, { questions: CreateSymptomAnalysisQuestionnaireQuestionInput[] }>>;
 
 @InputType()
-export default class CreateSymptomAnalysisFormInput implements FormInputType {
+export default class CreateSymptomAnalysisQuestionnaireInput implements QuestionnaireInputType {
   @Field()
   @IsNotEmpty()
   @MaxLength(500)
@@ -25,7 +25,7 @@ export default class CreateSymptomAnalysisFormInput implements FormInputType {
   @IsNotEmpty()
   isPublished: boolean;
 
-  @Field(() => [CreateSymptomAnalysisFormQuestionInput])
+  @Field(() => [CreateSymptomAnalysisQuestionnaireQuestionInput])
   @ArrayNotEmpty()
-  questions: CreateSymptomAnalysisFormQuestionInput[];
+  questions: CreateSymptomAnalysisQuestionnaireQuestionInput[];
 }

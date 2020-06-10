@@ -21,7 +21,7 @@ Such concerns should be handled at an **Entity** level. Inside an entity we shou
 field. We can also make sure the password is only a database field and not accessible by our graphql API.  
 Here are things that the `UserFields` interface **should not** have:
 
--   answeredForms
+-   answeredQuestionnaires
 -   doctor (given that a doctor is another instance of an User)
 
 These are **relations** that an user has with other concepts. They are **not** contained within an user.  

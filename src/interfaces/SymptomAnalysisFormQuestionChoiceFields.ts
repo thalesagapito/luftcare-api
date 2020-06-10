@@ -1,4 +1,4 @@
-export default interface SymptomAnalysisFormQuestionChoiceFields {
+export default interface SymptomAnalysisQuestionnaireQuestionChoiceFields {
   id: string;
   nameForManagement: string;
   text: string;

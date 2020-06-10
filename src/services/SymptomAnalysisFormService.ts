@@ -1,15 +1,15 @@
-import SymptomAnalysisForm from '@/entities/SymptomAnalysisForm';
+import SymptomAnalysisQuestionnaire from '@/entities/SymptomAnalysisQuestionnaire';
 import { ORMPagination } from '@/services/PaginationService';
 import { FindManyOptions } from 'typeorm';
 import { pickBy } from 'lodash';
 
-export type GetSymptomAnalysisFormsArgs = {
+export type GetSymptomAnalysisQuestionnairesArgs = {
   pagination?: ORMPagination;
   withDeleted?: boolean;
-  where?: FindManyOptions<SymptomAnalysisForm>['where'];
+  where?: FindManyOptions<SymptomAnalysisQuestionnaire>['where'];
 };
 
-export async function findAndCountSymptomAnalysisForms(args: GetSymptomAnalysisFormsArgs): Promise<[SymptomAnalysisForm[], number]> {
+export async function findAndCountSymptomAnalysisQuestionnaires(args: GetSymptomAnalysisQuestionnairesArgs): Promise<[SymptomAnalysisQuestionnaire[], number]> {
   const { pagination, withDeleted, where } = args;
-  return SymptomAnalysisForm.findAndCount({ ...pagination, withDeleted, where: pickBy(where, Boolean) });
+  return SymptomAnalysisQuestionnaire.findAndCount({ ...pagination, withDeleted, where: pickBy(where, Boolean) });
 }

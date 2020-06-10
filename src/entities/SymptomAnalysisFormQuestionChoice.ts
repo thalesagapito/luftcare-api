@@ -11,17 +11,17 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import SymptomAnalysisFormQuestionFields from '@/interfaces/SymptomAnalysisFormQuestionFields';
-import SymptomAnalysisFormQuestionChoiceFields from '@/interfaces/SymptomAnalysisFormQuestionChoiceFields';
+import SymptomAnalysisQuestionnaireQuestionFields from '@/interfaces/SymptomAnalysisQuestionnaireQuestionFields';
+import SymptomAnalysisQuestionnaireQuestionChoiceFields from '@/interfaces/SymptomAnalysisQuestionnaireQuestionChoiceFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomAnalysisFormQuestionChoice extends BaseEntity implements SymptomAnalysisFormQuestionChoiceFields {
+export default class SymptomAnalysisQuestionnaireQuestionChoice extends BaseEntity implements SymptomAnalysisQuestionnaireQuestionChoiceFields {
   @GraphqlField(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @GraphqlField({ description: 'Choice name only for internal use. Only form-creator admins will see this.' })
+  @GraphqlField({ description: 'Choice name only for internal use. Only questionnaire-creator admins will see this.' })
   @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForManagement: string;
 
@@ -30,12 +30,12 @@ export default class SymptomAnalysisFormQuestionChoice extends BaseEntity implem
   text: string;
 
   @GraphqlField(() => Int,
-    { description: 'When the form is answered, this field is used to calculate the result.' })
+    { description: 'When the questionnaire is answered, this field is used to calculate the result.' })
   @DatabaseColumn({ type: 'int' })
   value: number;
 
-  @ManyToOne('SymptomAnalysisFormQuestion', 'choices')
-  question: SymptomAnalysisFormQuestionFields;
+  @ManyToOne('SymptomAnalysisQuestionnaireQuestion', 'choices')
+  question: SymptomAnalysisQuestionnaireQuestionFields;
 
   @GraphqlField(() => Int)
   @DatabaseColumn('int')

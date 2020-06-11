@@ -32,13 +32,7 @@ const dbConnectionOptions: ConnectionOptions = {
   logger: 'advanced-console',
   logging: 'all', // can't move to .env, uses an array
   dropSchema: false,
-  // TODO DO NOT COMMIT
-  // TODO DO NOT COMMIT
-  // TODO DO NOT COMMIT
-  synchronize: true,
-  // TODO DO NOT COMMIT
-  // TODO DO NOT COMMIT
-  // TODO DO NOT COMMIT
+  synchronize: false,
   entities: ['src/entities/*'],
   migrations: ['src/migrations/*'],
 };

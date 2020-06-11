@@ -1,16 +1,16 @@
 import { Field, InputType, Int } from 'type-graphql';
 import { IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
 import { OmitFrom } from '@/helper-types';
-import { SymptomAnalysisQuestionnaireQuestionKind } from '@/enums';
-import SymptomAnalysisQuestionnaireQuestion from '@/entities/SymptomAnalysisQuestionnaireQuestion';
-import CreateSymptomAnalysisQuestionnaireQuestionChoiceInput from '@/graphql/types/args/mutation/symptom-analysis-questionnaire/CreateSymptomAnalysisQuestionnaireQuestionChoice';
+import { SymptomQuestionnaireQuestionKind } from '@/enums';
+import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
+import CreateSymptomQuestionnaireQuestionChoiceInput from '@/graphql/types/args/mutation/symptom-questionnaire/CreateSymptomQuestionnaireQuestionChoice';
 
-interface AnalysisQuestionnaireQuestionInput extends OmitFrom<SymptomAnalysisQuestionnaireQuestion, 'possibleChoices'> {
-  possibleChoices: CreateSymptomAnalysisQuestionnaireQuestionChoiceInput[];
+interface QuestionnaireQuestionInput extends OmitFrom<SymptomQuestionnaireQuestion, 'possibleChoices'> {
+  possibleChoices: CreateSymptomQuestionnaireQuestionChoiceInput[];
 }
 
 @InputType()
-export default class CreateSymptomAnalysisQuestionnaireQuestionInput implements Partial<AnalysisQuestionnaireQuestionInput> {
+export default class CreateSymptomQuestionnaireQuestionInput implements Partial<QuestionnaireQuestionInput> {
   @Field()
   @IsNotEmpty()
   @MaxLength(255)
@@ -21,12 +21,12 @@ export default class CreateSymptomAnalysisQuestionnaireQuestionInput implements 
   @MaxLength(500)
   text: string;
 
-  @Field(() => SymptomAnalysisQuestionnaireQuestionKind)
-  kind: SymptomAnalysisQuestionnaireQuestionKind;
+  @Field(() => SymptomQuestionnaireQuestionKind)
+  kind: SymptomQuestionnaireQuestionKind;
 
-  @Field(() => [CreateSymptomAnalysisQuestionnaireQuestionChoiceInput], { nullable: true })
+  @Field(() => [CreateSymptomQuestionnaireQuestionChoiceInput], { nullable: true })
   // TODO conditional validation here
-  possibleChoices?: CreateSymptomAnalysisQuestionnaireQuestionChoiceInput[];
+  possibleChoices?: CreateSymptomQuestionnaireQuestionChoiceInput[];
 
   @Field(() => Int)
   @IsNotEmpty()

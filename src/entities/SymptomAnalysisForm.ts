@@ -5,8 +5,8 @@ import {
   OneToMany, VersionColumn, Entity as DatabaseTable, Column as DatabaseColumn,
 } from 'typeorm';
 import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
-import SymptomAnalysisQuestionnaireFields from '@/interfaces/SymptomAnalysisQuestionnaireFields';
-import SymptomAnalysisQuestionnaireQuestion from '@/entities/SymptomAnalysisQuestionnaireQuestion';
+import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
+import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
 
 @GraphqlType()
 @DatabaseTable(
@@ -21,7 +21,7 @@ import SymptomAnalysisQuestionnaireQuestion from '@/entities/SymptomAnalysisQues
       },
   },
 )
-export default class SymptomAnalysisQuestionnaire extends TimestampedEntity implements SymptomAnalysisQuestionnaireFields {
+export default class SymptomQuestionnaire extends TimestampedEntity implements SymptomQuestionnaireFields {
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForManagement: string;
@@ -47,9 +47,9 @@ export default class SymptomAnalysisQuestionnaire extends TimestampedEntity impl
   @DatabaseColumn({ type: 'boolean' })
   isPublished: boolean;
 
-  @GraphqlField(() => [SymptomAnalysisQuestionnaireQuestion], { nullable: true })
-  @OneToMany('SymptomAnalysisQuestionnaireQuestion', 'questionnaire', { cascade: true, nullable: false, eager: true })
-  questions: SymptomAnalysisQuestionnaireQuestion[];
+  @GraphqlField(() => [SymptomQuestionnaireQuestion], { nullable: true })
+  @OneToMany('SymptomQuestionnaireQuestion', 'questionnaire', { cascade: true, nullable: false, eager: true })
+  questions: SymptomQuestionnaireQuestion[];
   /*
   how to version
   1. create questionnaire with auto id, idOfCurrentVersion = null, version = 1

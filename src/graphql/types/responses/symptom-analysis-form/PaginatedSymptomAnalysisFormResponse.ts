@@ -1,9 +1,9 @@
 import { ObjectType, Field } from 'type-graphql';
-import SymptomAnalysisQuestionnaire from '@/entities/SymptomAnalysisQuestionnaire';
+import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import PaginatedResponse from '@/graphql/types/responses/reusable/PaginatedResponse';
 
 @ObjectType()
-export default class PaginatedSymptomAnalysisQuestionnaireResponse extends PaginatedResponse<SymptomAnalysisQuestionnaire> {
-  @Field(() => [SymptomAnalysisQuestionnaire])
-  results: SymptomAnalysisQuestionnaire[];
+export default class PaginatedSymptomQuestionnaireResponse extends PaginatedResponse<SymptomQuestionnaire> {
+  @Field(() => [SymptomQuestionnaire])
+  results: SymptomQuestionnaire[];
 }

@@ -7,24 +7,24 @@ import {
   Authorized,
 } from 'type-graphql';
 import { UserRole } from '@/enums';
-import SymptomAnalysisQuestionnaire from '@/entities/SymptomAnalysisQuestionnaire';
-import SymptomAnalysisQuestionnairesArgs from '@/graphql/types/args/query/symptom-analysis-questionnaire/SymptomAnalysisQuestionnairesArgs';
-import getPaginatedSymptomAnalysisQuestionnaires from '@/use-cases/symptom-analysis-questionnaire/getPaginatedSymptomAnalysisQuestionnaires';
-import CreateSymptomAnalysisQuestionnaireInput from '@/graphql/types/args/mutation/symptom-analysis-questionnaire/CreateSymptomAnalysisQuestionnaire';
-import PaginatedSymptomAnalysisQuestionnaireResponse from '@/graphql/types/responses/symptom-analysis-questionnaire/PaginatedSymptomAnalysisQuestionnaireResponse';
+import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
+import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questionnaire/SymptomQuestionnairesArgs';
+import getPaginatedSymptomQuestionnaires from '@/use-cases/symptom-questionnaire/getPaginatedSymptomQuestionnaires';
+import CreateSymptomQuestionnaireInput from '@/graphql/types/args/mutation/symptom-questionnaire/CreateSymptomQuestionnaire';
+import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
 
-@Resolver(() => SymptomAnalysisQuestionnaire)
-export default class SymptomAnalysisQuestionnaireResolver {
+@Resolver(() => SymptomQuestionnaire)
+export default class SymptomQuestionnaireResolver {
   @Authorized(UserRole.ADMIN)
-  @Mutation(() => SymptomAnalysisQuestionnaire)
-  async createSymptomAnalysisQuestionnaire(@Arg('questionnaire') questionnaire: CreateSymptomAnalysisQuestionnaireInput): Promise<SymptomAnalysisQuestionnaire> {
-    const newSymptomAnalysisQuestionnaire = SymptomAnalysisQuestionnaire.create(questionnaire);
-    return newSymptomAnalysisQuestionnaire.save();
+  @Mutation(() => SymptomQuestionnaire)
+  async createSymptomQuestionnaire(@Arg('questionnaire') questionnaire: CreateSymptomQuestionnaireInput): Promise<SymptomQuestionnaire> {
+    const newSymptomQuestionnaire = SymptomQuestionnaire.create(questionnaire);
+    return newSymptomQuestionnaire.save();
   }
 
   @Authorized(UserRole.ADMIN)
-  @Query(() => PaginatedSymptomAnalysisQuestionnaireResponse)
-  async symptomAnalysisQuestionnaires(@Args() args: SymptomAnalysisQuestionnairesArgs): Promise<PaginatedSymptomAnalysisQuestionnaireResponse> {
+  @Query(() => PaginatedSymptomQuestionnaireResponse)
+  async symptomQuestionnaires(@Args() args: SymptomQuestionnairesArgs): Promise<PaginatedSymptomQuestionnaireResponse> {
     const { pageNumber, resultsPerPage, orderBy } = args;
     const pagination = { pageNumber, resultsPerPage, orderBy };
 
@@ -36,6 +36,6 @@ export default class SymptomAnalysisQuestionnaireResolver {
     };
 
     // await new Promise((r) => setTimeout(r, 1000));
-    return getPaginatedSymptomAnalysisQuestionnaires({ pagination, where });
+    return getPaginatedSymptomQuestionnaires({ pagination, where });
   }
 }

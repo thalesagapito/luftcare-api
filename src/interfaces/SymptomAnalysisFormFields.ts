@@ -1,4 +1,4 @@
-export default interface SymptomAnalysisQuestionnaireFields {
+export default interface SymptomQuestionnaireFields {
   id: string;
   createdAt: Date;
   updatedAt: Date;

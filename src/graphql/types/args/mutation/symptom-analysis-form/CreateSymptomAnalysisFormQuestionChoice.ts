@@ -1,9 +1,9 @@
 import { Field, InputType, Int } from 'type-graphql';
 import { IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
-import SymptomAnalysisQuestionnaireQuestionChoice from '@/entities/SymptomAnalysisQuestionnaireQuestionChoice';
+import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
 
 @InputType()
-export default class CreateSymptomAnalysisQuestionnaireQuestionChoiceInput implements Partial<SymptomAnalysisQuestionnaireQuestionChoice> {
+export default class CreateSymptomQuestionnaireQuestionChoiceInput implements Partial<SymptomQuestionnaireQuestionChoice> {
   @Field()
   @IsNotEmpty()
   @MaxLength(255)

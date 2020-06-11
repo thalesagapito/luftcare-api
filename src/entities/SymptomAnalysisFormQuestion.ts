@@ -2,15 +2,15 @@ import { Int, Field as GraphqlField, ObjectType as GraphqlType } from 'type-grap
 import {
   OneToMany, ManyToOne, Entity as DatabaseTable, Column as DatabaseColumn,
 } from 'typeorm';
-import { SymptomAnalysisQuestionnaireQuestionKind } from '@/enums';
+import { SymptomQuestionnaireQuestionKind } from '@/enums';
 import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
-import SymptomAnalysisQuestionnaireFields from '@/interfaces/SymptomAnalysisQuestionnaireFields';
-import SymptomAnalysisQuestionnaireQuestionChoice from '@/entities/SymptomAnalysisQuestionnaireQuestionChoice';
-import SymptomAnalysisQuestionnaireQuestionFields from '@/interfaces/SymptomAnalysisQuestionnaireQuestionFields';
+import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
+import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
+import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnaireQuestionFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomAnalysisQuestionnaireQuestion extends TimestampedEntity implements SymptomAnalysisQuestionnaireQuestionFields {
+export default class SymptomQuestionnaireQuestion extends TimestampedEntity implements SymptomQuestionnaireQuestionFields {
   @GraphqlField({ description: 'Question name only for internal use. Only questionnaire-creator admins will see this.' })
   @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForManagement: string;
@@ -19,16 +19,16 @@ export default class SymptomAnalysisQuestionnaireQuestion extends TimestampedEnt
   @DatabaseColumn({ type: 'varchar', length: 500 })
   text: string;
 
-  @GraphqlField(() => SymptomAnalysisQuestionnaireQuestionKind)
-  @DatabaseColumn({ type: 'enum', enum: SymptomAnalysisQuestionnaireQuestionKind })
-  kind: SymptomAnalysisQuestionnaireQuestionKind;
+  @GraphqlField(() => SymptomQuestionnaireQuestionKind)
+  @DatabaseColumn({ type: 'enum', enum: SymptomQuestionnaireQuestionKind })
+  kind: SymptomQuestionnaireQuestionKind;
 
-  @ManyToOne('SymptomAnalysisQuestionnaire', 'questions')
-  questionnaire: SymptomAnalysisQuestionnaireFields;
+  @ManyToOne('SymptomQuestionnaire', 'questions')
+  questionnaire: SymptomQuestionnaireFields;
 
-  @GraphqlField(() => [SymptomAnalysisQuestionnaireQuestionChoice], { nullable: true })
-  @OneToMany('SymptomAnalysisQuestionnaireQuestionChoice', 'question', { cascade: true, nullable: false, eager: true })
-  possibleChoices?: SymptomAnalysisQuestionnaireQuestionChoice[];
+  @GraphqlField(() => [SymptomQuestionnaireQuestionChoice], { nullable: true })
+  @OneToMany('SymptomQuestionnaireQuestionChoice', 'question', { cascade: true, nullable: false, eager: true })
+  possibleChoices?: SymptomQuestionnaireQuestionChoice[];
 
   @GraphqlField(() => Int)
   @DatabaseColumn('int')

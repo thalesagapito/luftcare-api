@@ -11,12 +11,12 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import SymptomAnalysisQuestionnaireQuestionFields from '@/interfaces/SymptomAnalysisQuestionnaireQuestionFields';
-import SymptomAnalysisQuestionnaireQuestionChoiceFields from '@/interfaces/SymptomAnalysisQuestionnaireQuestionChoiceFields';
+import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnaireQuestionFields';
+import SymptomQuestionnaireQuestionChoiceFields from '@/interfaces/SymptomQuestionnaireQuestionChoiceFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomAnalysisQuestionnaireQuestionChoice extends BaseEntity implements SymptomAnalysisQuestionnaireQuestionChoiceFields {
+export default class SymptomQuestionnaireQuestionChoice extends BaseEntity implements SymptomQuestionnaireQuestionChoiceFields {
   @GraphqlField(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -34,8 +34,8 @@ export default class SymptomAnalysisQuestionnaireQuestionChoice extends BaseEnti
   @DatabaseColumn({ type: 'int' })
   value: number;
 
-  @ManyToOne('SymptomAnalysisQuestionnaireQuestion', 'choices')
-  question: SymptomAnalysisQuestionnaireQuestionFields;
+  @ManyToOne('SymptomQuestionnaireQuestion', 'choices')
+  question: SymptomQuestionnaireQuestionFields;
 
   @GraphqlField(() => Int)
   @DatabaseColumn('int')

@@ -4,7 +4,7 @@ import { GetSymptomQuestionnairesArgs, findAndCountSymptomQuestionnaires } from 
 import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/services/PaginationService';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import PaginationArgs from '@/graphql/types/args/query/reusable/Pagination';
-import { Like, IsNull } from 'typeorm';
+import { Like, Equal } from 'typeorm';
 
 type Args = {
   pagination: PaginationArgs<SymptomQuestionnaireFields>;
@@ -13,12 +13,12 @@ type Args = {
 
 function convertGqlArgsToORM(where: Args['where']): GetSymptomQuestionnairesArgs['where'] {
   const { currentVersionsOnly, isPublished } = where;
-  const idOfCurrentVersion = currentVersionsOnly ? IsNull() : undefined;
+  const version = currentVersionsOnly ? Equal(0) : undefined;
   const nameForManagement = where.nameForManagement ? Like(`%${where.nameForManagement}%`) : undefined;
-  return { idOfCurrentVersion, isPublished, nameForManagement };
+  return { version, isPublished, nameForManagement };
 }
 
-export default async function getPaginatedSymptomQuestionnaires(args: Args): Promise<PaginatedSymptomQuestionnaireResponse> {
+export default async function (args: Args): Promise<PaginatedSymptomQuestionnaireResponse> {
   const { withDeleted } = args.where;
   const where = convertGqlArgsToORM(args.where);
   const pagination = convertGqlPaginationToORM(args.pagination);

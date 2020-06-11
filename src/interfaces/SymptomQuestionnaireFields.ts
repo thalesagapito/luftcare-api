@@ -6,6 +6,5 @@ export default interface SymptomQuestionnaireFields {
   nameForManagement: string;
   nameForPresentation: string;
   version: number;
-  idOfCurrentVersion?: string;
   isPublished: boolean;
 }

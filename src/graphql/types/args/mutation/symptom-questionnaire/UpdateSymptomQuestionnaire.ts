@@ -1,17 +1,21 @@
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType, ID } from 'type-graphql';
 import {
   IsNotEmpty, MaxLength, IsBoolean, ArrayNotEmpty,
 } from 'class-validator';
 import { Override } from '@/helper-types';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
-import CreateSymptomQuestionnaireQuestionInput from './CreateSymptomQuestionnaireQuestion';
+import UpdateSymptomQuestionnaireQuestionInput from './UpdateSymptomQuestionnaireQuestion';
 
 type QuestionnaireInputType = Partial<Override<SymptomQuestionnaire, {
-  questions: CreateSymptomQuestionnaireQuestionInput[];
+  questions: UpdateSymptomQuestionnaireQuestionInput[];
 }>>;
 
 @InputType()
-export default class CreateSymptomQuestionnaireInput implements QuestionnaireInputType {
+export default class UpdateSymptomQuestionnaireInput implements QuestionnaireInputType {
+  @Field(() => ID)
+  @IsNotEmpty()
+  id: string;
+
   @Field()
   @IsNotEmpty()
   @MaxLength(500)
@@ -27,7 +31,7 @@ export default class CreateSymptomQuestionnaireInput implements QuestionnaireInp
   @IsNotEmpty()
   isPublished: boolean;
 
-  @Field(() => [CreateSymptomQuestionnaireQuestionInput])
+  @Field(() => [UpdateSymptomQuestionnaireQuestionInput])
   @ArrayNotEmpty()
-  questions: CreateSymptomQuestionnaireQuestionInput[];
+  questions: UpdateSymptomQuestionnaireQuestionInput[];
 }

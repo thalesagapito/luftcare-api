@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
+import 'module-alias/register';
 import {
   getNewApolloServer, getTypeORMConnection, port, host,
 } from '@/server';

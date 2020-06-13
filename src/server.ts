@@ -33,13 +33,13 @@ const dbConnectionOptions: ConnectionOptions = {
   logging: 'all', // can't move to .env, uses an array
   dropSchema: false,
   synchronize: false,
-  entities: ['src/entities/*'],
-  migrations: ['src/migrations/*'],
+  entities: [process.env.ENTITIES_PATH],
+  migrations: [process.env.MIGRATIONS_PATH],
 };
 
 const graphqlSchemaOptions: BuildSchemaOptions = {
   emitSchemaFile: true,
-  resolvers: ['src/graphql/resolvers/*'],
+  resolvers: [resolve(__dirname, 'graphql/resolvers', '*.{js,ts}')],
   authChecker,
 };
 

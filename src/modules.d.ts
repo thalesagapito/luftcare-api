@@ -8,5 +8,7 @@ declare namespace NodeJS {
     SERVER_HOST: string;
     SERVER_PORT: string;
     APOLLO_LOG_LEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent';
+    ENTITIES_PATH: 'src/entities/*' | 'dist/entities/*';
+    MIGRATIONS_PATH: 'src/migrations/*' | 'dist/migrations/*';
   }
 }

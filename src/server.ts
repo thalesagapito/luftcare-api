@@ -1,14 +1,12 @@
-import User from '@/entities/User';
-import { UserRole } from '@/enums';
-import getUserFromTokenIfValid from '@/use-cases/auth/getUserFromTokenIfValid';
 import { resolve } from 'path';
-import { config } from 'dotenv';
 import { ApolloServer } from 'apollo-server';
 import { ApolloLogExtension, LoggerOptions } from 'apollo-log';
 import { AuthChecker, buildSchema, BuildSchemaOptions } from 'type-graphql';
 import { Connection, ConnectionOptions, createConnection } from 'typeorm';
+import getUserFromTokenIfValid from '@/use-cases/auth/getUserFromTokenIfValid';
+import User from '@/entities/User';
+import { UserRole } from '@/enums';
 
-config({ path: resolve(__dirname, './.env') });
 
 export type GraphqlContext = { user?: User };
 
@@ -26,15 +24,15 @@ const dbConnectionOptions: ConnectionOptions = {
   cache: true,
   port: 5432,
   host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
+  database: process.env.POSTGRES_DB,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
   logger: 'advanced-console',
   logging: 'all', // can't move to .env, uses an array
   dropSchema: false,
   synchronize: false,
-  entities: [process.env.ENTITIES_PATH],
-  migrations: [process.env.MIGRATIONS_PATH],
+  entities: [`${__dirname}/entities/*`],
+  migrations: [`${__dirname}/migrations/*`],
 };
 
 const graphqlSchemaOptions: BuildSchemaOptions = {

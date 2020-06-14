@@ -1,9 +1,8 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-console */
 import 'reflect-metadata';
-import 'module-alias/register';
-import {
-  getNewApolloServer, getTypeORMConnection, port, host,
-} from '@/server';
+import './setup-env';
+import { host, port, getNewApolloServer, getTypeORMConnection } from '@/server';
 
 async function bootstrap(): Promise<void> {
   try {

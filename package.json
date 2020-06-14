@@ -45,9 +45,9 @@
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
     "build": "tsc -p tsconfig.json",
     "build:env": "tsc -p tsconfig.json && cp src/.env.prod.example dist/.env",
-    "start": "pm2 start dist/index.js",
-    "logs": "pm2 logs",
-    "kill": "pm2 kill",
+    "start": "pm2 start --name api dist/index.js",
+    "logs": "pm2 logs api",
+    "stop": "pm2 stop api",
     "clean-build": "pm2 kill && rm -rf ./dist"
   },
   "_moduleAliases": {

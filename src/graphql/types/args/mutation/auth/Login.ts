@@ -9,7 +9,7 @@ export default class LoginInput implements Partial<User> {
   @Field()
   @IsNotEmpty()
   @IsEmail()
-  @MaxLength(255)
+  @MaxLength(500)
   email: string;
 
   @Field()

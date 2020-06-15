@@ -8,13 +8,13 @@ import {
 export default class RegisterUserInput implements Partial<User> {
   @Field()
   @IsNotEmpty()
-  @MaxLength(255)
+  @MaxLength(500)
   name: string;
 
   @Field()
   @IsEmail()
   @IsNotEmpty()
-  @MaxLength(255)
+  @MaxLength(500)
   email: string;
 
   @Field()

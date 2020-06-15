@@ -1,5 +1,6 @@
 export default interface SymptomQuestionnaireFields {
   id: string;
+  idSharedBetweenVersions: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;

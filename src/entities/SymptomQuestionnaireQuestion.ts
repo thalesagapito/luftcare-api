@@ -1,6 +1,15 @@
-import { Int, Field as GraphqlField, ObjectType as GraphqlType } from 'type-graphql';
 import {
-  OneToMany, ManyToOne, Entity as DatabaseTable, Column as DatabaseColumn,
+  ID,
+  Int,
+  Field as GraphqlField,
+  ObjectType as GraphqlType,
+} from 'type-graphql';
+import {
+  OneToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Entity as DatabaseTable,
+  Column as DatabaseColumn,
 } from 'typeorm';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
 import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
@@ -11,7 +20,11 @@ import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnair
 @GraphqlType()
 @DatabaseTable()
 export default class SymptomQuestionnaireQuestion extends TimestampedEntity implements SymptomQuestionnaireQuestionFields {
-  @GraphqlField({ description: 'Question name only for internal use. Only questionnaire-creator admins will see this.' })
+  @GraphqlField(() => ID)
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @GraphqlField({ description: 'Question name only for internal use. Only admins will see this.' })
   @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForManagement: string;
 

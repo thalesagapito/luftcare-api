@@ -6,17 +6,17 @@ import {
 } from 'type-graphql';
 import {
   ManyToOne,
-  BaseEntity,
   PrimaryGeneratedColumn,
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
+import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
 import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnaireQuestionFields';
 import SymptomQuestionnaireQuestionChoiceFields from '@/interfaces/SymptomQuestionnaireQuestionChoiceFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomQuestionnaireQuestionChoice extends BaseEntity implements SymptomQuestionnaireQuestionChoiceFields {
+export default class SymptomQuestionnaireQuestionChoice extends TimestampedEntity implements SymptomQuestionnaireQuestionChoiceFields {
   @GraphqlField(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;

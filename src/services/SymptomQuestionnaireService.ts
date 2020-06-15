@@ -2,6 +2,7 @@ import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import { ORMPagination } from '@/services/PaginationService';
 import { FindManyOptions, getConnection } from 'typeorm';
 import { pickBy } from 'lodash';
+import { NullablePromise } from '@/helper-types';
 
 export type GetSymptomQuestionnairesArgs = {
   pagination?: ORMPagination;
@@ -14,13 +15,12 @@ export async function findAndCountSymptomQuestionnaires(args: GetSymptomQuestion
   return SymptomQuestionnaire.findAndCount({ ...pagination, withDeleted, where: pickBy(where, Boolean) });
 }
 
-export async function getHighestVersionNumber(id: string): Promise<number> {
+export async function getHighestVersionNumber(id: string): NullablePromise<number> {
   const { max } = await getConnection()
     .createQueryBuilder(SymptomQuestionnaire, 'q')
     .select('MAX(q.version)', 'max')
-    .where('q.id = :id', { id })
-    .orderBy('max')
+    .where('q.idSharedBetweenVersions = :id', { id })
     .getRawOne();
 
-  return max;
+  return max || undefined;
 }

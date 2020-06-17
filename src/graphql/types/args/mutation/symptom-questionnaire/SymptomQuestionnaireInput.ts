@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsNotEmpty,
   ArrayNotEmpty,
+  ValidateNested,
 } from 'class-validator';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestionInput from './SymptomQuestionnaireQuestionInput';
@@ -27,5 +28,6 @@ export default class SymptomQuestionnaireInput implements Partial<SymptomQuestio
 
   @Field(() => [SymptomQuestionnaireQuestionInput])
   @ArrayNotEmpty()
+  @ValidateNested()
   questions: SymptomQuestionnaireQuestionInput[];
 }

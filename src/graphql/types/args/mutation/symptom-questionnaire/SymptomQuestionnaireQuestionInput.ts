@@ -1,5 +1,12 @@
 import { Field, InputType, Int } from 'type-graphql';
-import { IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
+import {
+  IsNumber,
+  MaxLength,
+  ValidateIf,
+  IsNotEmpty,
+  ArrayNotEmpty,
+  ValidateNested,
+} from 'class-validator';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
 import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnaireQuestionFields';
 import SymptomQuestionnaireQuestionChoiceInput from './SymptomQuestionnaireQuestionChoiceInput';
@@ -17,10 +24,13 @@ export default class SymptomQuestionnaireQuestionInput implements Partial<Sympto
   text: string;
 
   @Field(() => SymptomQuestionnaireQuestionKind)
+  @IsNotEmpty()
   kind: SymptomQuestionnaireQuestionKind;
 
   @Field(() => [SymptomQuestionnaireQuestionChoiceInput], { nullable: true })
-  // TODO conditional validation here
+  @ArrayNotEmpty()
+  @ValidateNested()
+  @ValidateIf(({ kind }) => kind === SymptomQuestionnaireQuestionKind.MULTIPLE_CHOICE)
   possibleChoices?: SymptomQuestionnaireQuestionChoiceInput[];
 
   @Field(() => Int)

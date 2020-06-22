@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {},
     },
   },
@@ -29,6 +29,9 @@ module.exports = {
     'max-len': ['error', 120, 2, {
       'ignorePattern': '(^export\\sdefault\\sclass.+)|(^import\\s.+\\sfrom\\s.+;)|(^\\s+@apply\\s.*;)|(^.*async.*)$',
       'ignoreUrls': true
+    }],
+    '@typescript-eslint/explicit-function-return-type': ['off', {
+      allowTypedFunctionExpressions: true,
     }],
   }
 };

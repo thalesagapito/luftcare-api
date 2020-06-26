@@ -4,7 +4,7 @@ import {
   MaxLength,
   ValidateIf,
   IsNotEmpty,
-  ArrayNotEmpty,
+  ArrayMinSize,
   ValidateNested,
 } from 'class-validator';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
@@ -28,7 +28,7 @@ export default class SymptomQuestionnaireQuestionInput implements Partial<Sympto
   kind: SymptomQuestionnaireQuestionKind;
 
   @Field(() => [SymptomQuestionnaireQuestionChoiceInput], { nullable: true })
-  @ArrayNotEmpty()
+  @ArrayMinSize(2, { message: 'Cada pergunta deve ter pelo menos 2 alternativas' })
   @ValidateNested()
   @ValidateIf(({ kind }) => kind === SymptomQuestionnaireQuestionKind.MULTIPLE_CHOICE)
   possibleChoices?: SymptomQuestionnaireQuestionChoiceInput[];

@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   ArrayNotEmpty,
   ValidateNested,
+  ArrayMinSize,
 } from 'class-validator';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestionInput from './SymptomQuestionnaireQuestionInput';
@@ -27,7 +28,7 @@ export default class SymptomQuestionnaireInput implements Partial<SymptomQuestio
   isPublished: boolean;
 
   @Field(() => [SymptomQuestionnaireQuestionInput])
-  @ArrayNotEmpty()
+  @ArrayNotEmpty({ message: 'O questionário deve ter no mínimo uma pergunta' })
   @ValidateNested()
   questions: SymptomQuestionnaireQuestionInput[];
 }

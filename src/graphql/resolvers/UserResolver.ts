@@ -4,12 +4,14 @@ import {
   Query,
   Mutation,
   Resolver,
+  Authorized,
   // Authorized,
 } from 'type-graphql';
 import User from '@/entities/User';
+import { UserRole } from '@/enums';
 import { GraphqlContext } from '@/server';
 import { NullablePromise } from '@/helper-types';
-import { getUserById, getUserByEmail } from '@/services/UserService';
+import { getUserById } from '@/services/UserService';
 import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
 
@@ -17,14 +19,14 @@ import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegister
 export default class UserResolver {
   @Query(() => User, { nullable: true })
   async currentUser(@Ctx() ctx: GraphqlContext): NullablePromise<User> {
-    return getUserById(ctx?.user?.id);
+    if (!ctx?.user?.id) return undefined;
+    return getUserById(ctx.user.id);
   }
 
-  // @Authorized()
+  @Authorized(UserRole.ADMIN)
   @Query(() => User, { nullable: true })
   async user(@Arg('id') id: string): NullablePromise<User> {
-    const user = await getUserById(id);
-    return user;
+    return getUserById(id);
   }
 
   // @Authorized()
@@ -36,9 +38,6 @@ export default class UserResolver {
 
   @Mutation(() => User)
   async registerUser(@Arg('userData') userData: RegisterUserInput): Promise<User> {
-    const existingUserWithEmail = await getUserByEmail(userData.email);
-    if (existingUserWithEmail) throw new Error('user with email already exists');
-
     return createUserFromRegisterInput(userData);
   }
 }

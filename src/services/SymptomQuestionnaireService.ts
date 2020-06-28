@@ -1,6 +1,6 @@
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import { ORMPagination } from '@/services/PaginationService';
-import { FindManyOptions, getConnection } from 'typeorm';
+import { FindManyOptions, getConnection, Brackets } from 'typeorm';
 import { pickBy } from 'lodash';
 import { NullablePromise } from '@/helper-types';
 
@@ -23,4 +23,28 @@ export async function getHighestVersionNumber(id: string): NullablePromise<numbe
     .getRawOne();
 
   return max || undefined;
+}
+
+export async function findQuestionnaireWithHighestVersion(idSharedBetweenVersions: string): NullablePromise<SymptomQuestionnaire> {
+  return SymptomQuestionnaire.findOne({ where: { idSharedBetweenVersions }, order: { version: 'DESC' } });
+}
+
+export async function findQuestionnaireById(id: string): NullablePromise<SymptomQuestionnaire> {
+  return SymptomQuestionnaire.findOne({ where: { id } });
+}
+
+export async function updateQuestionnairePublishStatus(
+  isPublished: boolean,
+  idSharedBetweenVersions: string,
+  highestVersionNumber: number,
+) {
+  return getConnection()
+    .createQueryBuilder()
+    .update(SymptomQuestionnaire)
+    .set({ isPublished })
+    .where('idSharedBetweenVersions = :idSharedBetweenVersions', { idSharedBetweenVersions })
+    .andWhere(new Brackets((qb) => qb
+      .where('version = :zero', { zero: 0 })
+      .orWhere('version = :highestVersionNumber', { highestVersionNumber })))
+    .execute();
 }

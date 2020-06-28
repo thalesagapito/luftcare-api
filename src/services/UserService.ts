@@ -6,13 +6,11 @@ async function getByUniqueFieldValue(field: uniqueFieldFromUser, value: string):
   return User.findOne({ [field]: value });
 }
 
-export async function getUserById(id?: string): ReturnType<typeof getByUniqueFieldValue> {
-  if (!id) return undefined;
+export async function getUserById(id: string) {
   return getByUniqueFieldValue('id', id);
 }
 
-export async function getUserByEmail(email?: string): ReturnType<typeof getByUniqueFieldValue> {
-  if (!email) return undefined;
+export async function getUserByEmail(email: string) {
   return getByUniqueFieldValue('email', email);
 }
 

@@ -8,6 +8,7 @@ import {
 } from 'type-graphql';
 import { UserRole } from '@/enums';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
+import GenericResponse from '@/graphql/types/responses/reusable/GenericResponse';
 import createSymptomQuestionnaireVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireVersion';
 import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questionnaire/SymptomQuestionnairesArgs';
 import getPaginatedSymptomQuestionnaires from '@/use-cases/symptom-questionnaire/getPaginatedSymptomQuestionnaires';
@@ -15,6 +16,7 @@ import SymptomQuestionnaireInput from '@/graphql/types/args/mutation/symptom-que
 import UpdateSymptomQuestionnaireArgs from '@/graphql/types/args/mutation/symptom-questionnaire/UpdateSymptomQuestionnaire';
 import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
 import createSymptomQuestionnaireInitialVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireInitialVersion';
+import updateSymptomQuestionnairePublishStatus from '@/use-cases/symptom-questionnaire/updateSymptomQuestionnairePublishStatus';
 
 @Resolver(() => SymptomQuestionnaire)
 export default class SymptomQuestionnaireResolver {
@@ -29,6 +31,24 @@ export default class SymptomQuestionnaireResolver {
   async updateSymptomQuestionnaire(@Args() { idSharedBetweenVersions, questionnaire }: UpdateSymptomQuestionnaireArgs): Promise<SymptomQuestionnaire> {
     const newSymptomQuestionnaire = SymptomQuestionnaire.create(questionnaire);
     return createSymptomQuestionnaireVersion(idSharedBetweenVersions, newSymptomQuestionnaire);
+  }
+
+  @Authorized(UserRole.ADMIN)
+  @Mutation(() => GenericResponse)
+  async publishSymptomQuestionnaire(@Arg('id') id: string): Promise<GenericResponse> {
+    return updateSymptomQuestionnairePublishStatus(id, true);
+  }
+
+  @Authorized(UserRole.ADMIN)
+  @Mutation(() => GenericResponse)
+  async unpublishSymptomQuestionnaire(@Arg('id') id: string): Promise<GenericResponse> {
+    return updateSymptomQuestionnairePublishStatus(id, false);
+  }
+
+  @Authorized(UserRole.ADMIN)
+  @Mutation(() => GenericResponse)
+  async changeSymptomQuestionnairePublishStatus(@Arg('id') id: string, @Arg('isPublished') isPublished: boolean): Promise<GenericResponse> {
+    return updateSymptomQuestionnairePublishStatus(id, isPublished);
   }
 
   @Authorized(UserRole.ADMIN)

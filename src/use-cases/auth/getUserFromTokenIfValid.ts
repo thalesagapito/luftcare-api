@@ -6,6 +6,6 @@ import User from '@/entities/User';
 export default async function (token: string): NullablePromise<User> {
   const tokenWithoutBearerPrefix = extractTokenWithoutBearerPrefix(token);
   const userId = decodeIdFromToken(tokenWithoutBearerPrefix);
-  const user = getUserById(userId);
-  return user;
+  if (!userId) return undefined;
+  return getUserById(userId);
 }

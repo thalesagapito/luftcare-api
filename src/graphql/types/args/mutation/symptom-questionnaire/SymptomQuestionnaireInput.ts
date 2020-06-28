@@ -5,7 +5,6 @@ import {
   IsNotEmpty,
   ArrayNotEmpty,
   ValidateNested,
-  ArrayMinSize,
 } from 'class-validator';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestionInput from './SymptomQuestionnaireQuestionInput';

@@ -1,11 +1,11 @@
 import {
+  ID,
   Arg,
   Ctx,
   Query,
   Mutation,
   Resolver,
   Authorized,
-  // Authorized,
 } from 'type-graphql';
 import User from '@/entities/User';
 import { UserRole } from '@/enums';
@@ -25,7 +25,7 @@ export default class UserResolver {
 
   @Authorized(UserRole.ADMIN)
   @Query(() => User, { nullable: true })
-  async user(@Arg('id') id: string): NullablePromise<User> {
+  async user(@Arg('id', () => ID) id: string): NullablePromise<User> {
     return getUserById(id);
   }
 

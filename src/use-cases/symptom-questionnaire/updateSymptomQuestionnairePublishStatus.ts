@@ -6,7 +6,7 @@ import {
 import { GenericUseCaseResponse } from '@/helper-types';
 
 const UNKNOWN_ERROR = 'Ocorreu um erro ao alterar o questionário';
-const NOT_FOUND_ERROR = 'Nenhum questionário encontrado com o id recebido';
+const NOT_FOUND_ERROR = 'Nenhum questionário foi encontrado com o id recebido';
 const ID_NOT_FROM_CURRENT_VERSION_ERROR = 'O id recebido não pertence a um questionário atual';
 const ALREADY_PUBLISHED = 'O questionário já está público';
 const ALREADY_UNPUBLISHED = 'O questionário já está privado';

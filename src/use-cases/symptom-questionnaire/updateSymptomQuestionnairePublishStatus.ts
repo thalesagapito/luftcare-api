@@ -1,4 +1,8 @@
-import { findQuestionnaireById, updateQuestionnairePublishStatus, findQuestionnaireWithHighestVersion } from '@/services/SymptomQuestionnaireService';
+import {
+  findQuestionnaireById,
+  updateQuestionnairePublishStatus,
+  findQuestionnaireWithHighestVersion,
+} from '@/services/SymptomQuestionnaireService';
 import { GenericUseCaseResponse } from '@/helper-types';
 
 const UNKNOWN_ERROR = 'Ocorreu um erro ao alterar o questionário';

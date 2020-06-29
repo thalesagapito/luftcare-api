@@ -36,7 +36,7 @@ export default class SymptomQuestionnaire extends TimestampedEntity implements S
   @DatabaseColumn({ type: 'boolean' })
   isPublished: boolean;
 
-  @GraphqlField(() => [SymptomQuestionnaireQuestion], { nullable: true })
+  @GraphqlField(() => [SymptomQuestionnaireQuestion])
   @OneToMany('SymptomQuestionnaireQuestion', 'questionnaire', { cascade: true, nullable: false, eager: true })
   questions: SymptomQuestionnaireQuestion[];
 }

@@ -1,4 +1,5 @@
 import {
+  ID,
   Arg,
   Args,
   Query,
@@ -17,6 +18,7 @@ import UpdateSymptomQuestionnaireArgs from '@/graphql/types/args/mutation/sympto
 import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
 import createSymptomQuestionnaireInitialVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireInitialVersion';
 import updateSymptomQuestionnairePublishStatus from '@/use-cases/symptom-questionnaire/updateSymptomQuestionnairePublishStatus';
+import getSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/getSymptomQuestionnaireById';
 
 @Resolver(() => SymptomQuestionnaire)
 export default class SymptomQuestionnaireResolver {
@@ -35,19 +37,19 @@ export default class SymptomQuestionnaireResolver {
 
   @Authorized(UserRole.ADMIN)
   @Mutation(() => GenericResponse)
-  async publishSymptomQuestionnaire(@Arg('id') id: string): Promise<GenericResponse> {
+  async publishSymptomQuestionnaire(@Arg('id', () => ID) id: string): Promise<GenericResponse> {
     return updateSymptomQuestionnairePublishStatus(id, true);
   }
 
   @Authorized(UserRole.ADMIN)
   @Mutation(() => GenericResponse)
-  async unpublishSymptomQuestionnaire(@Arg('id') id: string): Promise<GenericResponse> {
+  async unpublishSymptomQuestionnaire(@Arg('id', () => ID) id: string): Promise<GenericResponse> {
     return updateSymptomQuestionnairePublishStatus(id, false);
   }
 
   @Authorized(UserRole.ADMIN)
   @Mutation(() => GenericResponse)
-  async changeSymptomQuestionnairePublishStatus(@Arg('id') id: string, @Arg('isPublished') isPublished: boolean): Promise<GenericResponse> {
+  async changeSymptomQuestionnairePublishStatus(@Arg('id', () => ID) id: string, @Arg('isPublished') isPublished: boolean): Promise<GenericResponse> {
     return updateSymptomQuestionnairePublishStatus(id, isPublished);
   }
 
@@ -66,5 +68,11 @@ export default class SymptomQuestionnaireResolver {
 
     // await new Promise((r) => setTimeout(r, 1000));
     return getPaginatedSymptomQuestionnaires({ pagination, where });
+  }
+
+  @Authorized(UserRole.ADMIN)
+  @Query(() => SymptomQuestionnaire)
+  async symptomQuestionnaire(@Arg('id', () => ID) id: string): Promise<SymptomQuestionnaire> {
+    return getSymptomQuestionnaireById(id);
   }
 }

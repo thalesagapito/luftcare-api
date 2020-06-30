@@ -16,6 +16,8 @@ export default async function (idSharedBetweenVersions: string, newQuestionnaire
     version: highestVersion + 1,
   });
 
+  await SymptomQuestionnaire.delete({ version: 0, idSharedBetweenVersions });
+
   const [createdHighestVersion] = await SymptomQuestionnaire.save([
     highestVersionQuestionnaire,
     zeroVersionQuestionnaire,

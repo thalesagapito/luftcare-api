@@ -34,7 +34,7 @@ export default class SymptomQuestionnaireQuestionChoice extends TimestampedEntit
   @DatabaseColumn({ type: 'int' })
   value: number;
 
-  @ManyToOne('SymptomQuestionnaireQuestion', 'choices')
+  @ManyToOne('SymptomQuestionnaireQuestion', 'choices', { onDelete: 'CASCADE' })
   question: SymptomQuestionnaireQuestionFields;
 
   @GraphqlField(() => Int)

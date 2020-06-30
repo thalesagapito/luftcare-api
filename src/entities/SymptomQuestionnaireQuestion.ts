@@ -36,7 +36,7 @@ export default class SymptomQuestionnaireQuestion extends TimestampedEntity impl
   @DatabaseColumn({ type: 'enum', enum: SymptomQuestionnaireQuestionKind })
   kind: SymptomQuestionnaireQuestionKind;
 
-  @ManyToOne('SymptomQuestionnaire', 'questions')
+  @ManyToOne('SymptomQuestionnaire', 'questions', { onDelete: 'CASCADE' })
   questionnaire: SymptomQuestionnaireFields;
 
   @GraphqlField(() => [SymptomQuestionnaireQuestionChoice], { nullable: true })

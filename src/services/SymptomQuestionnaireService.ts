@@ -29,6 +29,10 @@ export async function findQuestionnaireWithHighestVersion(idSharedBetweenVersion
   return SymptomQuestionnaire.findOne({ where: { idSharedBetweenVersions }, order: { version: 'DESC' } });
 }
 
+export async function findQuestionnaireWithVersion(idSharedBetweenVersions: string, version: number): NullablePromise<SymptomQuestionnaire> {
+  return SymptomQuestionnaire.findOne({ where: { idSharedBetweenVersions, version } });
+}
+
 export async function findQuestionnaireById(id: string): NullablePromise<SymptomQuestionnaire> {
   return SymptomQuestionnaire.findOne({ where: { id } });
 }

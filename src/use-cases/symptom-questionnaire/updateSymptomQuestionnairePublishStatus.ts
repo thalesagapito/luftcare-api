@@ -5,7 +5,6 @@ import {
 } from '@/services/SymptomQuestionnaireService';
 import { GenericUseCaseResponse } from '@/helper-types';
 
-const UNKNOWN_ERROR = 'Ocorreu um erro ao alterar o questionário';
 const NOT_FOUND_ERROR = 'Nenhum questionário foi encontrado com o id recebido';
 const ID_NOT_FROM_CURRENT_VERSION_ERROR = 'O id recebido não pertence a um questionário atual';
 const ALREADY_PUBLISHED = 'O questionário já está público';
@@ -34,14 +33,7 @@ export default async function (id: string, isPublished: boolean): Promise<Generi
   if (isAlreadyPublished) throw new Error(ALREADY_PUBLISHED);
   if (isAlreadyUnpublished) throw new Error(ALREADY_UNPUBLISHED);
 
-  const { affected } = await updateQuestionnairePublishStatus(
-    isPublished,
-    idSharedBetweenVersions,
-    highestVersionNumber,
-  );
-
-  // should always affect 2 lines, since it changes version 0 and highest
-  if (affected !== 2) throw new Error(UNKNOWN_ERROR);
+  await updateQuestionnairePublishStatus(questionnaireWithHighestVersion, isPublished);
 
   return { userFriendlyMessage: SUCCESS_MESSAGE };
 }

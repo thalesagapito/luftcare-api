@@ -33,6 +33,7 @@ const dbConnectionOptions: ConnectionOptions = {
   synchronize: false,
   entities: [`${__dirname}/entities/*`],
   migrations: [`${__dirname}/migrations/*`],
+  subscribers: [`${__dirname}/subscribers/*`],
 };
 
 const graphqlSchemaOptions: BuildSchemaOptions = {

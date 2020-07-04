@@ -2,11 +2,9 @@ import { resolve } from 'path';
 import { ApolloServer } from 'apollo-server';
 import { ApolloLogExtension, LoggerOptions } from 'apollo-log';
 import { AuthChecker, buildSchema, BuildSchemaOptions } from 'type-graphql';
-import { Connection, ConnectionOptions, createConnection } from 'typeorm';
 import getUserFromTokenIfValid from '@/use-cases/auth/getUserFromTokenIfValid';
 import User from '@/entities/User';
 import { UserRole } from '@/enums';
-
 
 export type GraphqlContext = { user?: User };
 
@@ -19,22 +17,6 @@ const authChecker: AuthChecker<GraphqlContext, UserRole> = async ({ context: ctx
   return noSpecificRoleIsRequired || userHasSpecificRoleRequired;
 };
 
-const dbConnectionOptions: ConnectionOptions = {
-  type: 'postgres',
-  cache: true,
-  port: 5432,
-  host: process.env.DB_HOST,
-  database: process.env.POSTGRES_DB,
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  logger: 'advanced-console',
-  logging: 'all', // can't move to .env, uses an array
-  dropSchema: false,
-  synchronize: false,
-  entities: [`${__dirname}/entities/*`],
-  migrations: [`${__dirname}/migrations/*`],
-  subscribers: [`${__dirname}/subscribers/*`],
-};
 
 const graphqlSchemaOptions: BuildSchemaOptions = {
   emitSchemaFile: true,
@@ -51,8 +33,6 @@ const apolloLogOptions: LoggerOptions = {
 const apolloServerExtensions = [
   (): ApolloLogExtension => new ApolloLogExtension(apolloLogOptions),
 ];
-
-export const getTypeORMConnection = async (): Promise<Connection> => createConnection(dbConnectionOptions);
 
 export const getNewApolloServer = async (): Promise<ApolloServer> => new ApolloServer({
   extensions: apolloServerExtensions,

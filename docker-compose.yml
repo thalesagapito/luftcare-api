@@ -2,7 +2,7 @@ version: "3"
 services:
   postgres:
     env_file:
-      - src/.env
+      - .env
     image: "postgres:9.6.1"
     ports:
       - "5432:5432"

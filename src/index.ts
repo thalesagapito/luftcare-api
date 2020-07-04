@@ -2,7 +2,8 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
 import './setup-env';
-import { host, port, getNewApolloServer, getTypeORMConnection } from '@/server';
+import { createConnection as getTypeORMConnection } from 'typeorm';
+import { host, port, getNewApolloServer } from '@/server';
 
 async function bootstrap(): Promise<void> {
   try {

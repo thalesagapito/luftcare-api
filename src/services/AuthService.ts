@@ -15,7 +15,7 @@ const verifyToken = (token: string): Nullable<AuthToken> => verify(token, proces
 
 export const extractTokenWithoutBearerPrefix = (token: string): string => token.replace('Bearer ', '');
 
-export const signAuthorizationToken = ({ id }: User): string => signToken(id, '15m');
+export const signAuthorizationToken = ({ id }: User): string => signToken(id, '15d');
 
 export const signRefreshToken = ({ id }: User): string => signToken(id, '15d');
 

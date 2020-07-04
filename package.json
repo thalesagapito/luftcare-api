@@ -48,6 +48,6 @@
     "start": "pm2 start --name api dist/index.js",
     "logs": "pm2 logs api",
     "stop": "pm2 stop api",
-    "clean-build": "pm2 kill && rm -rf ./dist"
+    "clean-build": "rm -rf ./dist"
   }
 }

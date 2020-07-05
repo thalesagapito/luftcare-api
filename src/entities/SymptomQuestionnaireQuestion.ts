@@ -12,14 +12,14 @@ import {
   Column as DatabaseColumn,
 } from 'typeorm';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
-import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
+import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
 import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnaireQuestionFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomQuestionnaireQuestion extends TimestampedEntity implements SymptomQuestionnaireQuestionFields {
+export default class SymptomQuestionnaireQuestion extends SoftRemovableTimestampedEntity implements SymptomQuestionnaireQuestionFields {
   @GraphqlField(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;

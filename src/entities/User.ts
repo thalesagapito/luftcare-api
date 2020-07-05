@@ -1,14 +1,18 @@
-import { Field as GraphqlField, ObjectType as GraphqlType } from 'type-graphql';
-import { Entity as DatabaseTable, Column as DatabaseColumn } from 'typeorm';
+import { Field as GraphqlField, ObjectType as GraphqlType, ID } from 'type-graphql';
+import { Entity as DatabaseTable, Column as DatabaseColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from '@/enums';
 import UserFields from '@/interfaces/UserFields';
-import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
+import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 
 export type uniqueFieldFromUser = keyof Pick<User, 'id' | 'email' | 'phoneNumber'>;
 
 @GraphqlType()
 @DatabaseTable()
-export default class User extends TimestampedEntity implements UserFields {
+export default class User extends SoftRemovableTimestampedEntity implements UserFields {
+  @GraphqlField(() => ID)
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 500 })
   name: string;

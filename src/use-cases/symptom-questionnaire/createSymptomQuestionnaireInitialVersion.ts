@@ -1,13 +1,16 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
+import { cloneDeep } from 'lodash';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
+import { QuestionnaireSubscriberData } from '@/subscribers/SymptomQuestionnaireSubscriber';
 
 export default async function (newQuestionnaire: SymptomQuestionnaire): Promise<SymptomQuestionnaire> {
-  const idSharedBetweenVersions = uuidv4();
-
   const versionOneQuestionnaire = SymptomQuestionnaire.merge(newQuestionnaire, {
     version: 1,
-    idSharedBetweenVersions,
+    id: uuid(),
   });
 
-  return SymptomQuestionnaire.save(versionOneQuestionnaire);
+  const questionsWithoutIds = cloneDeep(versionOneQuestionnaire.questions);
+  const data: QuestionnaireSubscriberData = { eventKind: 'create-initial', questionsWithoutIds };
+
+  return SymptomQuestionnaire.save(versionOneQuestionnaire, { data });
 }

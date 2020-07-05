@@ -7,7 +7,7 @@ import SymptomQuestionnaireInput from './SymptomQuestionnaireInput';
 export default class UpdateSymptomQuestionnaireInputArgs implements Partial<SymptomQuestionnaire> {
   @Field(() => ID)
   @IsNotEmpty()
-  idSharedBetweenVersions: string;
+  id: string;
 
   @Field(() => SymptomQuestionnaireInput)
   @IsNotEmpty()

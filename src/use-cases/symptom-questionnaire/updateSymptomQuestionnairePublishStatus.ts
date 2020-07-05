@@ -1,39 +1,24 @@
-import {
-  findQuestionnaireById,
-  updateQuestionnairePublishStatus,
-  findQuestionnaireWithHighestVersion,
-} from '@/services/SymptomQuestionnaireService';
+import { updateQuestionnairePublishStatus, findQuestionnaireWithHighestVersion } from '@/services/SymptomQuestionnaireService';
 import { GenericUseCaseResponse } from '@/helper-types';
 
 const NOT_FOUND_ERROR = 'Nenhum questionário foi encontrado com o id recebido';
-const ID_NOT_FROM_CURRENT_VERSION_ERROR = 'O id recebido não pertence a um questionário atual';
 const ALREADY_PUBLISHED = 'O questionário já está público';
 const ALREADY_UNPUBLISHED = 'O questionário já está privado';
 
-const SUCCESS_MESSAGE = 'Questionário alterado com sucesso';
+const PUBLISH_SUCCESS_MESSAGE = 'Questionário publicado com sucesso';
+const UNPUBLISH_SUCCESS_MESSAGE = 'Questionário tornado privado com sucesso';
 
 export default async function (id: string, isPublished: boolean): Promise<GenericUseCaseResponse> {
-  const questionnaireWithIdFromArgs = await findQuestionnaireById(id);
-  if (!questionnaireWithIdFromArgs) throw new Error(NOT_FOUND_ERROR);
+  const currentQuestionnaire = await findQuestionnaireWithHighestVersion(id);
+  if (!currentQuestionnaire) throw new Error(NOT_FOUND_ERROR);
 
-  const { idSharedBetweenVersions } = questionnaireWithIdFromArgs;
-  const questionnaireWithHighestVersion = await findQuestionnaireWithHighestVersion(idSharedBetweenVersions);
-  if (!questionnaireWithHighestVersion) throw new Error(NOT_FOUND_ERROR);
-
-  const { version: highestVersionNumber } = questionnaireWithHighestVersion;
-  const { version: versionOfQuestionnaireFromArgs } = questionnaireWithIdFromArgs;
-
-  const isQuestionnaireFromArgsCurrent = versionOfQuestionnaireFromArgs === 0
-                                      || versionOfQuestionnaireFromArgs === highestVersionNumber;
-  if (!isQuestionnaireFromArgsCurrent) throw new Error(ID_NOT_FROM_CURRENT_VERSION_ERROR);
-
-  const { isPublished: currentIsPublished } = questionnaireWithHighestVersion;
+  const { isPublished: currentIsPublished } = currentQuestionnaire;
   const isAlreadyPublished = isPublished === currentIsPublished && isPublished;
   const isAlreadyUnpublished = isPublished === currentIsPublished && !isPublished;
   if (isAlreadyPublished) throw new Error(ALREADY_PUBLISHED);
   if (isAlreadyUnpublished) throw new Error(ALREADY_UNPUBLISHED);
 
-  await updateQuestionnairePublishStatus(questionnaireWithHighestVersion, isPublished);
+  await updateQuestionnairePublishStatus(currentQuestionnaire, isPublished);
 
-  return { userFriendlyMessage: SUCCESS_MESSAGE };
+  return { userFriendlyMessage: isPublished ? PUBLISH_SUCCESS_MESSAGE : UNPUBLISH_SUCCESS_MESSAGE };
 }

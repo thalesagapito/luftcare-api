@@ -6,19 +6,20 @@ import {
 } from 'type-graphql';
 import {
   OneToMany,
+  PrimaryColumn,
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
+import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomQuestionnaire extends TimestampedEntity implements SymptomQuestionnaireFields {
+export default class SymptomQuestionnaire extends SoftRemovableTimestampedEntity implements SymptomQuestionnaireFields {
   @GraphqlField(() => ID)
-  @DatabaseColumn({ type: 'uuid' })
-  idSharedBetweenVersions: string;
+  @PrimaryColumn({ type: 'uuid' })
+  id: string;
 
   @GraphqlField()
   @DatabaseColumn({ type: 'varchar', length: 500 })
@@ -29,7 +30,7 @@ export default class SymptomQuestionnaire extends TimestampedEntity implements S
   nameForPresentation: string;
 
   @GraphqlField(() => Int)
-  @DatabaseColumn({ type: 'int' })
+  @PrimaryColumn({ type: 'int' })
   version: number;
 
   @GraphqlField()

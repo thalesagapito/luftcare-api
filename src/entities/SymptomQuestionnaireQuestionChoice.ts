@@ -10,13 +10,13 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import TimestampedEntity from '@/entities/extendable/TimestampedEntity';
+import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnaireQuestionFields';
 import SymptomQuestionnaireQuestionChoiceFields from '@/interfaces/SymptomQuestionnaireQuestionChoiceFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomQuestionnaireQuestionChoice extends TimestampedEntity implements SymptomQuestionnaireQuestionChoiceFields {
+export default class SymptomQuestionnaireQuestionChoice extends SoftRemovableTimestampedEntity implements SymptomQuestionnaireQuestionChoiceFields {
   @GraphqlField(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;

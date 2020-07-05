@@ -18,6 +18,7 @@ import UpdateSymptomQuestionnaireArgs from '@/graphql/types/args/mutation/sympto
 import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
 import createSymptomQuestionnaireInitialVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireInitialVersion';
 import updateSymptomQuestionnairePublishStatus from '@/use-cases/symptom-questionnaire/updateSymptomQuestionnairePublishStatus';
+import deleteSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/deleteSymptomQuestionnaireById';
 import getSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/getSymptomQuestionnaireById';
 
 @Resolver(() => SymptomQuestionnaire)
@@ -30,9 +31,9 @@ export default class SymptomQuestionnaireResolver {
 
   @Authorized(UserRole.ADMIN)
   @Mutation(() => SymptomQuestionnaire)
-  async updateSymptomQuestionnaire(@Args() { idSharedBetweenVersions, questionnaire }: UpdateSymptomQuestionnaireArgs): Promise<SymptomQuestionnaire> {
+  async updateSymptomQuestionnaire(@Args() { id, questionnaire }: UpdateSymptomQuestionnaireArgs): Promise<SymptomQuestionnaire> {
     const newSymptomQuestionnaire = SymptomQuestionnaire.create(questionnaire);
-    return createSymptomQuestionnaireVersion(idSharedBetweenVersions, newSymptomQuestionnaire);
+    return createSymptomQuestionnaireVersion(id, newSymptomQuestionnaire);
   }
 
   @Authorized(UserRole.ADMIN)
@@ -54,6 +55,12 @@ export default class SymptomQuestionnaireResolver {
   }
 
   @Authorized(UserRole.ADMIN)
+  @Mutation(() => GenericResponse)
+  async deleteSymptomQuestionnaire(@Arg('id', () => ID) id: string): Promise<GenericResponse> {
+    return deleteSymptomQuestionnaireById(id);
+  }
+
+  @Authorized(UserRole.ADMIN)
   @Query(() => PaginatedSymptomQuestionnaireResponse)
   async symptomQuestionnaires(@Args() args: SymptomQuestionnairesArgs): Promise<PaginatedSymptomQuestionnaireResponse> {
     const { pageNumber, resultsPerPage, orderBy } = args;
@@ -66,7 +73,6 @@ export default class SymptomQuestionnaireResolver {
       withDeleted: args.withDeleted,
     };
 
-    // await new Promise((r) => setTimeout(r, 1000));
     return getPaginatedSymptomQuestionnaires({ pagination, where });
   }
 

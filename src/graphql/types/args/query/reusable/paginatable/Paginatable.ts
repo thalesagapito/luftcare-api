@@ -1,9 +1,8 @@
 import { Field, ArgsType, Int } from 'type-graphql';
 import { Min, Max } from 'class-validator';
-import OrderByClause from './OrderByClause';
 
 @ArgsType()
-export default class PaginationArgs<Entity> {
+export default abstract class Paginatable {
   @Field(() => Int, { defaultValue: 1 })
   @Min(1)
   pageNumber: number;
@@ -12,7 +11,4 @@ export default class PaginationArgs<Entity> {
   @Min(1)
   @Max(100)
   resultsPerPage: number;
-
-  @Field(() => [OrderByClause], { nullable: true })
-  orderBy?: OrderByClause<Entity>[];
 }

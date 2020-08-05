@@ -1,16 +1,13 @@
+/* eslint-disable no-param-reassign */
 import { v4 as uuid } from 'uuid';
-import { cloneDeep } from 'lodash';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
-import { QuestionnaireSubscriberData } from '@/subscribers/SymptomQuestionnaireSubscriber';
+import { createQuestionnaireWithQuestionsAndChoices } from '@/services/SymptomQuestionnaireService';
 
-export default async function (newQuestionnaire: SymptomQuestionnaire): Promise<SymptomQuestionnaire> {
-  const versionOneQuestionnaire = SymptomQuestionnaire.merge(newQuestionnaire, {
-    version: 1,
-    id: uuid(),
-  });
+export default async function (questionnaire: SymptomQuestionnaire): Promise<SymptomQuestionnaire> {
+  questionnaire.id = uuid();
+  questionnaire.version = 1;
 
-  const questionsWithoutIds = cloneDeep(versionOneQuestionnaire.questions);
-  const data: QuestionnaireSubscriberData = { eventKind: 'create-initial', questionsWithoutIds };
+  await createQuestionnaireWithQuestionsAndChoices(questionnaire);
 
-  return SymptomQuestionnaire.save(versionOneQuestionnaire, { data });
+  return questionnaire;
 }

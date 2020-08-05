@@ -8,7 +8,7 @@ export default class CreateAdminUser implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     await connection.getRepository(User).save(
       {
-        email: 'admin@luftcare.com',
+        email: 'admin@luftcare.com.br',
         name: 'admin',
         role: UserRole.ADMIN,
         phoneNumber: '(99) 99999-9999',

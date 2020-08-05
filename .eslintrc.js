@@ -33,5 +33,14 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': ['off', {
       allowTypedFunctionExpressions: true,
     }],
-  }
+  },
+  overrides: [
+    {
+      files: ['./src/entities/*'],
+      rules: {
+        'global-require': 'off',
+        'import/no-cycle': 'off',
+      },
+    },
+  ],
 };

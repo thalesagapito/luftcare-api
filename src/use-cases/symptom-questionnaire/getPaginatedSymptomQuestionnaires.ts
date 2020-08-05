@@ -1,28 +1,36 @@
-import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
+import { Like } from 'typeorm';
+import { pickBy } from 'lodash';
+import { convertGqlOrderByClausesToORM } from '@/services/OrderByService';
+import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
+import Paginatable from '@/graphql/types/args/query/reusable/paginatable/Paginatable';
+import OrderByClause from '@/graphql/types/args/query/reusable/orderable/OrderByClause';
+import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/services/PaginationService';
 import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questionnaire/SymptomQuestionnairesArgs';
 import { GetSymptomQuestionnairesArgs, findAndCountSymptomQuestionnaires } from '@/services/SymptomQuestionnaireService';
-import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/services/PaginationService';
-import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
-import PaginationArgs from '@/graphql/types/args/query/reusable/Pagination';
-import { Like, Equal } from 'typeorm';
+import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
 
 type Args = {
-  pagination: PaginationArgs<SymptomQuestionnaireFields>;
+  pagination: Paginatable;
+  orderBy: OrderByClause<SymptomQuestionnaireFields>[];
   where: Pick<SymptomQuestionnairesArgs, 'nameForManagement' | 'isPublished' | 'currentVersionsOnly' | 'withDeleted'>;
 };
 
-function convertGqlArgsToORM(where: Args['where']): GetSymptomQuestionnairesArgs['where'] {
-  const { currentVersionsOnly, isPublished } = where;
-  const version = currentVersionsOnly ? Equal(0) : undefined;
+function convertGqlWhereClauseToORM(where: Args['where']): GetSymptomQuestionnairesArgs['where'] {
+  const { isPublished } = where;
   const nameForManagement = where.nameForManagement ? Like(`%${where.nameForManagement}%`) : undefined;
-  return { version, isPublished, nameForManagement };
+
+  return pickBy({ isPublished, nameForManagement }, Boolean);
 }
 
 export default async function (args: Args): Promise<PaginatedSymptomQuestionnaireResponse> {
-  const { withDeleted } = args.where;
-  const where = convertGqlArgsToORM(args.where);
+  const { withDeleted, currentVersionsOnly } = args.where;
+  const where = convertGqlWhereClauseToORM(args.where);
   const pagination = convertGqlPaginationToORM(args.pagination);
-  const [results, totalResultsCount] = await findAndCountSymptomQuestionnaires({ pagination, where, withDeleted });
+  const orderBy = convertGqlOrderByClausesToORM(args.orderBy);
+
+  const [results, totalResultsCount] = await findAndCountSymptomQuestionnaires({
+    currentVersionsOnly, pagination, where, withDeleted, orderBy,
+  });
 
   const { pageNumber, resultsPerPage } = args.pagination;
   const response = convertToPaginatedResponse({

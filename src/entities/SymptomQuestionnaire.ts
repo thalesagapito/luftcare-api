@@ -38,6 +38,6 @@ export default class SymptomQuestionnaire extends SoftRemovableTimestampedEntity
   isPublished: boolean;
 
   @GraphqlField(() => [SymptomQuestionnaireQuestion])
-  @OneToMany('SymptomQuestionnaireQuestion', 'questionnaire', { cascade: true, nullable: false, eager: true })
+  @OneToMany('SymptomQuestionnaireQuestion', 'questionnaire', { eager: true })
   questions: SymptomQuestionnaireQuestion[];
 }

@@ -12,10 +12,10 @@ import {
   Column as DatabaseColumn,
 } from 'typeorm';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
-import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
 import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnaireQuestionFields';
+import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 
 @GraphqlType()
 @DatabaseTable()
@@ -36,11 +36,11 @@ export default class SymptomQuestionnaireQuestion extends SoftRemovableTimestamp
   @DatabaseColumn({ type: 'enum', enum: SymptomQuestionnaireQuestionKind })
   kind: SymptomQuestionnaireQuestionKind;
 
-  @ManyToOne('SymptomQuestionnaire', 'questions', { onDelete: 'CASCADE' })
+  @ManyToOne('SymptomQuestionnaire', 'questions', { nullable: false })
   questionnaire: SymptomQuestionnaireFields;
 
   @GraphqlField(() => [SymptomQuestionnaireQuestionChoice], { nullable: true })
-  @OneToMany('SymptomQuestionnaireQuestionChoice', 'question', { cascade: true, nullable: false, eager: true })
+  @OneToMany('SymptomQuestionnaireQuestionChoice', 'question', { nullable: false, eager: true })
   possibleChoices?: SymptomQuestionnaireQuestionChoice[];
 
   @GraphqlField(() => Int)

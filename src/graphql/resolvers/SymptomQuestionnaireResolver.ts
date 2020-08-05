@@ -32,8 +32,7 @@ export default class SymptomQuestionnaireResolver {
   @Authorized(UserRole.ADMIN)
   @Mutation(() => SymptomQuestionnaire)
   async updateSymptomQuestionnaire(@Args() { id, questionnaire }: UpdateSymptomQuestionnaireArgs): Promise<SymptomQuestionnaire> {
-    const newSymptomQuestionnaire = SymptomQuestionnaire.create(questionnaire);
-    return createSymptomQuestionnaireVersion(id, newSymptomQuestionnaire);
+    return createSymptomQuestionnaireVersion(id, SymptomQuestionnaire.create(questionnaire));
   }
 
   @Authorized(UserRole.ADMIN)
@@ -63,8 +62,8 @@ export default class SymptomQuestionnaireResolver {
   @Authorized(UserRole.ADMIN)
   @Query(() => PaginatedSymptomQuestionnaireResponse)
   async symptomQuestionnaires(@Args() args: SymptomQuestionnairesArgs): Promise<PaginatedSymptomQuestionnaireResponse> {
-    const { pageNumber, resultsPerPage, orderBy } = args;
-    const pagination = { pageNumber, resultsPerPage, orderBy };
+    const { pageNumber, resultsPerPage, orderBy = [] } = args;
+    const pagination = { pageNumber, resultsPerPage };
 
     const where = {
       currentVersionsOnly: args.currentVersionsOnly,
@@ -73,7 +72,7 @@ export default class SymptomQuestionnaireResolver {
       withDeleted: args.withDeleted,
     };
 
-    return getPaginatedSymptomQuestionnaires({ pagination, where });
+    return getPaginatedSymptomQuestionnaires({ pagination, where, orderBy });
   }
 
   @Authorized(UserRole.ADMIN)

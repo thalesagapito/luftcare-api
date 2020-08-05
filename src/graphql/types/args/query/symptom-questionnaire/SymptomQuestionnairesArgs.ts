@@ -1,10 +1,11 @@
-import { MaxLength } from 'class-validator';
-import { ArgsType, Field } from 'type-graphql';
-import PaginationArgs from '@/graphql/types/args/query/reusable/Pagination';
+import { MaxLength, Min, Max } from 'class-validator';
+import { ArgsType, Field, Int } from 'type-graphql';
+import Orderable from '@/graphql/types/args/query/reusable/orderable/Orderable';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
+import Paginatable from '@/graphql/types/args/query/reusable/paginatable/Paginatable';
 
 @ArgsType()
-export default class SymptomQuestionnairesArgs extends PaginationArgs<SymptomQuestionnaireFields> implements Partial<SymptomQuestionnaireFields> {
+export default class SymptomQuestionnairesArgs extends Orderable<SymptomQuestionnaireFields> implements Partial<SymptomQuestionnaireFields>, Paginatable {
   @Field({ nullable: true })
   @MaxLength(500)
   nameForManagement?: string;
@@ -17,4 +18,13 @@ export default class SymptomQuestionnairesArgs extends PaginationArgs<SymptomQue
 
   @Field({ defaultValue: false })
   withDeleted?: boolean;
+
+  @Field(() => Int, { defaultValue: 1 })
+  @Min(1)
+  pageNumber: Paginatable['pageNumber'];
+
+  @Field(() => Int, { defaultValue: 10 })
+  @Min(1)
+  @Max(100)
+  resultsPerPage: Paginatable['resultsPerPage'];
 }

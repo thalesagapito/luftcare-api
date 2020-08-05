@@ -34,7 +34,7 @@ export default class SymptomQuestionnaireQuestionChoice extends SoftRemovableTim
   @DatabaseColumn({ type: 'int' })
   value: number;
 
-  @ManyToOne('SymptomQuestionnaireQuestion', 'choices', { onDelete: 'CASCADE' })
+  @ManyToOne('SymptomQuestionnaireQuestion', 'choices')
   question: SymptomQuestionnaireQuestionFields;
 
   @GraphqlField(() => Int)

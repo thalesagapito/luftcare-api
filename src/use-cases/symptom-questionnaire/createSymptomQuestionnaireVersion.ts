@@ -1,22 +1,18 @@
-import { cloneDeep } from 'lodash';
+/* eslint-disable no-param-reassign */
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
-import { getHighestVersionNumber } from '@/services/SymptomQuestionnaireService';
-import { QuestionnaireSubscriberData } from '@/subscribers/SymptomQuestionnaireSubscriber';
+import { getHighestVersionNumber, createQuestionnaireWithQuestionsAndChoices } from '@/services/SymptomQuestionnaireService';
 
 const NOT_FOUND_ERROR = 'Nenhum questionário foi encontrado com o id recebido';
 
-export default async function (id: string, newQuestionnaire: SymptomQuestionnaire): Promise<SymptomQuestionnaire> {
+export default async function (id: string, questionnaire: SymptomQuestionnaire): Promise<SymptomQuestionnaire> {
   const highestVersion = await getHighestVersionNumber(id);
 
   if (!highestVersion) throw new Error(NOT_FOUND_ERROR);
 
-  const highestVersionQuestionnaire = SymptomQuestionnaire.merge(newQuestionnaire, {
-    id,
-    version: highestVersion + 1,
-  });
+  questionnaire.id = id;
+  questionnaire.version = highestVersion + 1;
 
-  const questionsWithoutIds = cloneDeep(highestVersionQuestionnaire.questions);
-  const data: QuestionnaireSubscriberData = { eventKind: 'create-initial', questionsWithoutIds };
+  await createQuestionnaireWithQuestionsAndChoices(questionnaire);
 
-  return SymptomQuestionnaire.save(highestVersionQuestionnaire, { data });
+  return questionnaire;
 }

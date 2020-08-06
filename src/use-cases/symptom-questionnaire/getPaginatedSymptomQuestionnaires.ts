@@ -7,7 +7,7 @@ import OrderByClause from '@/graphql/types/args/query/reusable/orderable/OrderBy
 import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/services/PaginationService';
 import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questionnaire/SymptomQuestionnairesArgs';
 import { GetSymptomQuestionnairesArgs, findAndCountSymptomQuestionnaires } from '@/services/SymptomQuestionnaireService';
-import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
+import PaginatedSymptomQuestionnaires from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaires';
 
 type Args = {
   pagination: Paginatable;
@@ -22,7 +22,7 @@ function convertGqlWhereClauseToORM(where: Args['where']): GetSymptomQuestionnai
   return pickBy({ isPublished, nameForManagement }, Boolean);
 }
 
-export default async function (args: Args): Promise<PaginatedSymptomQuestionnaireResponse> {
+export default async function (args: Args): Promise<PaginatedSymptomQuestionnaires> {
   const { withDeleted, currentVersionsOnly } = args.where;
   const where = convertGqlWhereClauseToORM(args.where);
   const pagination = convertGqlPaginationToORM(args.pagination);

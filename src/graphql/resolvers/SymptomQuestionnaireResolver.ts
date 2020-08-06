@@ -15,7 +15,7 @@ import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questi
 import getPaginatedSymptomQuestionnaires from '@/use-cases/symptom-questionnaire/getPaginatedSymptomQuestionnaires';
 import SymptomQuestionnaireInput from '@/graphql/types/args/mutation/symptom-questionnaire/SymptomQuestionnaireInput';
 import UpdateSymptomQuestionnaireArgs from '@/graphql/types/args/mutation/symptom-questionnaire/UpdateSymptomQuestionnaire';
-import PaginatedSymptomQuestionnaireResponse from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaireResponse';
+import PaginatedSymptomQuestionnaires from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaires';
 import createSymptomQuestionnaireInitialVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireInitialVersion';
 import updateSymptomQuestionnairePublishStatus from '@/use-cases/symptom-questionnaire/updateSymptomQuestionnairePublishStatus';
 import deleteSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/deleteSymptomQuestionnaireById';
@@ -60,8 +60,8 @@ export default class SymptomQuestionnaireResolver {
   }
 
   @Authorized(UserRole.ADMIN)
-  @Query(() => PaginatedSymptomQuestionnaireResponse)
-  async symptomQuestionnaires(@Args() args: SymptomQuestionnairesArgs): Promise<PaginatedSymptomQuestionnaireResponse> {
+  @Query(() => PaginatedSymptomQuestionnaires)
+  async symptomQuestionnaires(@Args() args: SymptomQuestionnairesArgs): Promise<PaginatedSymptomQuestionnaires> {
     const { pageNumber, resultsPerPage, orderBy = [] } = args;
     const pagination = { pageNumber, resultsPerPage };
 

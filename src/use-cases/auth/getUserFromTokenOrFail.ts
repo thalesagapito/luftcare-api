@@ -1,5 +1,5 @@
 import { extractTokenWithoutBearerPrefix, decodeIdFromToken } from '@/services/AuthService';
-import { getUserById } from '@/services/UserService';
+import { findUserById } from '@/services/UserService';
 import User from '@/entities/User';
 
 const USER_ID_NOT_FOUND_IN_TOKEN = 'Nenhum id válido de usuário foi encontrado no token';
@@ -11,7 +11,7 @@ export default async function (token: string): Promise<User> {
   const userId = decodeIdFromToken(tokenWithoutBearerPrefix);
   if (!userId) throw new Error(USER_ID_NOT_FOUND_IN_TOKEN);
 
-  const user = await getUserById(userId);
+  const user = await findUserById(userId);
   if (!user) throw new Error(USER_NOT_FOUND);
 
   return user;

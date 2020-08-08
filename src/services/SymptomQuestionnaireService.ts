@@ -64,7 +64,7 @@ export async function findQuestionnaireWithHighestVersion(id: string, withDelete
   return SymptomQuestionnaire.findOne({ where: { id }, order: { version: 'DESC' }, withDeleted });
 }
 
-export async function findQuestionnaireByIdAndVersion(id: string, version: number): NullablePromise<SymptomQuestionnaire> {
+export async function findSymptomQuestionnaireByIdAndVersion(id: string, version: number): NullablePromise<SymptomQuestionnaire> {
   return SymptomQuestionnaire.findOne({ where: { id, version } });
 }
 

@@ -1,13 +1,13 @@
 import { compare } from 'bcryptjs';
 import TokenSet from '@/entities/TokenSet';
 import { signTokenSet } from '@/services/AuthService';
-import { getUserByEmail } from '@/services/UserService';
+import { findUserByEmail } from '@/services/UserService';
 
 const USER_NOT_FOUND_ERROR = 'Usuário não encontrado';
 const INCORRECT_PASSWORD_ERROR = 'Senha incorreta';
 
 export default async function (email: string, password: string): Promise<TokenSet> {
-  const existingUser = await getUserByEmail(email);
+  const existingUser = await findUserByEmail(email);
   if (!existingUser) throw new Error(USER_NOT_FOUND_ERROR);
 
   const passwordsMatch = await compare(password, existingUser.passwordHash);

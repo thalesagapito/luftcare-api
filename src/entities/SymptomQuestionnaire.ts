@@ -10,9 +10,10 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
+import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
+import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 
 @GraphqlType()
 @DatabaseTable()
@@ -37,7 +38,11 @@ export default class SymptomQuestionnaire extends SoftRemovableTimestampedEntity
   @DatabaseColumn({ type: 'boolean' })
   isPublished: boolean;
 
-  @GraphqlField(() => [SymptomQuestionnaireQuestion])
+  @GraphqlField(() => [require('./SymptomQuestionnaireQuestion').default])
   @OneToMany('SymptomQuestionnaireQuestion', 'questionnaire', { eager: true })
   questions: SymptomQuestionnaireQuestion[];
+
+  @GraphqlField(() => [require('./SymptomQuestionnaireResponse').default])
+  @OneToMany('SymptomQuestionnaireResponse', 'questionnaire')
+  responses: SymptomQuestionnaireResponse[];
 }

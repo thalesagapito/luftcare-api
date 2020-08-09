@@ -6,11 +6,11 @@ async function findByUniqueFieldValue(field: uniqueFieldFromUser, value: string)
   return User.findOne({ [field]: value });
 }
 
-export async function findUserById(id: string) {
+export async function findUserById(id: string): NullablePromise<User> {
   return findByUniqueFieldValue('id', id);
 }
 
-export async function findUserByEmail(email: string) {
+export async function findUserByEmail(email: string): NullablePromise<User> {
   return findByUniqueFieldValue('email', email);
 }
 

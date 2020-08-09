@@ -14,7 +14,7 @@ Service functions _**MUST NOT**_ call external `services` or `useCases`. If a se
 `services` or `useCases`, it shouldn't be a service function in the first place, maybe a `useCase` would be better suited.  
 Common functions inside service files are:
 
--   Database retrieving, e.g. `getUserById`, `getSneakersByColor`
+-   Database retrieving, e.g. `findUserById`, `getSneakersByColor`
 -   Database writing, e.g. `createUser`, `updateSneaker`
 -   Utility, e.g. `signAuthenticationToken`
 

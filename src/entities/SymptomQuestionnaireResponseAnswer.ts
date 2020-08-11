@@ -29,12 +29,12 @@ export default class SymptomQuestionnaireResponseAnswer extends SoftRemovableTim
   @ManyToOne('SymptomQuestionnaireQuestion', 'answers', { nullable: false, eager: true })
   question: SymptomQuestionnaireQuestion;
 
-  @GraphqlField(() => require('./SymptomQuestionnaireQuestionChoice').default)
+  @GraphqlField(() => require('./SymptomQuestionnaireQuestionChoice').default, { nullable: true })
   @ManyToOne('SymptomQuestionnaireQuestionChoice', 'answers', { nullable: true, eager: true })
   selectedChoice?: SymptomQuestionnaireQuestionChoice;
 
 
-  @GraphqlField()
+  @GraphqlField({ nullable: true })
   @DatabaseColumn({ type: 'varchar', length: 3000, nullable: true })
   writtenText?: string;
 }

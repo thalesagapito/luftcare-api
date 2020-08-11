@@ -26,7 +26,11 @@ export async function findAndCountSymptomQuestionnaireResponses(args: GetSymptom
 
   let query = getConnection()
     .createQueryBuilder(SymptomQuestionnaireResponse, 'r')
-    .leftJoinAndSelect('r.patient', 'patient');
+    .leftJoinAndSelect('r.patient', 'patient')
+    .leftJoinAndSelect('r.questionnaire', 'questionnaire')
+    .leftJoinAndSelect('r.questionAnswers', 'questionAnswers')
+    .leftJoinAndSelect('questionAnswers.question', 'question')
+    .leftJoinAndSelect('question.possibleChoices', 'possibleChoices');
 
   if (pagination?.skip) query = query.skip(pagination?.skip);
   if (pagination?.take) query = query.take(pagination?.take);

@@ -31,11 +31,11 @@ function getResponseDateWhereClause(after?: Date, before?: Date): Nullable<FindO
 }
 
 function convertGqlWhereClauseToORM(where: Args['where']): GetSymptomQuestionnaireResponsesArgs['where'] {
-  const { responseDateAfter, responseDateBefore } = where;
-  const patientId = where.patientId ? Equal(where.patientId) : undefined;
+  const { patientId, responseDateAfter, responseDateBefore } = where;
+  const patient = patientId ? Equal(patientId) : undefined;
   const responseDate = getResponseDateWhereClause(responseDateAfter, responseDateBefore);
 
-  return pickBy({ patientId, responseDate }, Boolean);
+  return pickBy({ patient, responseDate }, Boolean);
 }
 
 export default async function (args: Args): Promise<PaginatedSymptomQuestionnaireResponses> {

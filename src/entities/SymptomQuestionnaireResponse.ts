@@ -13,11 +13,12 @@ import {
 import User from '@/entities/User';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
+import SymptomQuestionnaireResponseFields from '@/interfaces/SymptomQuestionnaireResponseFields';
 import SymptomQuestionnaireResponseAnswer from './SymptomQuestionnaireResponseAnswer';
 
 @GraphqlType()
 @DatabaseTable()
-export default class SymptomQuestionnaireResponse extends SoftRemovableTimestampedEntity {
+export default class SymptomQuestionnaireResponse extends SoftRemovableTimestampedEntity implements SymptomQuestionnaireResponseFields {
   @GraphqlField(() => ID)
   @PrimaryColumn({ type: 'uuid' })
   id: string;

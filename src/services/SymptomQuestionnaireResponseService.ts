@@ -29,6 +29,7 @@ export async function findAndCountSymptomQuestionnaireResponses(args: GetSymptom
     .leftJoinAndSelect('r.patient', 'patient')
     .leftJoinAndSelect('r.questionnaire', 'questionnaire')
     .leftJoinAndSelect('r.questionAnswers', 'questionAnswers')
+    .leftJoinAndSelect('questionAnswers.selectedChoice', 'selectedChoice')
     .leftJoinAndSelect('questionAnswers.question', 'question')
     .leftJoinAndSelect('question.possibleChoices', 'possibleChoices');
 

@@ -1,14 +1,17 @@
 import {
   Arg,
   Args,
+  Root,
   Query,
   Mutation,
   Resolver,
   Authorized,
+  FieldResolver,
 } from 'type-graphql';
 import { UserRole } from '@/enums';
 import GenericResponse from '@/graphql/types/responses/reusable/GenericResponse';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
+import calculateResponseScore from '@/use-cases/symptom-questionnaire-response/calculateResponseScore';
 import createSymptomQuestionnaireResponse from '@/use-cases/symptom-questionnaire-response/createSymptomQuestionnaireResponse';
 import SymptomQuestionnaireResponsesArgs from '@/graphql/types/args/query/symptom-questionnaire-response/SymptomQuestionnaireResponsesArgs';
 import getPaginatedSymptomQuestionnaireResponses from '@/use-cases/symptom-questionnaire-response/getPaginatedSymptomQuestionnaireResponses';
@@ -39,5 +42,10 @@ export default class SymptomQuestionnaireResponseResolver {
       responseDateBefore: args.responseDateBefore,
     };
     return getPaginatedSymptomQuestionnaireResponses({ pagination, orderBy, where });
+  }
+
+  @FieldResolver()
+  score(@Root() response: SymptomQuestionnaireResponse): number {
+    return calculateResponseScore(response);
   }
 }

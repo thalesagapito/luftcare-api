@@ -10,18 +10,18 @@ import SymptomQuestionnaireResponseFields from '@/interfaces/SymptomQuestionnair
 export default class SymptomQuestionnaireResponsesArgs extends Orderable<SymptomQuestionnaireResponseFields> implements Paginatable {
   @Field({ nullable: true, description: 'Gets only responses submitted by this user' })
   @IsUUID()
-  patientId: string;
+  patientId?: string;
 
   @Field({ nullable: true, description: 'Gets only responses with `responseDate` after this value' })
   @IsDate()
-  responseDateAfter: Date;
+  responseDateAfter?: Date;
 
   @Field({ nullable: true, description: 'Gets only responses with `responseDate` before this value' })
   @IsDate()
-  responseDateBefore: Date;
+  responseDateBefore?: Date;
 
   @Field({ defaultValue: false })
-  withDeleted?: boolean;
+  withDeleted: boolean;
 
   @Field(() => Int, { defaultValue: 1 })
   @Min(1)

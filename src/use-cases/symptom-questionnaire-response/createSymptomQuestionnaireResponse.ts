@@ -4,10 +4,10 @@ import { SymptomQuestionnaireQuestionKind } from '@/enums';
 import { findUserById as findUser } from '@/services/UserService';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
+import { createResponseWithAnswers } from '@/services/SymptomQuestionnaireResponseService';
 import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
 import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
 import { findSymptomQuestionnaireByIdAndVersion as findQuestionnaire } from '@/services/SymptomQuestionnaireService';
-import { getManager } from 'typeorm';
 
 const USER_NOT_FOUND_ERROR = 'Nenhum usuário foi encontrado com o id recebido';
 const QUESTIONNAIRE_NOT_FOUND_ERROR = 'Nenhum questionário foi encontrado com o id recebido';
@@ -88,12 +88,8 @@ export default async function (args: Args): Promise<void> {
 
   response.questionAnswers = questionAnswersModels;
 
-  // runs response and answers creation in the same transaction,
-  // so if one of them fails both of them get rolled back
-  await getManager().transaction(async (transactionalEntityManager) => {
-    await transactionalEntityManager.save(response);
-    await transactionalEntityManager.save(questionAnswersModels);
-  }).catch(() => {
-    throw new Error(INTERNAL_ERROR_WHILE_SAVING);
-  });
+  createResponseWithAnswers(response, questionAnswersModels)
+    .catch(() => {
+      throw new Error(INTERNAL_ERROR_WHILE_SAVING);
+    });
 }

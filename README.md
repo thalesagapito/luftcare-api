@@ -21,11 +21,8 @@ Steps to run this project:
 1. Use as little requests as possible. Graphql can execute multiple queries and mutations in the same request, this is to be taken advantage of. Every
    request requires a DB read to retrieve the user from the token.
 
-# Roadmap
+# Known errors
 
-1. Migration for admin user - DOING
-2. Authorization
-3. First entity with resolvers fully working
-4. Auto import entities - DONE
-5. Setup env file (.env.example DONE, get config.ts values from .env DONE, add validate env function) - 66% DONE
-6. Implement JWT refresh
+When trying to order by in a query, if you try to order by a field that doesn't exist you might get a
+`Cannot read property 'databaseName' of undefined` error. This is a TypeORM error and it should be dealt with in the next release. Alternatively, I'll
+deal with it later in userland if the TypeORM devs don't fix it.

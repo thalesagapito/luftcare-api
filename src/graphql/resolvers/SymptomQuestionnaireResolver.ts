@@ -8,8 +8,11 @@ import {
   Authorized,
 } from 'type-graphql';
 import { UserRole } from '@/enums';
+import { NullablePromise } from '@/helper-types';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import GenericResponse from '@/graphql/types/responses/reusable/GenericResponse';
+import getSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/getSymptomQuestionnaireById';
+import deleteSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/deleteSymptomQuestionnaireById';
 import createSymptomQuestionnaireVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireVersion';
 import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questionnaire/SymptomQuestionnairesArgs';
 import getPaginatedSymptomQuestionnaires from '@/use-cases/symptom-questionnaire/getPaginatedSymptomQuestionnaires';
@@ -18,8 +21,6 @@ import UpdateSymptomQuestionnaireArgs from '@/graphql/types/args/mutation/sympto
 import PaginatedSymptomQuestionnaires from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaires';
 import createSymptomQuestionnaireInitialVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireInitialVersion';
 import updateSymptomQuestionnairePublishStatus from '@/use-cases/symptom-questionnaire/updateSymptomQuestionnairePublishStatus';
-import deleteSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/deleteSymptomQuestionnaireById';
-import getSymptomQuestionnaireById from '@/use-cases/symptom-questionnaire/getSymptomQuestionnaireById';
 
 @Resolver(() => SymptomQuestionnaire)
 export default class SymptomQuestionnaireResolver {
@@ -77,7 +78,7 @@ export default class SymptomQuestionnaireResolver {
 
   @Authorized(UserRole.ADMIN)
   @Query(() => SymptomQuestionnaire)
-  async symptomQuestionnaire(@Arg('id', () => ID) id: string): Promise<SymptomQuestionnaire> {
+  async symptomQuestionnaire(@Arg('id', () => ID) id: string): NullablePromise<SymptomQuestionnaire> {
     return getSymptomQuestionnaireById(id);
   }
 }

@@ -61,7 +61,18 @@ export async function getHighestVersionNumber(id: string): NullablePromise<numbe
 }
 
 export async function findQuestionnaireWithHighestVersion(id: string, withDeleted = false) {
-  return SymptomQuestionnaire.findOne({ where: { id }, order: { version: 'DESC' }, withDeleted });
+  let query = getConnection()
+    .createQueryBuilder(SymptomQuestionnaire, 'q')
+    .addOrderBy('q.version', 'DESC')
+    .leftJoinAndSelect('q.questions', 'questions')
+    .addOrderBy('questions.presentationOrder', 'ASC')
+    .leftJoinAndSelect('questions.possibleChoices', 'possibleChoices')
+    .addOrderBy('possibleChoices.presentationOrder', 'ASC')
+    .where({ id });
+
+  if (withDeleted) query = query.withDeleted();
+
+  return query.getOne();
 }
 
 export async function findSymptomQuestionnaireByIdAndVersion(id: string, version: number): NullablePromise<SymptomQuestionnaire> {

@@ -18,7 +18,7 @@ import SymptomQuestionnaireQuestionFields from '@/interfaces/SymptomQuestionnair
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 
 @GraphqlType()
-@DatabaseTable()
+@DatabaseTable({ orderBy: { presentationOrder: 'ASC' } })
 export default class SymptomQuestionnaireQuestion extends SoftRemovableTimestampedEntity implements SymptomQuestionnaireQuestionFields {
   @GraphqlField(() => ID)
   @PrimaryGeneratedColumn('uuid')

@@ -42,7 +42,6 @@ export default class ResponseScoreRange extends SoftRemovableTimestampedEntity i
   @DatabaseColumn({ type: 'varchar', length: 500 })
   title: string;
 
-
   @GraphqlField(() => String, { description: 'Description of this range to be shown to users.' })
   @DatabaseColumn({ type: 'varchar', length: 2000 })
   description: string;

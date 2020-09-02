@@ -28,6 +28,7 @@ export async function findAndCountSymptomQuestionnaireResponses(args: GetSymptom
     .createQueryBuilder(SymptomQuestionnaireResponse, 'r')
     .leftJoinAndSelect('r.patient', 'patient')
     .leftJoinAndSelect('r.questionnaire', 'questionnaire')
+    .leftJoinAndSelect('questionnaire.scoreRanges', 'scoreRanges')
     .leftJoinAndSelect('r.questionAnswers', 'questionAnswers')
     .leftJoinAndSelect('questionAnswers.selectedChoice', 'selectedChoice')
     .leftJoinAndSelect('questionAnswers.question', 'question')

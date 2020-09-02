@@ -9,6 +9,7 @@ import {
   FieldResolver,
 } from 'type-graphql';
 import { UserRole } from '@/enums';
+import ResponseScore from '@/entities/ResponseScore';
 import GenericResponse from '@/graphql/types/responses/reusable/GenericResponse';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import calculateResponseScore from '@/use-cases/symptom-questionnaire-response/calculateResponseScore';
@@ -44,8 +45,8 @@ export default class SymptomQuestionnaireResponseResolver {
     return getPaginatedSymptomQuestionnaireResponses({ pagination, orderBy, where });
   }
 
-  @FieldResolver()
-  score(@Root() response: SymptomQuestionnaireResponse): number {
+  @FieldResolver(() => ResponseScore)
+  score(@Root() response: SymptomQuestionnaireResponse): ResponseScore {
     return calculateResponseScore(response);
   }
 }

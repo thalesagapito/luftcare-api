@@ -1,8 +1,12 @@
 import { isEmpty } from 'lodash';
+import ResponseScore from '@/entities/ResponseScore';
+import ResponseScoreRange from '@/entities/ResponseScoreRange';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
 
-// eslint-disable-next-line max-len
+const NO_RANGE_REACHED_ERROR = 'Nenhum intervalo de pontuação foi atingido';
+const MULTIPLE_RANGES_REACHED_ERROR = 'Mais de um intervalo de pontuação foi atingido';
+
 function sumValueFromAnswerSelectedChoices(answers: SymptomQuestionnaireResponseAnswer[]): number {
   return answers.reduce((acc, { selectedChoice }) => {
     if (!selectedChoice || isEmpty(selectedChoice)) return acc;
@@ -10,13 +14,30 @@ function sumValueFromAnswerSelectedChoices(answers: SymptomQuestionnaireResponse
   }, 0);
 }
 
-export default function (response: SymptomQuestionnaireResponse): number {
+function getScoreRangeByNumericValue(value: number, possibleRanges: ResponseScoreRange[]): ResponseScoreRange {
+  const reachedRanges = possibleRanges.filter(({ minScore, maxScore }) => value >= minScore && value <= maxScore);
+
+  if (reachedRanges.length === 0) throw new Error(NO_RANGE_REACHED_ERROR);
+  if (reachedRanges.length > 1) throw new Error(MULTIPLE_RANGES_REACHED_ERROR);
+
+  return reachedRanges[0];
+}
+
+export default function (response: SymptomQuestionnaireResponse): ResponseScore {
   const { questionAnswers } = response;
-  // TODO add labels for each value range in questionnaire
-  // const { questionnaire, questionAnswers } = response;
-  // const { questions } = questionnaire;
+  const { scoreRanges = [] } = response.questionnaire;
 
-  const finalValue = sumValueFromAnswerSelectedChoices(questionAnswers);
+  const numericValue = sumValueFromAnswerSelectedChoices(questionAnswers);
+  const scoreRange = getScoreRangeByNumericValue(numericValue, scoreRanges);
 
-  return finalValue;
+  const { color, description, title } = scoreRange;
+
+  const score = {
+    value: numericValue,
+    description,
+    title,
+    color,
+  };
+
+  return score;
 }

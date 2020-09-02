@@ -22,7 +22,9 @@ export enum OrderByClauseNullsPosition {
 
 export enum ResponseScoreRangeColor {
   GREEN = 'GREEN',
+  BLUE = 'BLUE',
   YELLOW = 'YELLOW',
+  ORANGE = 'ORANGE',
   RED = 'RED',
 }
 

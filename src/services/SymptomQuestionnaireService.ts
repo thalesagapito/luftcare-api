@@ -28,7 +28,8 @@ export async function findAndCountSymptomQuestionnaires(args: GetSymptomQuestion
   let query = getConnection()
     .createQueryBuilder(SymptomQuestionnaire, 'q')
     .leftJoinAndSelect('q.questions', 'questions')
-    .leftJoinAndSelect('questions.possibleChoices', 'possibleChoices');
+    .leftJoinAndSelect('questions.possibleChoices', 'possibleChoices')
+    .leftJoinAndSelect('q.scoreRanges', 'scoreRanges');
 
   if (currentVersionsOnly) {
     query = query.innerJoin(

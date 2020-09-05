@@ -20,7 +20,7 @@ export enum OrderByClauseNullsPosition {
   NULLS_LAST = 'NULLS LAST',
 }
 
-export enum ResponseScoreRangeColor {
+export enum SymptomQuestionnaireScoreRangeColor {
   GREEN = 'GREEN',
   BLUE = 'BLUE',
   YELLOW = 'YELLOW',
@@ -32,4 +32,4 @@ registerEnumType(UserRole, { name: 'UserRole' });
 registerEnumType(SymptomQuestionnaireQuestionKind, { name: 'SymptomQuestionnaireQuestionKind' });
 registerEnumType(OrderByClauseDirection, { name: 'OrderByClauseDirection' });
 registerEnumType(OrderByClauseNullsPosition, { name: 'OrderByClauseNullsPosition' });
-registerEnumType(ResponseScoreRangeColor, { name: 'ResponseScoreRangeColor' });
+registerEnumType(SymptomQuestionnaireScoreRangeColor, { name: 'SymptomQuestionnaireScoreRangeColor' });

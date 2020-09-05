@@ -10,10 +10,10 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import ResponseScoreRange from '@/entities/ResponseScoreRange';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
+import SymptomQuestionnaireScoreRange from '@/entities/SymptomQuestionnaireScoreRange';
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 
 @GraphqlType()
@@ -47,7 +47,7 @@ export default class SymptomQuestionnaire extends SoftRemovableTimestampedEntity
   @OneToMany('SymptomQuestionnaireResponse', 'questionnaire')
   responses: SymptomQuestionnaireResponse[];
 
-  @GraphqlField(() => [require('./ResponseScoreRange').default])
-  @OneToMany('ResponseScoreRange', 'questionnaire')
-  scoreRanges: ResponseScoreRange[];
+  @GraphqlField(() => [require('./SymptomQuestionnaireScoreRange').default])
+  @OneToMany('SymptomQuestionnaireScoreRange', 'questionnaire', { eager: true })
+  scoreRanges: SymptomQuestionnaireScoreRange[];
 }

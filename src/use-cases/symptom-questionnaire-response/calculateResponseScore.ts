@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 import ResponseScore from '@/entities/ResponseScore';
-import ResponseScoreRange from '@/entities/ResponseScoreRange';
+import ScoreRange from '@/entities/SymptomQuestionnaireScoreRange';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
 
@@ -14,7 +14,7 @@ function sumValueFromAnswerSelectedChoices(answers: SymptomQuestionnaireResponse
   }, 0);
 }
 
-function getScoreRangeByNumericValue(value: number, possibleRanges: ResponseScoreRange[]): ResponseScoreRange {
+function getScoreRangeByNumericValue(value: number, possibleRanges: ScoreRange[]): ScoreRange {
   const reachedRanges = possibleRanges.filter(({ minScore, maxScore }) => value >= minScore && value <= maxScore);
 
   if (reachedRanges.length === 0) throw new Error(NO_RANGE_REACHED_ERROR);

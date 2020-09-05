@@ -10,14 +10,14 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
+import { SymptomQuestionnaireScoreRangeColor } from '@/enums';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
-import ResponseScoreRangeFields from '@/interfaces/ResponseScoreRangeFields';
-import { ResponseScoreRangeColor } from '@/enums';
+import SymptomQuestionnaireScoreRangeFields from '@/interfaces/SymptomQuestionnaireScoreRangeFields';
 
 @GraphqlType()
 @DatabaseTable()
-export default class ResponseScoreRange extends SoftRemovableTimestampedEntity implements ResponseScoreRangeFields {
+export default class SymptomQuestionnaireScoreRange extends SoftRemovableTimestampedEntity implements SymptomQuestionnaireScoreRangeFields {
   @GraphqlField(() => ID)
   @PrimaryColumn({ type: 'uuid' })
   id: string;
@@ -34,9 +34,9 @@ export default class ResponseScoreRange extends SoftRemovableTimestampedEntity i
   @DatabaseColumn({ type: 'int' })
   maxScore: number;
 
-  @GraphqlField(() => ResponseScoreRangeColor)
-  @DatabaseColumn({ type: 'enum', enum: ResponseScoreRangeColor })
-  color: ResponseScoreRangeColor;
+  @GraphqlField(() => SymptomQuestionnaireScoreRangeColor)
+  @DatabaseColumn({ type: 'enum', enum: SymptomQuestionnaireScoreRangeColor })
+  color: SymptomQuestionnaireScoreRangeColor;
 
   @GraphqlField(() => String, { description: 'Title of this range to be shown to users. Could be "Good", "Bad", etc.' })
   @DatabaseColumn({ type: 'varchar', length: 500 })

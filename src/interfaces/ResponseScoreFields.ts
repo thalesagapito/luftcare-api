@@ -1,8 +1,8 @@
-import { ResponseScoreRangeColor } from '@/enums';
+import { SymptomQuestionnaireScoreRangeColor } from '@/enums';
 
 export default interface ResponseScoreFields {
   value: number;
-  color: ResponseScoreRangeColor;
+  color: SymptomQuestionnaireScoreRangeColor;
   title: string;
   description: string;
 }

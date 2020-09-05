@@ -4,7 +4,7 @@ import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import SymptomQuestionnaireInput from './SymptomQuestionnaireInput';
 
 @ArgsType()
-export default class UpdateSymptomQuestionnaireInputArgs implements Partial<SymptomQuestionnaire> {
+export default class UpdateSymptomQuestionnaireArgs implements Partial<SymptomQuestionnaire> {
   @Field(() => ID)
   @IsNotEmpty()
   id: string;

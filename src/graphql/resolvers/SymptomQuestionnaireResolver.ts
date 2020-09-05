@@ -17,7 +17,7 @@ import createSymptomQuestionnaireVersion from '@/use-cases/symptom-questionnaire
 import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questionnaire/SymptomQuestionnairesArgs';
 import getPaginatedSymptomQuestionnaires from '@/use-cases/symptom-questionnaire/getPaginatedSymptomQuestionnaires';
 import SymptomQuestionnaireInput from '@/graphql/types/args/mutation/symptom-questionnaire/SymptomQuestionnaireInput';
-import UpdateSymptomQuestionnaireArgs from '@/graphql/types/args/mutation/symptom-questionnaire/UpdateSymptomQuestionnaire';
+import UpdateSymptomQuestionnaireArgs from '@/graphql/types/args/mutation/symptom-questionnaire/UpdateSymptomQuestionnaireArgs';
 import PaginatedSymptomQuestionnaires from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaires';
 import createSymptomQuestionnaireInitialVersion from '@/use-cases/symptom-questionnaire/createSymptomQuestionnaireInitialVersion';
 import updateSymptomQuestionnairePublishStatus from '@/use-cases/symptom-questionnaire/updateSymptomQuestionnairePublishStatus';

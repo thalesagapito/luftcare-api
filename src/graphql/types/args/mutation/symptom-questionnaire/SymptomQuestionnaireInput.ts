@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import SymptomQuestionnaireQuestionInput from './SymptomQuestionnaireQuestionInput';
+import SymptomQuestionnaireScoreRangeInput from './SymptomQuestionnaireScoreRangeInput';
 
 @InputType()
 export default class SymptomQuestionnaireInput implements Partial<SymptomQuestionnaireFields> {
@@ -30,4 +31,9 @@ export default class SymptomQuestionnaireInput implements Partial<SymptomQuestio
   @ArrayNotEmpty({ message: 'O questionário deve ter no mínimo uma pergunta' })
   @ValidateNested()
   questions: SymptomQuestionnaireQuestionInput[];
+
+  @Field(() => [SymptomQuestionnaireScoreRangeInput])
+  @ArrayNotEmpty({ message: 'O questionário deve ter no mínimo um intervalo de pontuação' })
+  @ValidateNested()
+  scoreRanges: SymptomQuestionnaireScoreRangeInput[];
 }

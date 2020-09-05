@@ -1,6 +1,6 @@
 import { SymptomQuestionnaireScoreRangeColor } from '@/enums';
 
-export default interface ScoreRangeFields {
+export default interface SymptomQuestionnaireScoreRangeFields {
   id: string;
   createdAt: Date;
   updatedAt: Date;

@@ -1,11 +1,18 @@
 /* eslint-disable no-param-reassign */
 import { isEmpty } from 'lodash';
-import { getConnection, ObjectLiteral, OrderByCondition } from 'typeorm';
+import {
+  getManager,
+  getConnection,
+  EntityManager,
+  ObjectLiteral,
+  OrderByCondition,
+} from 'typeorm';
 import { NullablePromise } from '@/helper-types';
 import { ORMPagination } from '@/services/PaginationService';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import { applyPrefixToOrderByCondition } from '@/services/OrderByService';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
+import SymptomQuestionnaireScoreRange from '@/entities/SymptomQuestionnaireScoreRange';
 import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
 
 export type GetSymptomQuestionnairesArgs = {
@@ -80,24 +87,46 @@ export async function findSymptomQuestionnaireByIdAndVersion(id: string, version
   return SymptomQuestionnaire.findOne({ where: { id, version } });
 }
 
-async function createChoice(choice: SymptomQuestionnaireQuestionChoice, question: SymptomQuestionnaireQuestion) {
+async function createChoice(choice: SymptomQuestionnaireQuestionChoice, question: SymptomQuestionnaireQuestion, entityManager: EntityManager) {
   choice.question = question;
-  await choice.save();
+  return entityManager.save(choice);
 }
 
-async function createQuestion(question: SymptomQuestionnaireQuestion, questionnaire: SymptomQuestionnaire) {
+async function createQuestion(question: SymptomQuestionnaireQuestion, questionnaire: SymptomQuestionnaire, entityManager: EntityManager) {
   question.questionnaire = questionnaire;
-  await question.save();
+  await entityManager.save(question);
 
   const questionHasNoChoices = isEmpty(question.possibleChoices);
   if (questionHasNoChoices) return;
 
-  await Promise.all((question.possibleChoices || []).map((choice) => createChoice(choice, question)));
+  const choiceCreationPromises = (question.possibleChoices || [])
+    .map((choice) => createChoice(choice, question, entityManager));
+
+  await Promise.all(choiceCreationPromises);
 }
 
-export async function createQuestionnaireWithQuestionsAndChoices(questionnaire: SymptomQuestionnaire): Promise<void> {
-  await questionnaire.save();
-  await Promise.all(questionnaire.questions.map((question) => createQuestion(question, questionnaire)));
+async function createScoreRange(scoreRange: SymptomQuestionnaireScoreRange, questionnaire: SymptomQuestionnaire, entityManager: EntityManager) {
+  scoreRange.questionnaire = questionnaire;
+  await entityManager.save(scoreRange);
+}
+
+export async function createQuestionnaireWithChildEntities(questionnaire: SymptomQuestionnaire): Promise<void> {
+  // runs questionnaire and child entities creation in the same transaction,
+  // so if any of operations fail all of them get rolled back
+  return getManager().transaction(async (entityManager) => {
+    await entityManager.save(questionnaire);
+
+    const questionCreationPromises = questionnaire.questions
+      .map((question) => createQuestion(question, questionnaire, entityManager));
+
+    const scoreRangeCreationPromises = questionnaire.scoreRanges
+      .map((scoreRange) => createScoreRange(scoreRange, questionnaire, entityManager));
+
+    await Promise.all([
+      ...questionCreationPromises,
+      ...scoreRangeCreationPromises,
+    ]);
+  });
 }
 
 export async function updateQuestionnairePublishStatus(questionnaire: SymptomQuestionnaire, isPublished: boolean) {

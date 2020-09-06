@@ -6,7 +6,7 @@ import {
 } from 'type-graphql';
 import {
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
@@ -19,7 +19,7 @@ import SymptomQuestionnaireScoreRangeFields from '@/interfaces/SymptomQuestionna
 @DatabaseTable()
 export default class SymptomQuestionnaireScoreRange extends SoftRemovableTimestampedEntity implements SymptomQuestionnaireScoreRangeFields {
   @GraphqlField(() => ID)
-  @PrimaryColumn({ type: 'uuid' })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @GraphqlField(() => require('./SymptomQuestionnaire').default)

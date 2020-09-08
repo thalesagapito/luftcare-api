@@ -76,6 +76,8 @@ export async function findQuestionnaireWithHighestVersion(id: string, withDelete
     .addOrderBy('questions.presentationOrder', 'ASC')
     .leftJoinAndSelect('questions.possibleChoices', 'possibleChoices')
     .addOrderBy('possibleChoices.presentationOrder', 'ASC')
+    .leftJoinAndSelect('q.scoreRanges', 'scoreRanges')
+    .addOrderBy('scoreRanges.minScore', 'ASC')
     .where({ id });
 
   if (withDeleted) query = query.withDeleted();

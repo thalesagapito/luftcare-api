@@ -22,12 +22,12 @@ export default class SymptomQuestionnaireScoreRangeInput implements Partial<Symp
   @IsNotEmpty()
   color: SymptomQuestionnaireScoreRangeColor;
 
-  @Field()
+  @Field(() => String, { description: 'maxLength: 500' })
   @IsNotEmpty()
   @MaxLength(500)
   title: string;
 
-  @Field()
+  @Field(() => String, { description: 'maxLength: 2000' })
   @IsNotEmpty()
   @MaxLength(2000)
   description: string;

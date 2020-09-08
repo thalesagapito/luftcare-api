@@ -22,7 +22,7 @@ export enum OrderByClauseNullsPosition {
 
 export enum SymptomQuestionnaireScoreRangeColor {
   GREEN = 'GREEN',
-  BLUE = 'BLUE',
+  GREEN_YELLOW = 'GREEN_YELLOW',
   YELLOW = 'YELLOW',
   ORANGE = 'ORANGE',
   RED = 'RED',

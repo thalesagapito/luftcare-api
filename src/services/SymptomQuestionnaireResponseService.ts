@@ -1,6 +1,9 @@
 /* eslint-disable no-param-reassign */
 import {
-  getConnection, ObjectLiteral, OrderByCondition, getManager,
+  getManager,
+  getConnection,
+  ObjectLiteral,
+  OrderByCondition,
 } from 'typeorm';
 import { NullablePromise } from '@/helper-types';
 import { ORMPagination } from '@/services/PaginationService';
@@ -8,6 +11,7 @@ import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
 import { applyPrefixToOrderByCondition } from '@/services/OrderByService';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
+import calculateResponseScore from '@/use-cases/symptom-questionnaire-response/calculateResponseScore';
 
 export type GetSymptomQuestionnaireResponsesArgs = {
   pagination?: ORMPagination;
@@ -56,11 +60,17 @@ export async function recoverQuestionnaireResponse(response: SymptomQuestionnair
   return SymptomQuestionnaireResponse.getRepository().recover(response);
 }
 
-export async function createResponseWithAnswers(questionnaireResponse: SymptomQuestionnaireResponse, questionAnswers: SymptomQuestionnaireResponseAnswer[]) {
+export async function createResponseWithAnswers(
+  questionnaireResponse: SymptomQuestionnaireResponse,
+  questionAnswers: SymptomQuestionnaireResponseAnswer[],
+): Promise<SymptomQuestionnaireResponse> {
   // runs response and answers creation in the same transaction,
   // so if one of them fails both of them get rolled back
   return getManager().transaction(async (transactionalEntityManager) => {
     await transactionalEntityManager.save(questionnaireResponse);
     await transactionalEntityManager.save(questionAnswers);
+  }).then(() => {
+    questionnaireResponse.score = calculateResponseScore(questionnaireResponse);
+    return questionnaireResponse;
   });
 }

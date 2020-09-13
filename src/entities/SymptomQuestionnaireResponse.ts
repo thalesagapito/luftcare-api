@@ -11,10 +11,11 @@ import {
   Column as DatabaseColumn,
 } from 'typeorm';
 import User from '@/entities/User';
+import ResponseScore from '@/entities/ResponseScore';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
+import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 import SymptomQuestionnaireResponseFields from '@/interfaces/SymptomQuestionnaireResponseFields';
-import SymptomQuestionnaireResponseAnswer from './SymptomQuestionnaireResponseAnswer';
 
 @GraphqlType()
 @DatabaseTable()
@@ -38,4 +39,6 @@ export default class SymptomQuestionnaireResponse extends SoftRemovableTimestamp
   @GraphqlField(() => require('./SymptomQuestionnaireResponseAnswer').default)
   @OneToMany('SymptomQuestionnaireResponseAnswer', 'response', { nullable: false, eager: true })
   questionAnswers: SymptomQuestionnaireResponseAnswer[];
+
+  score: ResponseScore;
 }

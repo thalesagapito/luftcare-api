@@ -61,7 +61,7 @@ function createQuestionAnswerModel(response: SymptomQuestionnaireResponse, quest
 }
 
 
-export default async function (args: Args): Promise<void> {
+export default async function (args: Args): Promise<SymptomQuestionnaireResponse> {
   const { questionnaireId, questionnaireVersion, userId } = args;
 
   const [patient, questionnaire] = await Promise.all([
@@ -88,7 +88,7 @@ export default async function (args: Args): Promise<void> {
 
   response.questionAnswers = questionAnswersModels;
 
-  createResponseWithAnswers(response, questionAnswersModels)
+  return createResponseWithAnswers(response, questionAnswersModels)
     .catch(() => {
       throw new Error(INTERNAL_ERROR_WHILE_SAVING);
     });

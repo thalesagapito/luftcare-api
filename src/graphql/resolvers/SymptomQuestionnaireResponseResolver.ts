@@ -10,7 +10,6 @@ import {
 } from 'type-graphql';
 import { UserRole } from '@/enums';
 import ResponseScore from '@/entities/ResponseScore';
-import GenericResponse from '@/graphql/types/responses/reusable/GenericResponse';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import calculateResponseScore from '@/use-cases/symptom-questionnaire-response/calculateResponseScore';
 import createSymptomQuestionnaireResponse from '@/use-cases/symptom-questionnaire-response/createSymptomQuestionnaireResponse';
@@ -22,12 +21,10 @@ import PaginatedSymptomQuestionnaireResponses from '@/graphql/types/responses/sy
 @Resolver(() => SymptomQuestionnaireResponse)
 export default class SymptomQuestionnaireResponseResolver {
   @Authorized()
-  @Mutation(() => GenericResponse)
-  async createSymptomQuestionnaireResponse(@Arg('response') response: SymptomQuestionnaireResponseInput): Promise<GenericResponse> {
+  @Mutation(() => SymptomQuestionnaireResponse)
+  async createSymptomQuestionnaireResponse(@Arg('response') response: SymptomQuestionnaireResponseInput): Promise<SymptomQuestionnaireResponse> {
     // TODO add verification to make sure only the logged user can submit responses
-    await createSymptomQuestionnaireResponse(response);
-
-    return { userFriendlyMessage: 'Resposta enviada com sucesso' };
+    return createSymptomQuestionnaireResponse(response);
   }
 
   @Authorized(UserRole.ADMIN)

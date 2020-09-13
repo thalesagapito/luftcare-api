@@ -5,10 +5,10 @@ import UserRepository from '@/repositories/UserRepository';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
+import SymptomQuestionnaireRepository from '@/repositories/SymptomQuestionnaireRepository';
 import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
 import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
 import SymptomQuestionnaireResponseRepository from '@/repositories/SymptomQuestionnaireResponseRepository';
-import { findSymptomQuestionnaireByIdAndVersion as findQuestionnaire } from '@/services/SymptomQuestionnaireService';
 
 const USER_NOT_FOUND_ERROR = 'Nenhum usuário foi encontrado com o id recebido';
 const QUESTIONNAIRE_NOT_FOUND_ERROR = 'Nenhum questionário foi encontrado com o id recebido';
@@ -64,13 +64,14 @@ function createQuestionAnswerModel(response: SymptomQuestionnaireResponse, quest
 
 export default async function (args: Args): Promise<SymptomQuestionnaireResponse> {
   const { questionnaireId, questionnaireVersion, userId } = args;
+  const userRepository = getCustomRepository(UserRepository);
+  const questionnaireRepository = getCustomRepository(SymptomQuestionnaireRepository);
   const responseRepository = getCustomRepository(SymptomQuestionnaireResponseRepository);
 
-  const userRepository = getCustomRepository(UserRepository);
 
   const [patient, questionnaire] = await Promise.all([
     userRepository.findUserById(userId),
-    findQuestionnaire(questionnaireId, questionnaireVersion),
+    questionnaireRepository.findSymptomQuestionnaireByIdAndVersion(questionnaireId, questionnaireVersion),
   ]);
 
   if (!patient) throw new Error(USER_NOT_FOUND_ERROR);

@@ -1,13 +1,13 @@
-import { Like } from 'typeorm';
 import { pickBy } from 'lodash';
+import { getCustomRepository, Like } from 'typeorm';
 import { convertGqlOrderByClausesToORM } from '@/services/OrderByService';
 import SymptomQuestionnaireFields from '@/interfaces/SymptomQuestionnaireFields';
 import Paginatable from '@/graphql/types/args/query/reusable/paginatable/Paginatable';
 import OrderByClause from '@/graphql/types/args/query/reusable/orderable/OrderByClause';
 import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/services/PaginationService';
 import SymptomQuestionnairesArgs from '@/graphql/types/args/query/symptom-questionnaire/SymptomQuestionnairesArgs';
-import { GetSymptomQuestionnairesArgs, findAndCountSymptomQuestionnaires } from '@/services/SymptomQuestionnaireService';
 import PaginatedSymptomQuestionnaires from '@/graphql/types/responses/symptom-questionnaire/PaginatedSymptomQuestionnaires';
+import SymptomQuestionnaireRepository, { GetSymptomQuestionnairesArgs } from '@/repositories/SymptomQuestionnaireRepository';
 
 type Args = {
   pagination: Paginatable;
@@ -23,12 +23,14 @@ function convertGqlWhereClauseToORM(where: Args['where']): GetSymptomQuestionnai
 }
 
 export default async function (args: Args): Promise<PaginatedSymptomQuestionnaires> {
+  const questionnaireRepository = getCustomRepository(SymptomQuestionnaireRepository);
+
   const { withDeleted, currentVersionsOnly } = args.where;
   const where = convertGqlWhereClauseToORM(args.where);
   const pagination = convertGqlPaginationToORM(args.pagination);
   const orderBy = convertGqlOrderByClausesToORM(args.orderBy);
 
-  const [results, totalResultsCount] = await findAndCountSymptomQuestionnaires({
+  const [results, totalResultsCount] = await questionnaireRepository.findAndCountSymptomQuestionnaires({
     currentVersionsOnly, pagination, where, withDeleted, orderBy,
   });
 

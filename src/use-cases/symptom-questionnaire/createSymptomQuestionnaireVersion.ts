@@ -1,18 +1,20 @@
 /* eslint-disable no-param-reassign */
+import { getCustomRepository } from 'typeorm';
 import SymptomQuestionnaire from '@/entities/SymptomQuestionnaire';
-import { getHighestVersionNumber, createQuestionnaireWithChildEntities } from '@/services/SymptomQuestionnaireService';
+import SymptomQuestionnaireRepository from '@/repositories/SymptomQuestionnaireRepository';
 
 const NOT_FOUND_ERROR = 'Nenhum questionário foi encontrado com o id recebido';
 
 export default async function (id: string, questionnaire: SymptomQuestionnaire): Promise<SymptomQuestionnaire> {
-  const highestVersion = await getHighestVersionNumber(id);
+  const questionnaireRepository = getCustomRepository(SymptomQuestionnaireRepository);
 
+  const highestVersion = await questionnaireRepository.getHighestVersionNumber(id);
   if (!highestVersion) throw new Error(NOT_FOUND_ERROR);
 
   questionnaire.id = id;
   questionnaire.version = highestVersion + 1;
 
-  await createQuestionnaireWithChildEntities(questionnaire);
+  await questionnaireRepository.createQuestionnaireWithChildEntities(questionnaire);
 
   return questionnaire;
 }

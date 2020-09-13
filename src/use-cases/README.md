@@ -34,9 +34,9 @@ const UNKNOWN_ERROR = 'An unknown error occurred';
 const SUCCESS_MESSAGE = 'Success';
 
 export default async function (id: string): Promise<GenericUseCaseResponse> {
-    const { findUser } = getCustomRepository(UserRepository);
+    const userRepository = getCustomRepository(UserRepository);
 
-    const user = await findUser(id);
+    const user = await userRepository.findUser(id);
     if (!user) throw new Error(USER_NOT_FOUND);
 
     const wasPermissionGranted = grantAdminPermission(user);

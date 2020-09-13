@@ -8,9 +8,9 @@ const USER_NOT_FOUND_ERROR = 'Usuário não encontrado';
 const INCORRECT_PASSWORD_ERROR = 'Senha incorreta';
 
 export default async function (email: string, password: string): Promise<TokenSet> {
-  const { findUserByEmail } = getCustomRepository(UserRepository);
+  const userRepository = getCustomRepository(UserRepository);
 
-  const existingUser = await findUserByEmail(email);
+  const existingUser = await userRepository.findUserByEmail(email);
   if (!existingUser) throw new Error(USER_NOT_FOUND_ERROR);
 
   const passwordsMatch = await compare(password, existingUser.passwordHash);

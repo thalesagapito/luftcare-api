@@ -5,9 +5,9 @@ import UserRepository from '@/repositories/UserRepository';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
-import { createResponseWithAnswers } from '@/services/SymptomQuestionnaireResponseService';
 import SymptomQuestionnaireQuestionChoice from '@/entities/SymptomQuestionnaireQuestionChoice';
 import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
+import SymptomQuestionnaireResponseRepository from '@/repositories/SymptomQuestionnaireResponseRepository';
 import { findSymptomQuestionnaireByIdAndVersion as findQuestionnaire } from '@/services/SymptomQuestionnaireService';
 
 const USER_NOT_FOUND_ERROR = 'Nenhum usuário foi encontrado com o id recebido';
@@ -64,11 +64,12 @@ function createQuestionAnswerModel(response: SymptomQuestionnaireResponse, quest
 
 export default async function (args: Args): Promise<SymptomQuestionnaireResponse> {
   const { questionnaireId, questionnaireVersion, userId } = args;
+  const responseRepository = getCustomRepository(SymptomQuestionnaireResponseRepository);
 
-  const { findUserById } = getCustomRepository(UserRepository);
+  const userRepository = getCustomRepository(UserRepository);
 
   const [patient, questionnaire] = await Promise.all([
-    findUserById(userId),
+    userRepository.findUserById(userId),
     findQuestionnaire(questionnaireId, questionnaireVersion),
   ]);
 
@@ -91,7 +92,7 @@ export default async function (args: Args): Promise<SymptomQuestionnaireResponse
 
   response.questionAnswers = questionAnswersModels;
 
-  return createResponseWithAnswers(response, questionAnswersModels)
+  return responseRepository.createResponseWithAnswers(response, questionAnswersModels)
     .catch(() => {
       throw new Error(INTERNAL_ERROR_WHILE_SAVING);
     });

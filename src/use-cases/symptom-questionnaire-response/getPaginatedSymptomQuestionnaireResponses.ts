@@ -5,17 +5,18 @@ import {
   FindOperator,
   MoreThanOrEqual,
   LessThanOrEqual,
+  getCustomRepository,
 } from 'typeorm';
 import { pickBy } from 'lodash';
+import { Nullable } from '@/helper-types';
 import { convertGqlOrderByClausesToORM } from '@/services/OrderByService';
-import SymptomQuestionnaireResponseFields from '@/interfaces/SymptomQuestionnaireResponseFields';
 import Paginatable from '@/graphql/types/args/query/reusable/paginatable/Paginatable';
 import OrderByClause from '@/graphql/types/args/query/reusable/orderable/OrderByClause';
+import SymptomQuestionnaireResponseFields from '@/interfaces/SymptomQuestionnaireResponseFields';
 import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/services/PaginationService';
 import SymptomQuestionnaireResponsesArgs from '@/graphql/types/args/query/symptom-questionnaire-response/SymptomQuestionnaireResponsesArgs';
-import { GetSymptomQuestionnaireResponsesArgs, findAndCountSymptomQuestionnaireResponses } from '@/services/SymptomQuestionnaireResponseService';
 import PaginatedSymptomQuestionnaireResponses from '@/graphql/types/responses/symptom-questionnaire-response/PaginatedSymptomQuestionnaireResponses';
-import { Nullable } from '@/helper-types';
+import SymptomQuestionnaireResponseRepository, { GetSymptomQuestionnaireResponsesArgs } from '@/repositories/SymptomQuestionnaireResponseRepository';
 
 type Args = {
   pagination: Paginatable;
@@ -43,14 +44,18 @@ export default async function (args: Args): Promise<PaginatedSymptomQuestionnair
   const where = convertGqlWhereClauseToORM(args.where);
   const pagination = convertGqlPaginationToORM(args.pagination);
   const orderBy = convertGqlOrderByClausesToORM(args.orderBy);
+  const questionnaireRepository = getCustomRepository(SymptomQuestionnaireResponseRepository);
 
-  const [results, totalResultsCount] = await findAndCountSymptomQuestionnaireResponses({
+  const [results, totalResultsCount] = await questionnaireRepository.findAndCountSymptomQuestionnaireResponses({
     pagination, where, withDeleted, orderBy,
   });
 
   const { pageNumber, resultsPerPage } = args.pagination;
   const response = convertToPaginatedResponse({
-    pageNumber, resultsPerPage, totalResultsCount, results,
+    totalResultsCount,
+    resultsPerPage,
+    pageNumber,
+    results,
   });
 
   return response;

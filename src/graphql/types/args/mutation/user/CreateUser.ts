@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsPhoneNumber,
 } from 'class-validator';
+import { UserKind, UserRole } from '@/enums';
 
 @InputType({ description: 'Required data to manually create an application user through the admin panel' })
 export default class CreateUserInput implements Partial<User> {
@@ -29,4 +30,10 @@ export default class CreateUserInput implements Partial<User> {
   @Field()
   @IsPhoneNumber('BR')
   phoneNumber: string;
+
+  @Field(() => UserRole, { defaultValue: UserRole.NON_ADMIN })
+  role: UserRole;
+
+  @Field(() => UserKind, { defaultValue: UserKind.PATIENT })
+  kind: UserKind;
 }

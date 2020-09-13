@@ -10,12 +10,12 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import { UserRole } from '@/enums';
+import { UserKind, UserRole } from '@/enums';
 import UserFields from '@/interfaces/UserFields';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 
-export type uniqueFieldFromUser = keyof Pick<User, 'id' | 'email' | 'phoneNumber'>;
+export type uniqueFieldFromUser = keyof Pick<User, 'id' | 'email'>;
 
 @GraphqlType()
 @DatabaseTable()
@@ -32,8 +32,8 @@ export default class User extends SoftRemovableTimestampedEntity implements User
   @DatabaseColumn({ type: 'varchar', length: 500, unique: true })
   email: string;
 
-  @GraphqlField({ description: 'Has to contain special characters: +55 (41) 98765-4321' })
-  @DatabaseColumn({ type: 'varchar', length: 20, unique: true })
+  @GraphqlField({ description: 'Should contain special characters, like: +55 (41) 98765-4321' })
+  @DatabaseColumn({ type: 'varchar', length: 20 })
   phoneNumber: string;
 
   @DatabaseColumn({ type: 'varchar', length: 500 })
@@ -42,6 +42,10 @@ export default class User extends SoftRemovableTimestampedEntity implements User
   @GraphqlField(() => UserRole)
   @DatabaseColumn({ type: 'enum', enum: UserRole, default: UserRole.NON_ADMIN })
   role: UserRole;
+
+  @GraphqlField(() => UserKind)
+  @DatabaseColumn({ type: 'enum', enum: UserKind, default: UserKind.PATIENT })
+  kind: UserKind;
 
   // TODO check if this side of the relation is necessary
   // @GraphqlField(() => require('./SymptomQuestionnaireResponse').default)

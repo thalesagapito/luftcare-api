@@ -1,7 +1,8 @@
 import {
   ID,
-  Arg,
   Ctx,
+  Arg,
+  Args,
   Query,
   Mutation,
   Resolver,
@@ -12,6 +13,9 @@ import { UserRole } from '@/enums';
 import { GraphqlContext } from '@/server';
 import getUser from '@/use-cases/user/getUser';
 import { NullablePromise } from '@/helper-types';
+import UsersArgs from '@/graphql/types/args/query/user/UsersArgs';
+import getPaginatedUsers from '@/use-cases/user/getPaginatedUsers';
+import PaginatedUsers from '@/graphql/types/responses/user/PaginatedUsers';
 import CreateUserInput from '@/graphql/types/args/mutation/user/CreateUser';
 import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
@@ -31,11 +35,24 @@ export default class UserResolver {
     return getUser(id);
   }
 
-  // @Authorized()
-  @Query(() => [User], { nullable: true })
-  async users(): NullablePromise<User[]> {
-    // TODO
-    return undefined;
+  @Authorized(UserRole.ADMIN)
+  @Query(() => PaginatedUsers)
+  async users(@Args() args: UsersArgs): NullablePromise<PaginatedUsers> {
+    const {
+      name,
+      email,
+      phoneNumber,
+      withDeleted,
+      pageNumber,
+      resultsPerPage,
+      orderBy = [],
+    } = args;
+    const pagination = { pageNumber, resultsPerPage };
+    const where = {
+      email, name, phoneNumber, withDeleted,
+    };
+
+    return getPaginatedUsers({ where, orderBy, pagination });
   }
 
   @Mutation(() => User)

@@ -74,6 +74,7 @@ export class CompareToFieldConstraint implements ValidatorConstraintInterface {
 
 // eslint-disable-next-line max-len
 export function CompareToField(comparedFieldName: string, comparisonOperator: ComparisonOperator, validationOptions?: ValidationOptions) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (object: Record<string, any>, propertyName: string) => {
     registerDecorator({
       target: object.constructor,

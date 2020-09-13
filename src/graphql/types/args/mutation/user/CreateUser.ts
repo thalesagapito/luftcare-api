@@ -8,8 +8,8 @@ import {
   IsPhoneNumber,
 } from 'class-validator';
 
-@InputType({ description: 'Required data to register an application user from the register form' })
-export default class RegisterUserInput implements Partial<User> {
+@InputType({ description: 'Required data to manually create an application user through the admin panel' })
+export default class CreateUserInput implements Partial<User> {
   @Field()
   @IsNotEmpty()
   @MaxLength(500)

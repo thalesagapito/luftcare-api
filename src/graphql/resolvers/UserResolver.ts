@@ -12,8 +12,10 @@ import { UserRole } from '@/enums';
 import { GraphqlContext } from '@/server';
 import { NullablePromise } from '@/helper-types';
 import { findUserById } from '@/services/UserService';
+import CreateUserInput from '@/graphql/types/args/mutation/user/CreateUser';
 import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
+import createUserFromAdminManualInput from '@/use-cases/user/createUserFromAdminManualInput';
 
 @Resolver()
 export default class UserResolver {
@@ -39,6 +41,12 @@ export default class UserResolver {
   @Mutation(() => User)
   async registerUser(@Arg('userData') userData: RegisterUserInput): Promise<User> {
     return createUserFromRegisterInput(userData);
+  }
+
+  @Authorized(UserRole.ADMIN)
+  @Mutation(() => User)
+  async createUser(@Arg('userData') userData: CreateUserInput): Promise<User> {
+    return createUserFromAdminManualInput(userData);
   }
   // TODO change password method
 }

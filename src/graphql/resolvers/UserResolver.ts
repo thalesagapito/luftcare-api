@@ -10,8 +10,8 @@ import {
 import User from '@/entities/User';
 import { UserRole } from '@/enums';
 import { GraphqlContext } from '@/server';
+import getUser from '@/use-cases/user/getUser';
 import { NullablePromise } from '@/helper-types';
-import { findUserById } from '@/services/UserService';
 import CreateUserInput from '@/graphql/types/args/mutation/user/CreateUser';
 import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
@@ -22,13 +22,13 @@ export default class UserResolver {
   @Query(() => User, { nullable: true })
   async currentUser(@Ctx() ctx: GraphqlContext): NullablePromise<User> {
     if (!ctx?.user?.id) return undefined;
-    return findUserById(ctx.user.id);
+    return getUser(ctx.user.id);
   }
 
   @Authorized(UserRole.ADMIN)
   @Query(() => User, { nullable: true })
   async user(@Arg('id', () => ID) id: string): NullablePromise<User> {
-    return findUserById(id);
+    return getUser(id);
   }
 
   // @Authorized()

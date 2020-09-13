@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
+import { getCustomRepository } from 'typeorm';
 import { Nullable } from '@/helper-types';
+import UserRepository from '@/repositories/UserRepository';
 import { SymptomQuestionnaireQuestionKind } from '@/enums';
-import { findUserById as findUser } from '@/services/UserService';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireQuestion from '@/entities/SymptomQuestionnaireQuestion';
 import { createResponseWithAnswers } from '@/services/SymptomQuestionnaireResponseService';
@@ -64,8 +65,10 @@ function createQuestionAnswerModel(response: SymptomQuestionnaireResponse, quest
 export default async function (args: Args): Promise<SymptomQuestionnaireResponse> {
   const { questionnaireId, questionnaireVersion, userId } = args;
 
+  const { findUserById } = getCustomRepository(UserRepository);
+
   const [patient, questionnaire] = await Promise.all([
-    findUser(userId),
+    findUserById(userId),
     findQuestionnaire(questionnaireId, questionnaireVersion),
   ]);
 

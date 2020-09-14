@@ -1,4 +1,4 @@
-import { UserKind, UserRole } from '@/enums';
+import { UserRole } from '@/enums';
 
 export default interface UserFields {
   id: string;
@@ -10,5 +10,4 @@ export default interface UserFields {
   phoneNumber: string;
   passwordHash: string;
   role: UserRole;
-  kind: UserKind;
 }

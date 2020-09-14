@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { pickBy } from 'lodash';
-import { Equal, getCustomRepository, Raw } from 'typeorm';
+import { getCustomRepository, Raw } from 'typeorm';
 import UserFields from '@/interfaces/UserFields';
 import UsersArgs from '@/graphql/types/args/query/user/UsersArgs';
 import { convertGqlOrderByClausesToORM } from '@/services/OrderByService';
@@ -13,7 +13,7 @@ import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/service
 type Args = {
   pagination: Paginatable;
   orderBy: OrderByClause<UserFields>[];
-  where: Pick<UsersArgs, 'email' | 'name' | 'phoneNumber' | 'kind' | 'withDeleted'>;
+  where: Pick<UsersArgs, 'email' | 'name' | 'phoneNumber' | 'withDeleted'>;
 };
 
 function convertGqlWhereClauseToORM(where: Args['where']): FindAndCountUsersArgs['where'] {
@@ -23,15 +23,9 @@ function convertGqlWhereClauseToORM(where: Args['where']): FindAndCountUsersArgs
 
   const email = where.email ? IContains(where.email) : undefined;
   const name = where.name ? IContains(where.name) : undefined;
-  const kind = where.kind ? Equal(where.kind) : undefined;
   const phoneNumber = where.phoneNumber ? ContainsDigits(where.phoneNumber) : undefined;
 
-  return pickBy({
-    phoneNumber,
-    email,
-    kind,
-    name,
-  }, Boolean);
+  return pickBy({ phoneNumber, email, name }, Boolean);
 }
 
 export default async function (args: Args): Promise<PaginatedUsers> {

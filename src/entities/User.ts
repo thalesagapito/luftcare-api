@@ -10,7 +10,7 @@ import {
   Entity as DatabaseTable,
   Column as DatabaseColumn,
 } from 'typeorm';
-import { UserKind, UserRole } from '@/enums';
+import { UserRole } from '@/enums';
 import UserFields from '@/interfaces/UserFields';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
@@ -40,12 +40,8 @@ export default class User extends SoftRemovableTimestampedEntity implements User
   passwordHash: string;
 
   @GraphqlField(() => UserRole)
-  @DatabaseColumn({ type: 'enum', enum: UserRole, default: UserRole.NON_ADMIN })
+  @DatabaseColumn({ type: 'enum', enum: UserRole, default: UserRole.PATIENT })
   role: UserRole;
-
-  @GraphqlField(() => UserKind)
-  @DatabaseColumn({ type: 'enum', enum: UserKind, default: UserKind.PATIENT })
-  kind: UserKind;
 
   // TODO check if this side of the relation is necessary
   // @GraphqlField(() => require('./SymptomQuestionnaireResponse').default)

@@ -3,6 +3,7 @@ import { ArgsType, Field, Int } from 'type-graphql';
 import Paginatable from '@/graphql/types/args/query/reusable/paginatable/Paginatable';
 import Orderable from '@/graphql/types/args/query/reusable/orderable/Orderable';
 import UserFields from '@/interfaces/UserFields';
+import { UserRole } from '@/enums';
 
 @ArgsType()
 export default class UsersArgs extends Orderable<UserFields> implements Partial<UserFields>, Paginatable {
@@ -17,6 +18,9 @@ export default class UsersArgs extends Orderable<UserFields> implements Partial<
   @Field(() => String, { nullable: true, description: 'maxLength: 20' })
   @MaxLength(500)
   phoneNumber?: string;
+
+  @Field(() => UserRole, { nullable: true })
+  role?: UserRole;
 
   @Field({ defaultValue: false })
   withDeleted?: boolean;

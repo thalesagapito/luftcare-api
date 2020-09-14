@@ -1,16 +1,18 @@
 import {
   Min, Max, IsDate, IsUUID,
 } from 'class-validator';
-import { ArgsType, Field, Int } from 'type-graphql';
+import {
+  ArgsType, Field, ID, Int,
+} from 'type-graphql';
 import Orderable from '@/graphql/types/args/query/reusable/orderable/Orderable';
 import Paginatable from '@/graphql/types/args/query/reusable/paginatable/Paginatable';
 import SymptomQuestionnaireResponseFields from '@/interfaces/SymptomQuestionnaireResponseFields';
 
 @ArgsType()
 export default class SymptomQuestionnaireResponsesArgs extends Orderable<SymptomQuestionnaireResponseFields> implements Paginatable {
-  @Field({ nullable: true, description: 'Gets only responses submitted by this user' })
+  @Field(() => ID, { nullable: true, description: 'Gets only responses submitted by this user' })
   @IsUUID()
-  patientId?: string;
+  userId?: string;
 
   @Field({ nullable: true, description: 'Gets only responses with `responseDate` after this value' })
   @IsDate()

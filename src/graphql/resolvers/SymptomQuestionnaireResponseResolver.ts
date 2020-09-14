@@ -1,4 +1,5 @@
 import {
+  Ctx,
   Arg,
   Args,
   Root,
@@ -9,6 +10,7 @@ import {
   FieldResolver,
 } from 'type-graphql';
 import { UserRole } from '@/enums';
+import { GraphqlContext } from '@/server';
 import ResponseScore from '@/entities/ResponseScore';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import calculateResponseScore from '@/use-cases/symptom-questionnaire-response/calculateResponseScore';
@@ -18,23 +20,36 @@ import getPaginatedSymptomQuestionnaireResponses from '@/use-cases/symptom-quest
 import SymptomQuestionnaireResponseInput from '@/graphql/types/args/mutation/symptom-questionnaire-response/SymptomQuestionnaireResponseInput';
 import PaginatedSymptomQuestionnaireResponses from '@/graphql/types/responses/symptom-questionnaire-response/PaginatedSymptomQuestionnaireResponses';
 
+const NO_PERMISSION = 'Essa conta não tem permissão para realizar essa ação';
+
 @Resolver(() => SymptomQuestionnaireResponse)
 export default class SymptomQuestionnaireResponseResolver {
   @Authorized()
   @Mutation(() => SymptomQuestionnaireResponse)
-  async createSymptomQuestionnaireResponse(@Arg('response') response: SymptomQuestionnaireResponseInput): Promise<SymptomQuestionnaireResponse> {
-    // TODO add verification to make sure only the logged user can submit responses
+  async createSymptomQuestionnaireResponse(@Ctx() ctx: GraphqlContext, @Arg('response') response: SymptomQuestionnaireResponseInput): Promise<SymptomQuestionnaireResponse> {
+    const { user } = ctx;
+    if (!user) throw new Error(NO_PERMISSION);
+
+    const isUserRequestingToCreateForOtherUser = user.id !== response.userId;
+    if (isUserRequestingToCreateForOtherUser) throw new Error(NO_PERMISSION);
     return createSymptomQuestionnaireResponse(response);
   }
 
-  @Authorized(UserRole.ADMIN)
+  @Authorized()
   @Query(() => PaginatedSymptomQuestionnaireResponses)
-  async symptomQuestionnaireResponses(@Args() args: SymptomQuestionnaireResponsesArgs): Promise<PaginatedSymptomQuestionnaireResponses> {
+  async symptomQuestionnaireResponses(@Ctx() ctx: GraphqlContext, @Args() args: SymptomQuestionnaireResponsesArgs): Promise<PaginatedSymptomQuestionnaireResponses> {
+    const { user } = ctx;
+    if (!user) throw new Error(NO_PERMISSION);
+
+    const isUserPatient = user.role === UserRole.PATIENT;
+    const isUserRequestingToSeeOtherUser = user.id !== args.userId;
+    if (isUserPatient && isUserRequestingToSeeOtherUser) throw new Error(NO_PERMISSION);
+
     const { pageNumber, resultsPerPage, orderBy = [] } = args;
     const pagination = { pageNumber, resultsPerPage };
 
     const where = {
-      patientId: args.patientId,
+      userId: args.userId,
       withDeleted: args.withDeleted,
       responseDateAfter: args.responseDateAfter,
       responseDateBefore: args.responseDateBefore,

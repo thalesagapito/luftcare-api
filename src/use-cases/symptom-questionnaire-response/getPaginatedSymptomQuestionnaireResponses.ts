@@ -21,7 +21,7 @@ import SymptomQuestionnaireResponseRepository, { GetSymptomQuestionnaireResponse
 type Args = {
   pagination: Paginatable;
   orderBy: OrderByClause<SymptomQuestionnaireResponseFields>[];
-  where: Pick<SymptomQuestionnaireResponsesArgs, 'patientId' | 'responseDateAfter' | 'responseDateBefore' | 'withDeleted'>;
+  where: Pick<SymptomQuestionnaireResponsesArgs, 'userId' | 'responseDateAfter' | 'responseDateBefore' | 'withDeleted'>;
 };
 
 function getResponseDateWhereClause(after?: Date, before?: Date): Nullable<FindOperator<Date>> {
@@ -32,8 +32,8 @@ function getResponseDateWhereClause(after?: Date, before?: Date): Nullable<FindO
 }
 
 function convertGqlWhereClauseToORM(where: Args['where']): GetSymptomQuestionnaireResponsesArgs['where'] {
-  const { patientId, responseDateAfter, responseDateBefore } = where;
-  const patient = patientId ? Equal(patientId) : undefined;
+  const { userId, responseDateAfter, responseDateBefore } = where;
+  const patient = userId ? Equal(userId) : undefined;
   const responseDate = getResponseDateWhereClause(responseDateAfter, responseDateBefore);
 
   return pickBy({ patient, responseDate }, Boolean);

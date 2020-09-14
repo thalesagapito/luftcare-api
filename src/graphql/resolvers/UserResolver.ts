@@ -29,13 +29,22 @@ export default class UserResolver {
     return getUser(ctx.user.id);
   }
 
-  @Authorized(UserRole.ADMIN)
+  @Authorized()
   @Query(() => User, { nullable: true })
-  async user(@Arg('id', () => ID) id: string): NullablePromise<User> {
+  async user(@Ctx() ctx: GraphqlContext, @Arg('id', () => ID) id: string): NullablePromise<User> {
+    const NO_PERMISSION = 'Essa conta não tem permissão para realizar essa ação';
+
+    const { user } = ctx;
+    if (!user) throw new Error(NO_PERMISSION);
+
+    const isUserPatient = user.role === UserRole.PATIENT;
+    const isUserRequestingToSeeOtherUser = user.id !== id;
+    if (isUserPatient && isUserRequestingToSeeOtherUser) throw new Error(NO_PERMISSION);
+
     return getUser(id);
   }
 
-  @Authorized(UserRole.ADMIN)
+  @Authorized([UserRole.ADMIN, UserRole.DOCTOR])
   @Query(() => PaginatedUsers)
   async users(@Args() args: UsersArgs): NullablePromise<PaginatedUsers> {
     const {

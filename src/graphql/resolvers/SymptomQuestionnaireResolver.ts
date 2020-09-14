@@ -60,7 +60,7 @@ export default class SymptomQuestionnaireResolver {
     return deleteSymptomQuestionnaireById(id);
   }
 
-  @Authorized(UserRole.ADMIN)
+  @Authorized()
   @Query(() => PaginatedSymptomQuestionnaires)
   async symptomQuestionnaires(@Args() args: SymptomQuestionnairesArgs): Promise<PaginatedSymptomQuestionnaires> {
     const { pageNumber, resultsPerPage, orderBy = [] } = args;
@@ -76,7 +76,7 @@ export default class SymptomQuestionnaireResolver {
     return getPaginatedSymptomQuestionnaires({ pagination, where, orderBy });
   }
 
-  @Authorized(UserRole.ADMIN)
+  @Authorized()
   @Query(() => SymptomQuestionnaire)
   async symptomQuestionnaire(@Arg('id', () => ID) id: string): NullablePromise<SymptomQuestionnaire> {
     return getSymptomQuestionnaireById(id);

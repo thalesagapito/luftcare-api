@@ -48,6 +48,7 @@ export default class UserResolver {
   @Query(() => PaginatedUsers)
   async users(@Args() args: UsersArgs): NullablePromise<PaginatedUsers> {
     const {
+      role,
       name,
       email,
       phoneNumber,
@@ -58,7 +59,11 @@ export default class UserResolver {
     } = args;
     const pagination = { pageNumber, resultsPerPage };
     const where = {
-      email, name, phoneNumber, withDeleted,
+      role,
+      name,
+      email,
+      phoneNumber,
+      withDeleted,
     };
 
     return getPaginatedUsers({ where, orderBy, pagination });

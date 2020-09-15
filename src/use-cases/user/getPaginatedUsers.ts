@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { pickBy } from 'lodash';
-import { getCustomRepository, Raw } from 'typeorm';
+import { Equal, getCustomRepository, Raw } from 'typeorm';
 import UserFields from '@/interfaces/UserFields';
 import UsersArgs from '@/graphql/types/args/query/user/UsersArgs';
 import { convertGqlOrderByClausesToORM } from '@/services/OrderByService';
@@ -13,7 +13,7 @@ import { convertGqlPaginationToORM, convertToPaginatedResponse } from '@/service
 type Args = {
   pagination: Paginatable;
   orderBy: OrderByClause<UserFields>[];
-  where: Pick<UsersArgs, 'email' | 'name' | 'phoneNumber' | 'withDeleted'>;
+  where: Pick<UsersArgs, 'role' | 'email' | 'name' | 'phoneNumber' | 'withDeleted'>;
 };
 
 function convertGqlWhereClauseToORM(where: Args['where']): FindAndCountUsersArgs['where'] {
@@ -21,11 +21,17 @@ function convertGqlWhereClauseToORM(where: Args['where']): FindAndCountUsersArgs
   const IContains = (value: string) => ILike(`%${value}%`);
   const ContainsDigits = (value: string) => Raw((alias) => `regexp_replace(${alias}, '\\D*', '', 'g') LIKE '%${value}%'`);
 
-  const email = where.email ? IContains(where.email) : undefined;
+  const role = where.role ? Equal(where.role) : undefined;
   const name = where.name ? IContains(where.name) : undefined;
+  const email = where.email ? IContains(where.email) : undefined;
   const phoneNumber = where.phoneNumber ? ContainsDigits(where.phoneNumber) : undefined;
 
-  return pickBy({ phoneNumber, email, name }, Boolean);
+  return pickBy({
+    phoneNumber,
+    email,
+    name,
+    role,
+  }, Boolean);
 }
 
 export default async function (args: Args): Promise<PaginatedUsers> {

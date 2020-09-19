@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 import { UserRole } from '@/enums';
 import UserFields from '@/interfaces/UserFields';
-import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
+import QuestionnaireResponse from '@/entities/QuestionnaireResponse';
 import SoftRemovableTimestampedEntity from '@/entities/extendable/SoftRemovableTimestampedEntity';
 
 export type uniqueFieldFromUser = keyof Pick<User, 'id' | 'email'>;
@@ -44,7 +44,7 @@ export default class User extends SoftRemovableTimestampedEntity implements User
   role: UserRole;
 
   // TODO check if this side of the relation is necessary
-  // @GraphqlField(() => require('./SymptomQuestionnaireResponse').default)
-  @OneToMany('SymptomQuestionnaireResponse', 'patient')
-  questionnaireResponses: SymptomQuestionnaireResponse[];
+  // @GraphqlField(() => require('./QuestionnaireResponse').default)
+  @OneToMany('QuestionnaireResponse', 'patient')
+  questionnaireResponses: QuestionnaireResponse[];
 }

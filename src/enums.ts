@@ -6,7 +6,7 @@ export enum UserRole {
   PATIENT = 'PATIENT',
 }
 
-export enum SymptomQuestionnaireQuestionKind {
+export enum QuestionnaireQuestionKind {
   MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
   FREE_RESPONSE = 'FREE_RESPONSE',
 }
@@ -21,7 +21,7 @@ export enum OrderByClauseNullsPosition {
   NULLS_LAST = 'NULLS LAST',
 }
 
-export enum SymptomQuestionnaireScoreRangeColor {
+export enum QuestionnaireScoreRangeColor {
   GREEN = 'GREEN',
   GREEN_YELLOW = 'GREEN_YELLOW',
   YELLOW = 'YELLOW',
@@ -30,7 +30,7 @@ export enum SymptomQuestionnaireScoreRangeColor {
 }
 
 registerEnumType(UserRole, { name: 'UserRole' });
-registerEnumType(SymptomQuestionnaireQuestionKind, { name: 'SymptomQuestionnaireQuestionKind' });
+registerEnumType(QuestionnaireQuestionKind, { name: 'QuestionnaireQuestionKind' });
 registerEnumType(OrderByClauseDirection, { name: 'OrderByClauseDirection' });
 registerEnumType(OrderByClauseNullsPosition, { name: 'OrderByClauseNullsPosition' });
-registerEnumType(SymptomQuestionnaireScoreRangeColor, { name: 'SymptomQuestionnaireScoreRangeColor' });
+registerEnumType(QuestionnaireScoreRangeColor, { name: 'QuestionnaireScoreRangeColor' });

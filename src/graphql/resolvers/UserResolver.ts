@@ -87,7 +87,7 @@ export default class UserResolver {
     const { user } = ctx;
     const passwordsMatch = await comparePasswordWithHash(currentPassword, user?.passwordHash || '');
 
-    const INCORRECT_PASSWORD_ERROR = 'Senha incorreta';
+    const INCORRECT_PASSWORD_ERROR = 'Senha atual incorreta';
     if (!passwordsMatch) throw new Error(INCORRECT_PASSWORD_ERROR);
 
     return updateUser({ id: user?.id || '', password: newPassword });

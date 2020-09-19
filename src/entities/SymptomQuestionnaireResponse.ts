@@ -25,7 +25,7 @@ export default class SymptomQuestionnaireResponse extends SoftRemovableTimestamp
   id: string;
 
   @GraphqlField()
-  @DatabaseColumn({ type: 'timestamp' })
+  @DatabaseColumn({ type: 'timestamptz' })
   responseDate: Date;
 
   @GraphqlField(() => require('./User').default)

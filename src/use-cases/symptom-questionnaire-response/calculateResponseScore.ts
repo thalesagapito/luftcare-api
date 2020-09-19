@@ -4,6 +4,7 @@ import ScoreRange from '@/entities/SymptomQuestionnaireScoreRange';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
 import SymptomQuestionnaireResponseAnswer from '@/entities/SymptomQuestionnaireResponseAnswer';
 
+const NO_ANSWERS_FOUND = 'Nenhuma resposta foi encontrada';
 const NO_RANGE_REACHED_ERROR = 'Nenhum intervalo de pontuação foi atingido';
 const MULTIPLE_RANGES_REACHED_ERROR = 'Mais de um intervalo de pontuação foi atingido';
 
@@ -24,8 +25,9 @@ function getScoreRangeByNumericValue(value: number, possibleRanges: ScoreRange[]
 }
 
 export default function (response: SymptomQuestionnaireResponse): ResponseScore {
-  const { questionAnswers } = response;
-  const { scoreRanges = [] } = response.questionnaire;
+  const { questionAnswers = [], questionnaire: { scoreRanges = [] } } = response;
+
+  if (questionAnswers.length === 0) throw new Error(NO_ANSWERS_FOUND);
 
   const numericValue = sumValueFromAnswerSelectedChoices(questionAnswers);
   const scoreRange = getScoreRangeByNumericValue(numericValue, scoreRanges);

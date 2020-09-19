@@ -7,15 +7,15 @@ import { UserRole } from '@/enums';
 
 @ArgsType()
 export default class UsersArgs extends Orderable<UserFields> implements Partial<UserFields>, Paginatable {
-  @Field(() => String, { nullable: true, description: 'maxLength: 500' })
+  @Field(() => String, { nullable: true, description: 'MaxLength: 500' })
   @MaxLength(500)
   name?: string;
 
-  @Field(() => String, { nullable: true, description: 'maxLength: 500' })
+  @Field(() => String, { nullable: true, description: 'MaxLength: 500' })
   @MaxLength(500)
   email?: string;
 
-  @Field(() => String, { nullable: true, description: 'maxLength: 20' })
+  @Field(() => String, { nullable: true, description: 'MaxLength: 20' })
   @MaxLength(500)
   phoneNumber?: string;
 

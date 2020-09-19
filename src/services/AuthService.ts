@@ -1,8 +1,8 @@
-import User from '@/entities/User';
+import { compare, hash } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
 import TokenSet from '@/entities/TokenSet';
 import { Nullable } from '@/helper-types';
-import { hash } from 'bcryptjs';
+import User from '@/entities/User';
 
 type AuthToken = {
   id: string;
@@ -20,6 +20,8 @@ export const signAuthorizationToken = ({ id }: User): string => signToken(id, '1
 export const signRefreshToken = ({ id }: User): string => signToken(id, '15d');
 
 export const hashPassword = async (password: string): Promise<string> => hash(password, 12);
+
+export const comparePasswordWithHash = async (password: string, hashedPassword: string): Promise<boolean> => compare(password, hashedPassword);
 
 export function signTokenSet(user: User): TokenSet {
   const authorization = signAuthorizationToken(user);

@@ -13,11 +13,14 @@ import { UserRole } from '@/enums';
 import { GraphqlContext } from '@/server';
 import getUser from '@/use-cases/user/getUser';
 import { NullablePromise } from '@/helper-types';
+import updateUser from '@/use-cases/user/updateUser';
+import { comparePasswordWithHash } from '@/services/AuthService';
 import UsersArgs from '@/graphql/types/args/query/user/UsersArgs';
 import getPaginatedUsers from '@/use-cases/user/getPaginatedUsers';
 import PaginatedUsers from '@/graphql/types/responses/user/PaginatedUsers';
 import CreateUserInput from '@/graphql/types/args/mutation/user/CreateUser';
 import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
+import UpdatePasswordInput from '@/graphql/types/args/mutation/user/UpdatePassword';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
 import createUserFromAdminManualInput from '@/use-cases/user/createUserFromAdminManualInput';
 
@@ -35,10 +38,8 @@ export default class UserResolver {
     const NO_PERMISSION = 'Essa conta não tem permissão para realizar essa ação';
 
     const { user } = ctx;
-    if (!user) throw new Error(NO_PERMISSION);
-
-    const isUserPatient = user.role === UserRole.PATIENT;
-    const isUserRequestingToSeeOtherUser = user.id !== id;
+    const isUserPatient = user?.role === UserRole.PATIENT;
+    const isUserRequestingToSeeOtherUser = user?.id !== id;
     if (isUserPatient && isUserRequestingToSeeOtherUser) throw new Error(NO_PERMISSION);
 
     return getUser(id);
@@ -79,5 +80,16 @@ export default class UserResolver {
   async createUser(@Arg('userData') userData: CreateUserInput): Promise<User> {
     return createUserFromAdminManualInput(userData);
   }
-  // TODO change password method
+
+  @Authorized()
+  @Mutation(() => User)
+  async updatePassword(@Ctx() ctx: GraphqlContext, @Args() { currentPassword, newPassword }: UpdatePasswordInput) {
+    const { user } = ctx;
+    const passwordsMatch = await comparePasswordWithHash(currentPassword, user?.passwordHash || '');
+
+    const INCORRECT_PASSWORD_ERROR = 'Senha incorreta';
+    if (!passwordsMatch) throw new Error(INCORRECT_PASSWORD_ERROR);
+
+    return updateUser({ id: user?.id || '', password: newPassword });
+  }
 }

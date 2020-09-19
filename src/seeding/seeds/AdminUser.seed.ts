@@ -12,14 +12,14 @@ export default class CreateAdminUser implements Seeder {
         name: 'Administrador',
         role: UserRole.ADMIN,
         phoneNumber: '(99) 99999-9999',
-        passwordHash: await hashPassword('secret'),
+        passwordHash: await hashPassword('luftcaresecret'),
       },
       {
         email: 'paciente@luftcare.com.br',
         name: 'Paciente',
         role: UserRole.PATIENT,
         phoneNumber: '(99) 99999-9999',
-        passwordHash: await hashPassword('secret'),
+        passwordHash: await hashPassword('luftcaresecret'),
       },
     ]);
   }

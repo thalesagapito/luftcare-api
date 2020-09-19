@@ -13,6 +13,7 @@ import { UserRole } from '@/enums';
 import { GraphqlContext } from '@/server';
 import ResponseScore from '@/entities/ResponseScore';
 import SymptomQuestionnaireResponse from '@/entities/SymptomQuestionnaireResponse';
+import canUserDoActionOnOtherUser from '@/use-cases/user/canUserDoActionOnOtherUser';
 import calculateResponseScore from '@/use-cases/symptom-questionnaire-response/calculateResponseScore';
 import createSymptomQuestionnaireResponse from '@/use-cases/symptom-questionnaire-response/createSymptomQuestionnaireResponse';
 import SymptomQuestionnaireResponsesArgs from '@/graphql/types/args/query/symptom-questionnaire-response/SymptomQuestionnaireResponsesArgs';
@@ -41,9 +42,13 @@ export default class SymptomQuestionnaireResponseResolver {
     const { user } = ctx;
     if (!user) throw new Error(NO_PERMISSION);
 
-    const isUserPatient = user.role === UserRole.PATIENT;
-    const isUserRequestingToSeeOtherUser = user.id !== args.userId;
-    if (isUserPatient && isUserRequestingToSeeOtherUser) throw new Error(NO_PERMISSION);
+    const canUserDoAction = canUserDoActionOnOtherUser({
+      rolesThatBypassVerification: [UserRole.DOCTOR, UserRole.ADMIN],
+      otherUserId: args.userId || '',
+      user,
+    });
+
+    if (!canUserDoAction) throw new Error(NO_PERMISSION);
 
     const { pageNumber, resultsPerPage, orderBy = [] } = args;
     const pagination = { pageNumber, resultsPerPage };

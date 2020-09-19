@@ -12,7 +12,7 @@ export enum ComparisonOperator {
   LESS_THAN,
   LESS_THAN_OR_EQUAL_TO,
   EQUAL_TO,
-  INEQUAL_TO,
+  NOT_EQUAL_TO,
 }
 
 type ValidatorConstraints = [string, ComparisonOperator];
@@ -39,7 +39,7 @@ export class CompareToFieldConstraint implements ValidatorConstraintInterface {
       case ComparisonOperator.EQUAL_TO:
         return value === relatedValue;
 
-      case ComparisonOperator.INEQUAL_TO:
+      case ComparisonOperator.NOT_EQUAL_TO:
       default:
         return value !== relatedValue;
     }
@@ -65,7 +65,7 @@ export class CompareToFieldConstraint implements ValidatorConstraintInterface {
       case ComparisonOperator.EQUAL_TO:
         return `${validatedFieldName} deve ser igual a ${comparedFieldName}`;
 
-      case ComparisonOperator.INEQUAL_TO:
+      case ComparisonOperator.NOT_EQUAL_TO:
       default:
         return `${validatedFieldName} deve ser diferente de ${comparedFieldName}`;
     }

@@ -3,13 +3,14 @@ services:
   api:
     build: .
     tty: true
-    command: yarn dev
+    command: >
+      bash -c "yarn clean-build
+      && yarn build
+      && yarn start"
     ports:
-      - "5000:5000"
+      - "5000:80"
     depends_on:
       - database
-    volumes:
-      - ./src:/app/src
 
   database:
     env_file:

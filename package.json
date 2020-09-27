@@ -52,7 +52,7 @@
     "seed:config": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js config",
     "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed",
     "clean-build": "rm -rf ./dist",
-    "build": "tsc -p tsconfig.json && cp .env dist/.env",
+    "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js"
   }
 }

@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package.json /app
 
 # Install packages
-RUN yarn
+RUN yarn install
 
 # Copy local source code to work directory
 COPY . /app

@@ -14,6 +14,8 @@ services:
     container_name: core-api
     image: core-api-image:latest
     command: yarn dev
+    expose:
+      - 5000
     ports:
       - "5000:5000"
     depends_on:
@@ -26,7 +28,7 @@ services:
       - TYPEORM_CONNECTION=postgres
       - TYPEORM_HOST=database
       - TYPEORM_PORT=5432
-      - SERVER_HOST=localhost
+      - SERVER_HOST=0.0.0.0
       - SERVER_PORT=5000
       - TYPEORM_ENTITIES=src/entities/*
       - TYPEORM_MIGRATIONS=src/migrations/*
@@ -50,7 +52,7 @@ services:
       - TYPEORM_CONNECTION=postgres
       - TYPEORM_HOST=database
       - TYPEORM_PORT=5432
-      - SERVER_HOST=localhost
+      - SERVER_HOST=0.0.0.0
       - SERVER_PORT=5000
       - TYPEORM_ENTITIES=src/entities/*
       - TYPEORM_MIGRATIONS=src/migrations/*

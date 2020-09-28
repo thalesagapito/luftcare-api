@@ -16,4 +16,7 @@ RUN yarn install
 # Copy local source code to work directory
 COPY . /app
 
+# Expose port 5000
+EXPOSE 5000
+
 CMD ["bash"]

@@ -31,9 +31,17 @@ export default class Questionnaire extends SoftRemovableTimestampedEntity implem
   @DatabaseColumn({ type: 'varchar', length: 500 })
   nameForPresentation: string;
 
+  @GraphqlField()
+  @DatabaseColumn({ type: 'varchar', length: 500 })
+  description: string;
+
   @GraphqlField(() => Int)
   @PrimaryColumn({ type: 'int' })
   version: number;
+
+  @GraphqlField(() => Int)
+  @PrimaryColumn({ type: 'int' })
+  estimatedDurationInMinutes: number;
 
   @GraphqlField()
   @DatabaseColumn({ type: 'boolean' })

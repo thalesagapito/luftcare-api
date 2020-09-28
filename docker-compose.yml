@@ -1,8 +1,18 @@
 version: "3"
 services:
-  api:
+  database:
+    container_name: database
+    env_file:
+      - .env
+    image: "postgres:9.6.1"
+    ports:
+      - "5432:5432"
+
+  core-api:
     build: .
     tty: true
+    container_name: core-api
+    image: core-api-image:latest
     command: yarn dev
     ports:
       - "5000:5000"
@@ -10,10 +20,40 @@ services:
       - database
     volumes:
       - ./src:/app/src
-
-  database:
     env_file:
       - .env
-    image: "postgres:9.6.1"
-    ports:
-      - "5432:5432"
+    environment:
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=database
+      - TYPEORM_PORT=5432
+      - SERVER_HOST=localhost
+      - SERVER_PORT=5000
+      - TYPEORM_ENTITIES=src/entities/*
+      - TYPEORM_MIGRATIONS=src/migrations/*
+      - TYPEORM_SUBSCRIBERS=src/subscribers/*
+      - TYPEORM_SEEDING_SEEDS=src/seeding/seeds/*
+      - TYPEORM_SEEDING_FACTORIES=src/seeding/factories/*
+
+  seeder:
+    tty: true
+    container_name: seeder
+    image: core-api-image:latest
+    command: "yarn seed:run"
+    depends_on:
+      - core-api
+    volumes:
+      - ./src:/app/src
+    env_file:
+      - .env
+    environment:
+      - TYPEORM_LOGGING=silent
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=database
+      - TYPEORM_PORT=5432
+      - SERVER_HOST=localhost
+      - SERVER_PORT=5000
+      - TYPEORM_ENTITIES=src/entities/*
+      - TYPEORM_MIGRATIONS=src/migrations/*
+      - TYPEORM_SUBSCRIBERS=src/subscribers/*
+      - TYPEORM_SEEDING_SEEDS=src/seeding/seeds/*
+      - TYPEORM_SEEDING_FACTORIES=src/seeding/factories/*

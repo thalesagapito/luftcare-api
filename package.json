@@ -1,8 +1,10 @@
 {
-  "name": "luftcare",
+  "name": "luftcare-api",
   "version": "0.0.1",
   "license": "UNLICENSED",
-  "description": "Awesome project developed with TypeORM.",
+  "author": "Thales Agapito",
+  "private": true,
+  "description": "Luftcare graphql api",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/faker": "^4.1.12",

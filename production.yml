@@ -35,7 +35,6 @@ services:
       - TYPEORM_SUBSCRIBERS=dist/subscribers/*
       - TYPEORM_SEEDING_SEEDS=src/seeding/seeds/*
       - TYPEORM_SEEDING_FACTORIES=src/seeding/factories/*
-
       - TYPEORM_DEBUG=true
       - TYPEORM_CACHE=true
       - TYPEORM_LOGGING=all

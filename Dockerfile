@@ -8,13 +8,13 @@ RUN apk add --no-cache --upgrade bash
 WORKDIR /app
 
 # Copy our local package.json to our workdir
-COPY package.json /app
+COPY package.json .
 
 # Install packages
 RUN yarn install
 
 # Copy local source code to work directory
-COPY . /app
+COPY . .
 
 # Expose port 5000
 EXPOSE 5000

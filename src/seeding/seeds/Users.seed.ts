@@ -7,13 +7,13 @@ import UserRepository from '@/repositories/UserRepository';
 
 export default class CreateUsers implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
-    console.info('\nSearching for existing users');
+    console.info('\n🙍‍♂️ Searching for existing users 🔍');
     const userRepository = connection.getCustomRepository(UserRepository);
     const adminExists = await userRepository.findUserByEmail('admin@luftcare.com.br') !== undefined;
     const patientExists = await userRepository.findUserByEmail('paciente@luftcare.com.br') !== undefined;
 
-    if (adminExists) console.info('Default admin already exists');
-    if (patientExists) console.info('Default patient already exists');
+    if (adminExists) console.info('🙍‍♂️ Default admin already exists 🚫');
+    if (patientExists) console.info('🙍‍♂️ Default patient already exists 🚫');
 
     const shouldCreateAdmin = !adminExists;
     const shouldCreatePatient = !patientExists;

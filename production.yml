@@ -46,11 +46,10 @@ services:
     tty: true
     container_name: seeder
     image: core-api-image:latest
-    command: "yarn seed:run"
+    command: >
+      bash -c "yarn install && yarn seed:run"
     depends_on:
       - core-api
-    volumes:
-      - ./src:/app/src
     env_file:
       - .env
     environment:

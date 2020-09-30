@@ -38,7 +38,7 @@ services:
       - TYPEORM_DEBUG=true
       - TYPEORM_CACHE=true
       - TYPEORM_LOGGING=all
-      - APOLLO_LOG_LEVEL=debug
+      - APOLLO_LOG_LEVEL=trace
       - TYPEORM_SYNCHRONIZE=true
       - TYPEORM_DROP_SCHEMA=false
 

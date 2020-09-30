@@ -25,7 +25,7 @@ const graphqlSchemaOptions: BuildSchemaOptions = {
 };
 
 const apolloLogOptions: LoggerOptions = {
-  level: process.env.APOLLO_LOG_LEVEL,
+  level: process.env.APOLLO_LOG_LEVEL || 'trace',
   prefix: 'apollo: ',
   timestamp: true,
 };

@@ -15,7 +15,7 @@ services:
     container_name: core-api
     image: core-api-image:latest
     command: >
-      bash -c "yarn build && yarn start"
+      bash -c "yarn install && yarn build && yarn start"
     expose:
       - 5000
     ports:

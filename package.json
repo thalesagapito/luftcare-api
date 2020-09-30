@@ -28,6 +28,7 @@
   "dependencies": {
     "apollo-log": "^0.2.0",
     "apollo-server": "^2.11.0",
+    "apollo-server-core": "^2.11.0",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",

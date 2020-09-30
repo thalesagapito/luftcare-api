@@ -32,7 +32,7 @@ export default class Questionnaire extends SoftRemovableTimestampedEntity implem
   nameForPresentation: string;
 
   @GraphqlField()
-  @DatabaseColumn({ type: 'varchar', length: 500 })
+  @DatabaseColumn({ type: 'varchar', length: 500, nullable: true })
   description: string;
 
   @GraphqlField(() => Int)
@@ -40,7 +40,7 @@ export default class Questionnaire extends SoftRemovableTimestampedEntity implem
   version: number;
 
   @GraphqlField(() => Int)
-  @PrimaryColumn({ type: 'int' })
+  @PrimaryColumn({ type: 'int', nullable: true })
   estimatedDurationInMinutes: number;
 
   @GraphqlField()

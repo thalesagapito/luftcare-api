@@ -1,4 +1,8 @@
 version: "3"
+
+volumes:
+  database_volume:
+
 services:
   database:
     container_name: database
@@ -6,7 +10,7 @@ services:
       - .env
     image: "postgres:9.6.1"
     volumes:
-      - /private/var/lib/postgresql:/var/lib/postgresql
+      - database_volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 

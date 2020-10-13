@@ -36,6 +36,10 @@ export default class User extends SoftRemovableTimestampedEntity implements User
   @DatabaseColumn({ type: 'varchar', length: 20 })
   phoneNumber: string;
 
+  @GraphqlField({ description: 'If the user is allowed to log in the application' })
+  @DatabaseColumn({ type: 'boolean', default: true })
+  canLogin: boolean;
+
   @DatabaseColumn({ type: 'varchar', length: 500 })
   passwordHash: string;
 

@@ -20,9 +20,12 @@ import getPaginatedUsers from '@/use-cases/user/getPaginatedUsers';
 import PaginatedUsers from '@/graphql/types/responses/user/PaginatedUsers';
 import CreateUserInput from '@/graphql/types/args/mutation/user/CreateUser';
 import RegisterUserInput from '@/graphql/types/args/mutation/user/RegisterUser';
+import GenericResponse from '@/graphql/types/responses/reusable/GenericResponse';
+import changeUserLoginCapability from '@/use-cases/user/changeUserLoginCapability';
 import UpdatePasswordInput from '@/graphql/types/args/mutation/user/UpdatePassword';
 import createUserFromRegisterInput from '@/use-cases/user/createUserFromRegisterInput';
 import createUserFromAdminManualInput from '@/use-cases/user/createUserFromAdminManualInput';
+import ChangeLoginCapabilityInput from '@/graphql/types/args/mutation/user/ChangeLoginCapability';
 
 @Resolver()
 export default class UserResolver {
@@ -91,5 +94,11 @@ export default class UserResolver {
     if (!passwordsMatch) throw new Error(INCORRECT_PASSWORD_ERROR);
 
     return updateUser({ id: user?.id || '', password: newPassword });
+  }
+
+  @Authorized(UserRole.ADMIN)
+  @Mutation(() => GenericResponse)
+  async changeLoginCapability(@Args() { id, canLogin }: ChangeLoginCapabilityInput): Promise<GenericResponse> {
+    return changeUserLoginCapability({ id, canLogin });
   }
 }

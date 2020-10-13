@@ -12,9 +12,10 @@ const authChecker: AuthChecker<GraphqlContext, UserRole> = async ({ context: ctx
   const { user } = ctx;
   if (!user) return false;
 
+  const userCanLogin = user.canLogin;
   const noSpecificRoleIsRequired = authorizedRoles.length === 0;
   const userHasSpecificRoleRequired = authorizedRoles.includes(user.role);
-  return noSpecificRoleIsRequired || userHasSpecificRoleRequired;
+  return userCanLogin && (noSpecificRoleIsRequired || userHasSpecificRoleRequired);
 };
 
 

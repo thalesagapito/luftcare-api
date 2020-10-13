@@ -8,6 +8,7 @@ export default interface UserFields {
   name: string;
   email: string;
   phoneNumber: string;
+  canLogin: boolean;
   passwordHash: string;
   role: UserRole;
 }

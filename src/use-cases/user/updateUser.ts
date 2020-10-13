@@ -7,9 +7,9 @@ const USER_NOT_FOUND_ERROR = 'Nenhum usuário foi encontrado com o id recebido';
 
 type Args = {
   id: User['id'];
-  name?: string;
-  phoneNumber?: string;
-  password?: string;
+  name?: User['name'];
+  phoneNumber?: User['phoneNumber'];
+  password?: User['passwordHash'];
 };
 
 export default async function (args: Args): Promise<User> {

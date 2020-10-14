@@ -3,8 +3,8 @@ import User from '@/entities/User';
 import UserRepository from '@/repositories/UserRepository';
 import GenericResponse from '@/graphql/types/responses/reusable/GenericResponse';
 
-const ADD_CAPABILITY_SUCESS_MESSAGE = 'Permissão de usar a aplicação adicionada com sucesso';
-const REMOVE_CAPABILITY_SUCESS_MESSAGE = 'Permissão de usar a aplicação removida com sucesso';
+const ADD_CAPABILITY_SUCESS_MESSAGE = 'Permissão de acesso concedida';
+const REMOVE_CAPABILITY_SUCESS_MESSAGE = 'Permissão de acesso removida';
 const USER_NOT_FOUND_ERROR = 'Nenhum usuário foi encontrado com o id recebido';
 const USER_ALREADY_HAS_LOGIN_CAPABILITY = 'O usuário já tem permissão para usar a aplicação';
 const USER_ALREADY_DOESNT_HAVE_LOGIN_CAPABILITY = 'O usuário já não tem permissão para usar a aplicação';

@@ -8,13 +8,10 @@ Steps to run this project:
 
 # Design decisions and reasoning
 
-1. ~~MariaDB~~ Postgres docker image: Works well with TypeORM, performance comparable to MySQL. Not too many concurrent connections means no need for
-   a cloud DB with potential for easy scaling.
-2. Postgres migration after initially choosing MariaDB: Postgres just has a better binary column support. (Supporting default values, for example)
-3. TypeORM: Works well with Typescript and reduces our workload on the database layer.
-4. Graphql and type-graphql: We really benefit from a Graphql API since we'll have many different clients. Both mobile apps and websites. And since
+1. Postgres docker image: Works well with TypeORM, performance comparable to MySQL.
+2. TypeORM: Works well with Typescript and reduces our workload on the database layer.
+3. Graphql and type-graphql: We benefit from a Graphql API since we have different clients in typed languages using graphql-codegen. And since
    we're also using TypeORM, type-graphql is a great choice.
-5. Not serverless: This is not meant to be a huge enterprise project, so an instance is just fine.
 
 # Guidelines for consuming
 

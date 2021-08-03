@@ -1,61 +1,18 @@
-version: "3"
+version: '3.9'
 services:
-  database:
-    container_name: database
-    env_file:
-      - .env
-    image: "postgres:9.6.1"
-    ports:
-      - "5432:5432"
+    postgres:
+        image: postgres:12
+        container_name: luftcare_typeorm
+        command: postgres -c 'idle_in_transaction_session_timeout=10000' -c 'max_connections=200'
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_DB: luftcare
+            POSTGRES_PASSWORD: secret
+        volumes:
+            - luftcare-local-db:/var/lib/postgresql/data
 
-  core-api:
-    build: .
-    tty: true
-    container_name: core-api
-    image: core-api-image:latest
-    command: yarn dev
-    expose:
-      - 5000
-    ports:
-      - "5000:5000"
-    depends_on:
-      - database
-    volumes:
-      - ./src:/app/src
-    env_file:
-      - .env
-    environment:
-      - SERVER_HOST=0.0.0.0
-      - SERVER_PORT=5000
-      - TYPEORM_CONNECTION=postgres
-      - TYPEORM_HOST=database
-      - TYPEORM_PORT=5432
-      - TYPEORM_ENTITIES=src/entities/*
-      - TYPEORM_MIGRATIONS=src/migrations/*
-      - TYPEORM_SUBSCRIBERS=src/subscribers/*
-      - TYPEORM_SEEDING_SEEDS=src/seeding/seeds/*
-      - TYPEORM_SEEDING_FACTORIES=src/seeding/factories/*
-
-  seeder:
-    tty: true
-    container_name: seeder
-    image: core-api-image:latest
-    command: "yarn seed:run"
-    depends_on:
-      - core-api
-    volumes:
-      - ./src:/app/src
-    env_file:
-      - .env
-    environment:
-      - SERVER_HOST=0.0.0.0
-      - SERVER_PORT=5000
-      - TYPEORM_CONNECTION=postgres
-      - TYPEORM_HOST=database
-      - TYPEORM_PORT=5432
-      - TYPEORM_LOGGING=silent
-      - TYPEORM_ENTITIES=src/entities/*
-      - TYPEORM_MIGRATIONS=src/migrations/*
-      - TYPEORM_SUBSCRIBERS=src/subscribers/*
-      - TYPEORM_SEEDING_SEEDS=src/seeding/seeds/*
-      - TYPEORM_SEEDING_FACTORIES=src/seeding/factories/*
+volumes:
+    luftcare-local-db:
+        external: true

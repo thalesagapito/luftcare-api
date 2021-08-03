@@ -6,3 +6,4 @@ temp/
 .env
 dist/
 schema.gql
+.DS_Store
